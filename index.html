@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0f1d1a" />
   <meta name="description" content="Al Ajamy Food – Cars Tracker" />
 
-  <!-- PWA / Icons (كما اتفقنا: كلها في الجذر) -->
+  <!-- PWA / Icons (كلها في الجذر) -->
   <link rel="icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -18,29 +18,14 @@
 
   <style>
     :root{
-      --bg:#0f1213;
-      --bg2:#0a0d0e;
-      --card:#141b1d;
-      --card2:#0f1415;
-      --text:#eaf2f2;
-      --muted:#b3c0bf;
+      --bg:#0f1213; --bg2:#0a0d0e;
+      --card:#141b1d; --text:#eaf2f2; --muted:#b3c0bf;
 
-      /* Brand-ish (قريب من اللوغو) */
-      --teal:#4ea58f;
-      --teal2:#2a7b69;
-      --orange:#f48a22;
+      --teal:#4ea58f; --orange:#f48a22;
+      --red:#ff3b4e; --yellow:#ffcc00; --amber:#ff8a24; --green:#2dd36f;
 
-      /* Status */
-      --red:#ff3b4e;
-      --yellow:#ffcc00;
-      --amber:#ff8a24;
-      --green:#2dd36f;
-
-      --border:rgba(255,255,255,.18);
-      --borderStrong:rgba(255,255,255,.28);
       --shadow:0 18px 50px rgba(0,0,0,.45);
-      --r:22px;
-      --r2:16px;
+      --r:22px; --r2:16px;
 
       --fs-1: clamp(13px, 1.6vw, 15px);
       --fs-2: clamp(16px, 2.2vw, 18px);
@@ -61,330 +46,182 @@
       overflow-x:hidden;
     }
 
-    .wrap{
-      max-width: 1250px;
-      margin: 0 auto;
-      padding: 18px 14px 40px;
-    }
+    .wrap{max-width:1250px;margin:0 auto;padding:18px 14px 40px;}
 
-    /* Header */
     .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding: 14px 16px;
-      border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      box-shadow: var(--shadow);
-      position: sticky;
-      top: 10px;
-      z-index: 10;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:14px 16px;border-radius:var(--r);
+      border:1px solid rgba(255,255,255,.12);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:var(--shadow);
+      position:sticky;top:10px;z-index:10;
       backdrop-filter: blur(10px);
     }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width: 0;
-      flex:1;
-    }
-
+    .brand{display:flex;align-items:center;gap:12px;min-width:0;flex:1;}
     .logo{
-      width: 56px;
-      height: 56px;
-      border-radius: 18px;
-      overflow:hidden;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.20);
-      flex:0 0 auto;
-      display:grid;
-      place-items:center;
+      width:56px;height:56px;border-radius:18px;overflow:hidden;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.20);
+      flex:0 0 auto;display:grid;place-items:center;
     }
     .logo img{width:100%;height:100%;object-fit:cover;display:block}
-
-    .title{
-      min-width:0;
-    }
+    .title{min-width:0}
     .title h1{
-      margin:0;
-      font-size: var(--fs-3);
-      font-weight: 1000;
-      letter-spacing:.2px;
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
+      margin:0;font-size:var(--fs-3);font-weight:1000;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
     }
-    .subtitle{
-      margin-top: 3px;
-      color: var(--muted);
-      font-size: var(--fs-1);
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
-    }
-
+    .subtitle{margin-top:3px;color:var(--muted);font-size:var(--fs-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     .pill{
-      flex:0 0 auto;
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.20);
-      color: var(--muted);
-      font-weight: 900;
-      font-size: var(--fs-1);
-      white-space: nowrap;
+      flex:0 0 auto;padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.20);
+      color:var(--muted);font-weight:900;font-size:var(--fs-1);
+      white-space:nowrap;
     }
-
     @media (max-width: 720px){
       .topbar{position:static}
       .logo{width:52px;height:52px;border-radius:16px}
     }
 
-    /* Background section */
     .sectionBg{
-      margin-top: 14px;
-      padding: 14px;
-      border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.06);
-      background: rgba(255,255,255,.03);
+      margin-top:14px;padding:14px;border-radius:var(--r);
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.03);
     }
 
-    /* Grid */
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 14px;
-    }
-    @media (max-width: 1100px){
-      .grid{grid-template-columns: repeat(2, minmax(0,1fr))}
-    }
-    @media (max-width: 720px){
-      .grid{grid-template-columns: 1fr}
-    }
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;}
+    @media (max-width: 1100px){ .grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
+    @media (max-width: 720px){ .grid{grid-template-columns:1fr;} }
 
-    /* Card */
     .card{
-      border-radius: var(--r);
-      border: 2px solid rgba(255,255,255,.22); /* أوضح شوي */
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.08));
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      position: relative;
+      border-radius:var(--r);
+      border:2px solid rgba(255,255,255,.22);
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.08));
+      box-shadow:var(--shadow);
+      overflow:hidden;position:relative;
     }
     .card::before{
-      content:"";
-      position:absolute;
-      inset:10px;
-      border-radius: calc(var(--r) - 10px);
-      border: 1px solid rgba(255,255,255,.08);
+      content:"";position:absolute;inset:10px;
+      border-radius:calc(var(--r) - 10px);
+      border:1px solid rgba(255,255,255,.08);
       pointer-events:none;
     }
+    .cardInner{padding:14px;}
 
-    .cardInner{ padding: 14px; }
-
-    /* Plate (Turkey style clean) */
     .plateRow{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 10px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
+      display:flex;align-items:flex-start;justify-content:space-between;
+      gap:10px;margin-bottom:10px;flex-wrap:wrap;
     }
 
+    /* Plate (TR) */
     .plate{
-      display:flex;
-      align-items: stretch;
-      border-radius: 14px;
-      overflow:hidden;
-      border: 2px solid rgba(0,0,0,.25);
+      display:flex;align-items:stretch;border-radius:14px;overflow:hidden;
+      border:2px solid rgba(0,0,0,.25);
       background:#f7f7f7;
-      box-shadow: 0 10px 22px rgba(0,0,0,.25);
-      min-width: 230px;
-      max-width: 360px;
-      flex: 0 0 auto;
+      box-shadow:0 10px 22px rgba(0,0,0,.25);
+      min-width:230px;max-width:360px;flex:0 0 auto;
     }
     .plate .tr{
-      background:#0b3d91;
-      color:#fff;
-      font-weight: 1000;
-      padding: 10px 14px;
-      min-width: 64px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      background:#0b3d91;color:#fff;font-weight:1000;
+      padding:10px 14px;min-width:64px;
+      display:flex;align-items:center;justify-content:center;
       letter-spacing:.9px;
     }
     .plate .num{
-      flex:1;
-      background:#fff;
-      color:#111;
-      font-weight: 1000;
-      padding: 10px 14px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      letter-spacing: 2px;
-      font-size: 18px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
+      flex:1;background:#fff;color:#111;font-weight:1000;
+      padding:10px 14px;display:flex;align-items:center;justify-content:center;
+      letter-spacing:2px;font-size:18px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
     }
 
-    /* Car meta */
     .meta{
-      flex: 1;
-      min-width: 240px;
-      border-radius: var(--r2);
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.22);
-      padding: 10px 12px;
+      flex:1;min-width:240px;border-radius:var(--r2);
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.22);
+      padding:10px 12px;
     }
-    .metaTop{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap: wrap;
-    }
+    .metaTop{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
     .vehicleName{
-      font-size: var(--fs-2);
-      font-weight: 1000;
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
-      max-width: 100%;
+      font-size:var(--fs-2);font-weight:1000;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+      max-width:100%;
     }
     .branchTag{
-      font-size: var(--fs-1);
-      font-weight: 900;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(78,165,143,.28);
-      background: rgba(78,165,143,.10);
-      white-space: nowrap;
+      font-size:var(--fs-1);font-weight:900;
+      padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(78,165,143,.28);
+      background:rgba(78,165,143,.10);
+      white-space:nowrap;
     }
-    .metaLine{
-      margin-top: 8px;
-      font-size: var(--fs-1);
-      color: var(--muted);
-      display:flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .metaLine b{ color: var(--text); font-weight: 1000; }
+    .metaLine{margin-top:8px;font-size:var(--fs-1);color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;}
+    .metaLine b{color:var(--text);font-weight:1000;}
 
-    /* Two blocks */
-    .blocks{
-      margin-top: 10px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+    .blocks{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
     @media (max-width: 720px){
-      .blocks{ grid-template-columns: 1fr; }
-      .plate{ min-width: 210px; width: 100%; max-width: 100%; }
+      .blocks{grid-template-columns:1fr;}
+      .plate{min-width:210px;width:100%;max-width:100%;}
     }
 
     .block{
-      border-radius: var(--r2);
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.22);
-      padding: 12px;
+      border-radius:var(--r2);
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.22);
+      padding:12px;
       overflow:hidden;
     }
-
-    .blockTop{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-    }
-    .blockTitle{
-      font-size: var(--fs-3);
-      font-weight: 1000;
-      letter-spacing:.2px;
-    }
+    .blockTop{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .blockTitle{font-size:var(--fs-3);font-weight:1000;letter-spacing:.2px;}
 
     .badge{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.20);
-      font-weight: 1000;
-      font-size: var(--fs-1);
-      white-space: nowrap;
+      display:inline-flex;align-items:center;gap:8px;
+      padding:7px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.20);
+      font-weight:1000;font-size:var(--fs-1);white-space:nowrap;
     }
-    .badge svg{ width:18px; height:18px; flex:0 0 auto; }
-
-    .badge.urgent{ border-color: rgba(255,59,78,.35); }
-    .badge.alert { border-color: rgba(255,204,0,.35); }
-    .badge.follow{ border-color: rgba(244,138,34,.35); }
-    .badge.safe  { border-color: rgba(45,211,111,.35); }
-    .badge.long  { border-color: rgba(78,165,143,.35); }
-    .badge.expired{ border-color: rgba(255,59,78,.45); background: rgba(255,59,78,.08); }
+    .badge svg{width:18px;height:18px;flex:0 0 auto;}
+    .badge.urgent{border-color:rgba(255,59,78,.35);}
+    .badge.alert{border-color:rgba(255,204,0,.35);}
+    .badge.follow{border-color:rgba(244,138,34,.35);}
+    .badge.safe{border-color:rgba(45,211,111,.35);}
+    .badge.long{border-color:rgba(78,165,143,.35);}
+    .badge.expired{border-color:rgba(255,59,78,.45);background:rgba(255,59,78,.08);}
+    .badge.missing{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:rgba(234,242,242,.86);}
 
     .days{
-      margin-top: 10px;
+      margin-top:10px;
       display:flex;
-      align-items: baseline;
-      gap: 10px;
-      flex-wrap: wrap;
+      align-items:baseline;
+      gap:10px;
+      flex-wrap:wrap;
     }
-    .daysNum{
-      font-size: var(--fsDays);
-      font-weight: 1000;
-      line-height: 1;
-      letter-spacing:.3px;
-    }
-    .daysTxt{
-      font-size: var(--fs-3);
-      font-weight: 1000;
-      color: rgba(234,242,242,.92);
-      white-space: nowrap;
+    .daysNum{font-size:var(--fsDays);font-weight:1000;line-height:1;letter-spacing:.3px;}
+    .daysTxt{font-size:var(--fs-3);font-weight:1000;color:rgba(234,242,242,.92);white-space:nowrap;}
+    .daysMissing{
+      margin-top:10px;
+      font-size:var(--fs-2);
+      font-weight:1000;
+      color:rgba(234,242,242,.82);
     }
 
     .bar{
-      margin-top: 10px;
-      height: 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.10);
+      margin-top:10px;height:12px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.10);
       overflow:hidden;
     }
-    .bar > span{
-      display:block;
-      height:100%;
-      width: 40%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(78,165,143,.95), rgba(45,211,111,.95));
-      box-shadow: 0 0 18px rgba(45,211,111,.12);
-    }
-    .bar.urgent > span, .bar.expired > span{
-      background: linear-gradient(90deg, rgba(255,59,78,.95), rgba(255,59,78,.72));
-    }
-    .bar.alert > span{
-      background: linear-gradient(90deg, rgba(255,204,0,.95), rgba(244,138,34,.95));
-    }
-    .bar.follow > span{
-      background: linear-gradient(90deg, rgba(244,138,34,.95), rgba(244,138,34,.70));
-    }
+    .bar>span{display:block;height:100%;width:40%;border-radius:999px;background:linear-gradient(90deg, rgba(78,165,143,.95), rgba(45,211,111,.95));}
+    .bar.urgent>span,.bar.expired>span{background:linear-gradient(90deg, rgba(255,59,78,.95), rgba(255,59,78,.72));}
+    .bar.alert>span{background:linear-gradient(90deg, rgba(255,204,0,.95), rgba(244,138,34,.95));}
+    .bar.follow>span{background:linear-gradient(90deg, rgba(244,138,34,.95), rgba(244,138,34,.70));}
+    .bar.missing>span{width:28%;background:linear-gradient(90deg, rgba(255,255,255,.32), rgba(255,255,255,.12));}
 
     .empty{
-      padding: 18px;
-      border-radius: var(--r);
-      border: 1px dashed rgba(255,255,255,.18);
-      background: rgba(0,0,0,.18);
-      color: var(--muted);
-      font-weight: 900;
-      text-align:center;
+      padding:18px;border-radius:var(--r);
+      border:1px dashed rgba(255,255,255,.18);
+      background:rgba(0,0,0,.18);
+      color:var(--muted);font-weight:900;text-align:center;
     }
   </style>
 </head>
@@ -410,66 +247,89 @@
   </div>
 
 <script>
-  /* رابط Apps Script Web App */
   const API_URL = "https://script.google.com/macros/s/AKfycbyQxBuejrMv-YuaY46xF08MWOmo14jwuVG8ytr3-zABxSw528NgyHvDKFICPXRvpeW8EQ/exec";
-  const AUTO_REFRESH_MS = 60000; // تحديث تلقائي كل دقيقة
+  const AUTO_REFRESH_MS = 60000;
 
   const grid = document.getElementById("grid");
   const subLine = document.getElementById("subLine");
   const countPill = document.getElementById("countPill");
 
-  function pad2(n){ return String(n).padStart(2,"0"); }
-
-  /* Parse dd-mm-yyyy (والأفضل لشيتك) */
-  function parseDMY(s){
-    if(!s) return null;
-    const str = String(s).trim();
-    if(!str) return null;
-
-    // dd-mm-yyyy or dd/mm/yyyy
-    const parts = str.split(/[-\/]/);
-    if(parts.length !== 3) return null;
-    const d = Number(parts[0]), m = Number(parts[1]), y = Number(parts[2]);
-    if(!y || !m || !d) return null;
-
-    const dt = new Date(y, m-1, d);
-    if(isNaN(dt.getTime())) return null;
-    return dt;
-  }
-
-  function daysRemaining(dateStr){
-    const dt = parseDMY(dateStr);
-    if(!dt) return null;
-    const today = new Date();
-    today.setHours(0,0,0,0);
-    dt.setHours(0,0,0,0);
-    return Math.round((dt - today) / 86400000);
+  function escapeHtml(s){
+    return String(s ?? "").replace(/[&<>"']/g, m => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[m]));
   }
 
   function normalizePlate(s){
     return String(s || "").trim().replace(/\s+/g, " ");
   }
 
+  // Parser قوي: يدعم dd-mm-yyyy / dd/mm/yyyy / yyyy-mm-dd / yyyy/mm/dd / ISO DateTime
+  function parseAnyDate(val){
+    if(val == null) return null;
+
+    // رقم (احتمال serial) – نتركه null لأن مصادرنا غالباً نص
+    if(typeof val === "number"){
+      // إذا احتجت دعم serial لاحقاً بنضيفه، حالياً ما بدنا نكسر.
+      return null;
+    }
+
+    const s = String(val).trim();
+    if(!s) return null;
+
+    // ISO مثل 2026-10-08T00:00:00.000Z
+    if(/^\d{4}-\d{2}-\d{2}T/.test(s)){
+      const d = new Date(s);
+      return isNaN(d.getTime()) ? null : d;
+    }
+
+    // yyyy-mm-dd أو yyyy/mm/dd
+    if(/^\d{4}[-\/]\d{2}[-\/]\d{2}$/.test(s)){
+      const parts = s.split(/[-\/]/);
+      const y = Number(parts[0]), m = Number(parts[1]), d = Number(parts[2]);
+      const dt = new Date(y, m-1, d);
+      return isNaN(dt.getTime()) ? null : dt;
+    }
+
+    // dd-mm-yyyy أو dd/mm/yyyy
+    if(/^\d{2}[-\/]\d{2}[-\/]\d{4}$/.test(s)){
+      const parts = s.split(/[-\/]/);
+      const d = Number(parts[0]), m = Number(parts[1]), y = Number(parts[2]);
+      const dt = new Date(y, m-1, d);
+      return isNaN(dt.getTime()) ? null : dt;
+    }
+
+    // محاولة أخيرة
+    const fallback = new Date(s);
+    return isNaN(fallback.getTime()) ? null : fallback;
+  }
+
+  function daysRemaining(dateVal){
+    const dt = parseAnyDate(dateVal);
+    if(!dt) return null;
+    const today = new Date(); today.setHours(0,0,0,0);
+    const x = new Date(dt); x.setHours(0,0,0,0);
+    return Math.round((x - today) / 86400000);
+  }
+
   function statusForDays(d){
-    if(d === null) return { key:"long", label:"مدة طويلة", type:"long" };
-    if(d < 0)      return { key:"expired", label:"منتهية", type:"expired" };
-    if(d <= 15)    return { key:"urgent", label:"عاجل", type:"urgent" };
-    if(d <= 30)    return { key:"alert", label:"تنبيه", type:"alert" };
-    if(d <= 60)    return { key:"follow", label:"متابعة", type:"follow" };
-    if(d <= 120)   return { key:"safe", label:"المدة آمنة", type:"safe" };
-    return          { key:"long", label:"مدة طويلة", type:"long" };
+    if(d === null) return { type:"missing", label:"غير محدد" };
+    if(d < 0)      return { type:"expired", label:"منتهية" };
+    if(d <= 15)    return { type:"urgent",  label:"عاجل" };
+    if(d <= 30)    return { type:"alert",   label:"تنبيه" };
+    if(d <= 60)    return { type:"follow",  label:"متابعة" };
+    if(d <= 120)   return { type:"safe",    label:"المدة آمنة" };
+    return          { type:"long",    label:"مدة طويلة" };
   }
 
   function barWidth(d){
-    if(d === null) return 65;
+    if(d === null) return 28;
     if(d < 0) return 100;
     const capped = Math.min(Math.max(d, 0), 180);
-    // closer due => larger bar
-    const w = 100 - Math.round((capped/180)*85); // 100..15
+    const w = 100 - Math.round((capped/180)*85);
     return Math.max(12, Math.min(100, w));
   }
 
-  /* Icons (colored) */
   function svgAlert(){
     return `
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -494,32 +354,38 @@
         <circle cx="12" cy="17.6" r="1.2" fill="#fff"></circle>
       </svg>`;
   }
-  function svgFollow(){
-    return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#ff8a24"></circle></svg>`;
-  }
-  function svgGreen(){
-    return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#2dd36f"></circle></svg>`;
+  function svgDot(color){
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="${color}"></circle></svg>`;
   }
 
   function badgeIcon(type){
     if(type === "alert") return svgAlert();
     if(type === "urgent") return svgUrgent();
     if(type === "expired") return svgExpired();
-    if(type === "follow") return svgFollow();
-    return svgGreen(); // safe/long
-  }
-
-  function escapeHtml(s){
-    return String(s ?? "").replace(/[&<>"']/g, m => ({
-      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-    }[m]));
+    if(type === "follow") return svgDot("#ff8a24");
+    if(type === "missing") return svgDot("rgba(255,255,255,.35)");
+    return svgDot("#2dd36f");
   }
 
   function blockHTML(title, days){
     const st = statusForDays(days);
     const icon = badgeIcon(st.type);
-    const shownDays = (days === null) ? "—" : String(days);
     const w = barWidth(days);
+
+    // منتهية: نعرض 0 يوم متبقي (بدون أرقام سالبة)
+    const shownDays = (days === null) ? null : (days < 0 ? 0 : days);
+
+    // إذا غير محدد: لا نعرض "يوم متبقي" نهائياً
+    const daysPart = (shownDays === null)
+      ? `<div class="daysMissing">غير محدد</div>`
+      : `
+        <div class="days">
+          <div class="daysNum">${shownDays}</div>
+          <div class="daysTxt">يوم متبقي</div>
+        </div>
+      `;
+
+    const barClass = (st.type === "missing") ? "missing" : st.type;
 
     return `
       <div class="block">
@@ -527,13 +393,8 @@
           <div class="blockTitle">${title}</div>
           <div class="badge ${st.type}">${icon}<span>${st.label}</span></div>
         </div>
-
-        <div class="days">
-          <div class="daysNum">${shownDays}</div>
-          <div class="daysTxt">يوم متبقي</div>
-        </div>
-
-        <div class="bar ${st.type}"><span style="width:${w}%"></span></div>
+        ${daysPart}
+        <div class="bar ${barClass}"><span style="width:${w}%"></span></div>
       </div>
     `;
   }
@@ -578,7 +439,6 @@
     `;
   }
 
-  /* JSONP loader (doGet must support ?callback= ) */
   function jsonpLoad(){
     return new Promise((resolve, reject)=>{
       const cb = "__cbCars_" + Date.now() + "_" + Math.random().toString(16).slice(2);
@@ -611,12 +471,17 @@
     });
   }
 
+  function minDue(d1, d2){
+    const arr = [d1, d2].filter(v => v !== null);
+    if(arr.length === 0) return 999999;
+    if(arr.some(v => v < 0)) return -999999;
+    return Math.min(...arr);
+  }
+
   async function load(){
     try{
       const res = await jsonpLoad();
-      if(!res || res.ok !== true){
-        throw new Error(res?.error || "Bad response");
-      }
+      if(!res || res.ok !== true) throw new Error(res?.error || "Bad response");
 
       const data = Array.isArray(res.data) ? res.data : [];
       countPill.textContent = data.length + " سيارة";
@@ -627,16 +492,12 @@
         return;
       }
 
-      // ترتيب حسب الأقرب استحقاق (أصغر عدد أيام من المعاينة/السيكورتا)
       const sorted = [...data].sort((a,b)=>{
         const a1 = daysRemaining(a.inspection_date);
         const a2 = daysRemaining(a.sigorta_date);
         const b1 = daysRemaining(b.inspection_date);
         const b2 = daysRemaining(b.sigorta_date);
-
-        const minA = minDue(a1, a2);
-        const minB = minDue(b1, b2);
-        return minA - minB;
+        return minDue(a1,a2) - minDue(b1,b2);
       });
 
       grid.innerHTML = sorted.map(cardHTML).join("");
@@ -648,14 +509,6 @@
     }
   }
 
-  function minDue(d1, d2){
-    const arr = [d1, d2].filter(v => v !== null);
-    if(arr.length === 0) return 999999;
-    if(arr.some(v => v < 0)) return -999999; // المنتهية أولاً
-    return Math.min(...arr);
-  }
-
-  // تشغيل
   load();
   setInterval(load, AUTO_REFRESH_MS);
 </script>
