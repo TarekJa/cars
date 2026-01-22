@@ -6,40 +6,30 @@
   <title>Al Ajamy Food – Cars Tracker</title>
   <style>
     :root{
-      /* Theme aligned to Al Ajamy Food logo palette */
       --bg:#08110f;
       --surface: rgba(255,255,255,.07);
       --surface2: rgba(0,0,0,.22);
       --text:#f7fbff;
       --muted:#b8c6d9;
       --line:rgba(255,255,255,.16);
-
-      /* Logo palette */
       --brand-teal:#5c9e89;
       --brand-dark:#29443b;
       --brand-gold:#e2b747;
       --brand-olive:#809f2f;
-
-      /* Status */
-      --danger:#ef4444;
+      --danger:#f87171;
       --danger2:#dc2626;
-      --warn:#f97316;
-      --safe:#22c55e;
+      --warn:#fb923c;
+      --safe:#4ade80;
       --ok:#10b981;
-
       --shadow:0 16px 40px rgba(0,0,0,.45);
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-
-      /* Typography scale (desktop + mobile) */
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans Arabic","Noto Sans","Apple Color Emoji","Segoe UI Emoji";
       --fs-h1: clamp(18px, 1.2vw + 14px, 22px);
       --fs-btn: clamp(12px, 0.5vw + 11px, 14px);
       --fs-badge: clamp(11px, 0.45vw + 10px, 13px);
       --fs-secname: clamp(14px, 0.55vw + 13px, 16px);
-      --fs-days: clamp(18px, 0.8vw + 16px, 22px);
+      --fs-days: clamp(20px, 1vw + 16px, 26px);
       --fs-meta: clamp(12px, 0.45vw + 11px, 13px);
-      --fs-date: clamp(12px, 0.45vw + 11px, 13px);
-
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans Arabic","Noto Sans","Apple Color Emoji","Segoe UI Emoji";
     }
     *{box-sizing:border-box}
     body{
@@ -56,189 +46,99 @@
       padding:14px 14px;
       border:1px solid rgba(30,41,59,.85); outline:1px solid rgba(30,41,59,.55);
       border-radius:20px;
-      background: linear-gradient(135deg,
-        rgba(255,255,255,.11),
-        color-mix(in srgb, var(--brand-teal) 14%, rgba(255,255,255,.06)),
-        color-mix(in srgb, var(--brand-gold) 12%, rgba(255,255,255,.04))
-      );
+      background: linear-gradient(135deg, rgba(255,255,255,.11), color-mix(in srgb, var(--brand-teal) 14%, rgba(255,255,255,.06)), color-mix(in srgb, var(--brand-gold) 12%, rgba(255,255,255,.04)));
       box-shadow: var(--shadow);
       backdrop-filter: blur(8px);
     }
     .brand{display:flex; align-items:center; gap:12px}
-    .logo{
-      width:54px; height:54px; object-fit:contain;
-      border-radius:14px; background:rgba(255,255,255,.10);
-      border:1px solid rgba(30,41,59,.45); padding:6px;
-    }
+    .logo{width:54px; height:54px; object-fit:contain; border-radius:14px; background:rgba(255,255,255,.10); border:1px solid rgba(30,41,59,.45); padding:6px;}
     h1{margin:0; font-size:var(--fs-h1)}
-    .sub{margin-top:4px; color:var(--muted); font-size:12px}
-    .stamp{font-family:var(--mono); color:var(--muted); font-size:12px}
-    .grid{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap:12px;
+    .summary{
+      margin:16px 0; padding:12px 16px; border-radius:14px;
+      background:rgba(0,0,0,.22); border:1px solid var(--line);
+      display:flex; gap:20px; flex-wrap:wrap; justify-content:center;
     }
-    @media (max-width:980px){ .grid{grid-template-columns: repeat(2, minmax(0, 1fr));} }
-    @media (max-width:620px){ .grid{grid-template-columns: 1fr;
-      .badge{font-size:var(--fs-badge); padding:8px 10px}
-      .cardTop{gap:10px}
-    } h1{font-size:var(--fs-h1)} .logo{width:46px;height:46px} .daysBig{font-size:var(--fs-days)} }
-
-    @media (max-width:620px){
-      .plateBox{min-width: 0; width: 100%;}
-      .cardTop{flex-direction:column; align-items:stretch}
-      .topRight{justify-content:flex-start}
-      .badge{width:100%}
-      .cardTop > div:last-child{justify-content:flex-start}
-    }
-
+    .sumItem{display:flex; align-items:center; gap:8px; font-weight:600;}
+    .sumDot{width:14px; height:14px; border-radius:50%; box-shadow:0 0 6px currentColor;}
+    .grid{margin-top:14px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px;}
+    @media (max-width:980px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+    @media (max-width:620px){.grid{grid-template-columns:1fr;}}
 
     .card{
-      border:1px solid var(--line);
-      border-radius:16px;
+      border:1px solid var(--line); border-radius:16px;
       background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      box-shadow:var(--shadow);
-      overflow:hidden;
+      box-shadow:var(--shadow); overflow:hidden;
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
     }
+    .card:hover{transform:translateY(-6px); box-shadow:0 24px 56px rgba(0,0,0,.55);}
     .cardTop{padding:16px; display:flex; align-items:flex-start; justify-content:space-between; gap:14px; border-bottom:1px solid rgba(255,255,255,.12)}
-
     .topRight{display:flex; align-items:center; gap:10px; justify-content:flex-start; flex-wrap:wrap; width:100%}
-
     .plateBox{
-      display:inline-flex; align-items:center; gap:0;
-      height:44px;
-      border-radius:10px;
-      border:2px solid rgba(0,0,0,.65);
-      background:#f7fafc;
-      color:#0b1220;
-      direction:ltr;
-      overflow:hidden;
-      box-shadow: 0 6px 16px rgba(0,0,0,.28);
-      min-width:200px;
+      display:inline-flex; align-items:center; gap:0; height:44px;
+      border-radius:10px; border:2px solid rgba(0,0,0,.65); background:#f7fafc;
+      color:#0b1220; direction:ltr; overflow:hidden;
+      box-shadow:0 6px 16px rgba(0,0,0,.28); min-width:200px;
     }
     .plateTR{
-      width:50px; height:100%;
-      display:flex; align-items:center; justify-content:center;
-      background: linear-gradient(180deg, #0b4fb3, #0a3f8f);
-      color:#fff; font-weight:1000; font-size:12px;
-      letter-spacing:.8px;
-      border-right:2px solid rgba(0,0,0,.55);
+      width:50px; height:100%; display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg, #0b4fb3, #0a3f8f); color:#fff; font-weight:1000;
+      font-size:12px; letter-spacing:.8px; border-right:2px solid rgba(0,0,0,.55);
     }
-    .plateNum{
-      padding:0 14px;
-      font-family:var(--mono);
-      font-size:18px;
-      font-weight:1000;
-      letter-spacing:1px;
-      text-transform:uppercase;
-      color:#111827;
-      white-space:nowrap;
-    }
+    .plateNum{padding:0 14px; font-family:var(--mono); font-size:18px; font-weight:1000; letter-spacing:1px; text-transform:uppercase; color:#111827; white-space:nowrap;}
     .meta{color:var(--muted); font-size:12px; margin-top:8px}
     .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(30,41,59,.50);
-      background:rgba(0,0,0,.18);
-      font-weight:900;
-      font-size:12px;
-      line-height:1.25;
-      max-width:100%;
-      white-space:normal;      /* allow wrapping on small screens */
-      flex-wrap:wrap;
-    }
-    .badgeText{
-      display:block;
-      min-width:0;
-      overflow:hidden;
-      text-overflow:ellipsis;
+      display:inline-flex; align-items:center; gap:8px; padding:8px 12px;
+      border-radius:999px; border:1px solid rgba(30,41,59,.50);
+      background:rgba(0,0,0,.18); font-weight:900; font-size:12px; line-height:1.25;
+      max-width:100%; white-space:normal; flex-wrap:wrap;
     }
     .dot{width:10px;height:10px;border-radius:999px; box-shadow:0 0 0 2px rgba(255,255,255,.08) inset;}
     .b-danger{border-color:rgba(239,68,68,.35)}
     .b-warn{border-color:rgba(249,115,22,.35)}
     .b-safe{border-color:rgba(34,197,94,.35)}
 
-    
-    .metaBox{
-      margin-top:10px;
-      padding:10px 12px;
-      border:1px solid rgba(30,41,59,.50);
-      border-radius:14px;
-      background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(255,255,255,.03));
-    }
-    .meta{color:var(--muted); font-size:var(--fs-meta); margin-top:0}
-
+    .metaBox{margin-top:10px; padding:10px 12px; border:1px solid rgba(30,41,59,.50); border-radius:14px; background:linear-gradient(180deg, rgba(0,0,0,.18), rgba(255,255,255,.03));}
     .secWrap{padding:14px; display:grid; grid-template-columns:1fr 1fr; gap:12px}
-    @media (max-width:620px){ .secWrap{grid-template-columns:1fr} }
-
+    @media (max-width:620px){.secWrap{grid-template-columns:1fr}}
     .sec{
-      border:1px solid rgba(30,41,59,.45);
-      border-radius:14px;
-      background: linear-gradient(180deg, rgba(0,0,0,.22), rgba(255,255,255,.03));
-      padding:10px;
+      border:1px solid rgba(30,41,59,.45); border-radius:14px;
+      background:linear-gradient(180deg, rgba(0,0,0,.22), rgba(255,255,255,.03)); padding:12px 14px;
+      text-align:center;
     }
-    .secTitle{display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:13px; color:var(--muted)}
-    .secName{font-size:var(--fs-secname); font-weight:1000; color:var(--text)}
-    .daysBig{font-size:var(--fs-days); font-weight:1000; line-height:1; letter-spacing:.2px}
+    .secTitle{display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:13px; color:var(--muted); margin-bottom:8px;}
+    .secName{font-size:var(--fs-secname); font-weight:900; color:var(--text)}
+    .daysBig{font-size:var(--fs-days); font-weight:900; line-height:1; letter-spacing:.1px; transition:color 0.4s ease;}
     .daysLbl{font-size:12px; color:var(--muted); margin-top:4px}
-    .dateRow{margin-top:10px; display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:var(--fs-date)}
-    .dateVal{font-family:var(--mono)}
-    .bar{margin-top:10px; height:12px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid rgba(30,41,59,.45); overflow:hidden}
-    .bar > span{display:block; height:100%; width:0%; background:rgba(34,197,94,.70)}
+    .progress-circle{
+      position:relative; width:80px; height:80px; margin:12px auto 8px;
+      border-radius:50%; background:conic-gradient(var(--color) 0% var(--pct), rgba(255,255,255,.08) var(--pct) 100%);
+      display:flex; align-items:center; justify-content:center; transition:all 0.6s ease;
+    }
+    .progress-circle::before{
+      content:''; position:absolute; inset:8px; background:var(--bg); border-radius:50%;
+    }
+    .progress-circle span{
+      font-size:20px; font-weight:900; z-index:1; color:var(--text);
+    }
+    .urgent .daysBig {color:var(--danger);}
+    .warn   .daysBig {color:var(--warn);}
+    .safe   .daysBig {color:var(--safe);}
 
-    .empty{margin-top:18px; text-align:center; color:var(--muted); border:1px dashed rgba(255,255,255,.18); border-radius:14px; padding:18px}
-    a{color:inherit}
-  
-    .hdrControls{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+    .empty{margin-top:40px; text-align:center; color:var(--muted); border:1px dashed rgba(255,255,255,.18); border-radius:14px; padding:40px 20px;}
     .btn{
       appearance:none; border:1px solid var(--line); background:rgba(255,255,255,.06); color:var(--text);
-      padding:9px 12px; border-radius:12px; font-weight:900; cursor:pointer; font-size:var(--fs-btn);
+      padding:9px 14px; border-radius:12px; font-weight:900; cursor:pointer; font-size:var(--fs-btn); transition:all 0.2s;
     }
-    .btn:hover{background:rgba(255,255,255,.10)}
+    .btn:hover{background:rgba(255,255,255,.12);}
     .btn.primary{
-      border-color: color-mix(in srgb, var(--brand-teal) 60%, rgba(255,255,255,.16));
-      background: linear-gradient(135deg,
-        color-mix(in srgb, var(--brand-teal) 30%, rgba(255,255,255,.06)),
-        color-mix(in srgb, var(--brand-gold) 18%, rgba(255,255,255,.05))
-      );
+      border-color:color-mix(in srgb, var(--brand-teal) 60%, rgba(255,255,255,.16));
+      background:linear-gradient(135deg, color-mix(in srgb, var(--brand-teal) 30%, rgba(255,255,255,.06)), color-mix(in srgb, var(--brand-gold) 18%, rgba(255,255,255,.05)));
     }
     .btn.danger{border-color:rgba(239,68,68,.45); background:rgba(239,68,68,.14)}
-
-    .btn.small{padding:7px 10px; border-radius:10px; font-size:12px}
-    .btn.ghost{background:rgba(255,255,255,.05)}
-
-    .editGrid{margin-top:10px; display:grid; grid-template-columns: 1fr 1fr; gap:10px}
-    @media (max-width:620px){ .editGrid{grid-template-columns:1fr} }
-    .field{border:1px solid rgba(30,41,59,.45); border-radius:12px; padding:10px; background:rgba(0,0,0,.12)}
-    .field label{display:block; font-size:11px; color:var(--muted); margin-bottom:6px}
-    .inp{
-      width:100%; padding:9px 10px; border-radius:10px; outline:none;
-      border:1px solid rgba(30,41,59,.45);
-      background:rgba(0,0,0,.22);
-      color:var(--text);
-      font-size:13px;
-    }
-    .inp.mono{font-family:var(--mono)}
-
+    .btn.small{padding:7px 12px; font-size:12px;}
   </style>
-
-  <!-- Icons / PWA -->
   <link rel="icon" href="./favicon.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="./favicon-192.png">
-  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <link rel="manifest" href="./site.webmanifest">
-
-  <!-- Theme -->
   <meta name="theme-color" content="#29443b">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
 </head>
 <body>
   <div class="wrap">
@@ -247,11 +147,17 @@
         <img class="logo" src="./Logo-Ajami Food.png" alt="Logo" onerror="this.style.display='none'">
         <div>
           <h1>Al Ajamy Food – Cars Tracker</h1>
-          
         </div>
       </div>
-      <div class="hdrControls"><button class="btn primary" id="btnEdit">فتح التعديل</button><button class="btn" id="btnAdd" style="display:none">إضافة سيارة</button><button class="btn danger" id="btnReset" style="display:none">إعادة ضبط</button><div class="stamp" id="stamp">آخر تحديث: —</div></div>
+      <div class="hdrControls">
+        <button class="btn primary" id="btnEdit">فتح التعديل</button>
+        <button class="btn" id="btnAdd" style="display:none">إضافة سيارة</button>
+        <button class="btn danger" id="btnReset" style="display:none">إعادة ضبط</button>
+        <div class="stamp" id="stamp">آخر تحديث: —</div>
+      </div>
     </header>
+
+    <div class="summary" id="summary"></div>
 
     <div class="grid" id="grid"></div>
     <div class="empty" id="empty" style="display:none">لا توجد بيانات سيارات لعرضها.</div>
@@ -260,24 +166,22 @@
 <script>
 (function(){
   const EMBEDDED_DATA = [{"plate": "27AUR170", "vehicle": "أبو أسامة", "driver_phone": "5537939067", "branch": "عنتاب", "inspection_expiry": "2026-04-02", "insurance_expiry": "2026-11-13"}, {"plate": "16 AVN 044", "vehicle": "سيارة المتسوبيشي", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2026-10-08", "insurance_expiry": "2026-07-17"}, {"plate": "27AZR559", "vehicle": "سيارة فراس", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2027-01-02", "insurance_expiry": "2026-09-20"}, {"plate": "27AJG093", "vehicle": "سيارة يامن", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2027-03-12", "insurance_expiry": "2026-03-07"}, {"plate": "06PSH64", "vehicle": "سيارة حسين", "driver_phone": "5397306678", "branch": "عنتاب", "inspection_expiry": "2026-03-11", "insurance_expiry": "2026-11-13"}, {"plate": "34TP0348", "vehicle": "سيارة ابو حسين", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2026-03-04", "insurance_expiry": "2026-07-08"}, {"plate": "16 DAY 98", "vehicle": "سيارة بورصة - جميل", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-09-07", "insurance_expiry": "2026-03-01"}, {"plate": "33 AFM 965", "vehicle": "كوستوم", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-09-25", "insurance_expiry": "2026-08-17"}, {"plate": "16 ANT 407", "vehicle": "سيارة الترانسوت - طلبات", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-04-08", "insurance_expiry": "2026-08-18"}, {"plate": "34KRD877", "vehicle": "عبد القادر", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-09-28", "insurance_expiry": "2026-06-24"}, {"plate": "06CKE628", "vehicle": "", "driver_phone": "", "branch": "عينتاب", "inspection_expiry": "2026-05-15", "insurance_expiry": "2026-02-17"}, {"plate": "54ABS248", "vehicle": "", "driver_phone": "", "branch": "عينتاب", "inspection_expiry": "2026-03-26", "insurance_expiry": "2026-01-30"}, {"plate": "27TC0021", "vehicle": "نذير عجمي", "driver_phone": "", "branch": "عينتاب", "inspection_expiry": "2027-09-18", "insurance_expiry": "2026-09-19"}];
-  const STORE_KEY = "alajamy_cars_tracker_cards_v1";
+
+  const STORE_KEY = "alajamy_cars_tracker_v2";
   const EDIT_PASSWORD = "ChangeMe123!";
 
-  function uid(){
-    return Math.random().toString(36).slice(2,10) + "-" + Date.now().toString(36);
-  }
+  function uid(){ return Math.random().toString(36).slice(2,10) + "-" + Date.now().toString(36); }
 
   function loadData(){
     try{
       const raw = localStorage.getItem(STORE_KEY);
-      if(raw){
+      if(raw) {
         const parsed = JSON.parse(raw);
         if(Array.isArray(parsed) && parsed.length) return parsed;
       }
     }catch(e){}
-    // fallback to embedded
-    return (EMBEDDED_DATA || []).map(r=>({
-      id: r.id || uid(),
+    return EMBEDDED_DATA.map(r=>({
+      id: uid(),
       plate: r.plate || "",
       vehicle: r.vehicle || "",
       driver_phone: r.driver_phone || "",
@@ -287,270 +191,252 @@
     }));
   }
 
-  function saveData(list){
-    try{ localStorage.setItem(STORE_KEY, JSON.stringify(list)); }catch(e){}
-  }
+  function saveData(list){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(list)); }catch(e){} }
 
   let editMode = false;
   let DATA = loadData();
 
-
-
-  function normalizePlate(s){
-    if(!s) return "";
-    return String(s).trim().toUpperCase().replace(/\s+/g," ");
-  }
-
-  function todayMidnight(){
-    const d = new Date(); d.setHours(0,0,0,0); return d;
-  }
+  function normalizePlate(s){ return String(s||"").trim().toUpperCase().replace(/\s+/g," "); }
+  function todayMidnight(){ const d = new Date(); d.setHours(0,0,0,0); return d; }
   function parseISODate(s){
     if(!s) return null;
-    const d = new Date(String(s).slice(0,10) + "T00:00:00");
+    const d = new Date(s + "T00:00:00");
     return isNaN(d.getTime()) ? null : d;
   }
   function fmtDate(s){
     if(!s) return "—";
     const d = parseISODate(s);
     if(!d) return s;
-    const dd = String(d.getDate()).padStart(2,"0");
-    const mm = String(d.getMonth()+1).padStart(2,"0");
-    const yy = d.getFullYear();
-    return dd + "/" + mm + "/" + yy;
+    return `${String(d.getDate()).padStart(2,"0")}/${String(d.getMonth()+1).padStart(2,"0")}/${d.getFullYear()}`;
   }
   function remainingDays(iso){
     const d = parseISODate(iso);
     if(!d) return null;
     const ms = d.getTime() - todayMidnight().getTime();
-    const days = Math.floor(ms/86400000);
-    return Math.max(days, 0);
+    return Math.max(0, Math.floor(ms/86400000));
   }
   function status(days){
-    if(days === null) return {label:"—", cls:"b-safe", dot:"var(--ok)"};
-    if(days === 0) return {label:"منتهية", cls:"b-danger", dot:"var(--danger)"};
-    if(days <= 15) return {label:"عاجل", cls:"b-danger", dot:"var(--danger)"};
-    if(days <= 30) return {label:"تنبيه", cls:"b-danger", dot:"var(--danger2)"};
-    if(days <= 60) return {label:"متابعة", cls:"b-warn", dot:"var(--warn)"};
-    if(days <= 120) return {label:"المدة آمنة", cls:"b-safe", dot:"var(--safe)"};
-    return {label:"مدة طويلة", cls:"b-safe", dot:"var(--safe)"};
+    if(days === null) return {label:"—", cls:"b-safe", color:"var(--ok)"};
+    if(days === 0)    return {label:"منتهية", cls:"b-danger", color:"var(--danger)"};
+    if(days <= 15)    return {label:"عاجل", cls:"b-danger", color:"var(--danger)"};
+    if(days <= 30)    return {label:"تنبيه", cls:"b-danger", color:"var(--danger2)"};
+    if(days <= 60)    return {label:"متابعة", cls:"b-warn", color:"var(--warn)"};
+    return {label:"آمن", cls:"b-safe", color:"var(--safe)"};
   }
-  function pct(days, maxDays){
-    if(days === null) return 0;
-    return Math.max(0, Math.min(1, days / maxDays)) * 100;
-  }
-  function nextDue(inspDays, insDays){
-    const c=[];
-    if(inspDays !== null) c.push({type:"المعاينة", days:inspDays});
-    if(insDays !== null) c.push({type:"السيكورتا", days:insDays});
-    if(!c.length) return null;
-    c.sort((a,b)=>a.days-b.days);
-    return c[0];
-  }
-  function esc(s){
-    return String(s||"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+  function pct(days, max=120){ return days === null ? 0 : Math.min(100, Math.max(0, (days / max) * 100)); }
+
+  function nextDue(insp, ins){
+    const arr = [];
+    if(insp !== null) arr.push({type:"المعاينة", days:insp});
+    if(ins  !== null) arr.push({type:"السيكورتا", days:ins});
+    if(!arr.length) return null;
+    arr.sort((a,b)=>a.days-b.days);
+    return arr[0];
   }
 
-
-  function byId(id){
-    return DATA.find(x=>x.id===id);
-  }
-  function updateField(id, field, value){
-    const row = byId(id);
-    if(!row) return;
-    row[field] = value;
-    saveData(DATA);
-    render(); // re-render to update days/sorting
-  }
-
+  function esc(s){ return String(s||"").replace(/[&<>"]/g, c=> ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
 
   function makeCard(r){
-    const id = r.id || uid();
-    r.id = id;
-
-    const plate = normalizePlate(r.plate);
     const inspDays = remainingDays(r.inspection_expiry);
-    const insDays = remainingDays(r.insurance_expiry);
+    const insDays  = remainingDays(r.insurance_expiry);
     const nd = nextDue(inspDays, insDays);
-    const ndSt = nd ? status(nd.days) : {label:"—", cls:"b-safe", dot:"var(--ok)"};
-    const nextText = nd ? (ndSt.label + " • " + nd.type + ": " + nd.days + " يوم") : "—";
+    const ndSt = nd ? status(nd.days) : {label:"—", cls:"b-safe", color:"var(--ok)"};
+    const nextText = nd ? `${ndSt.label} • ${nd.type}: ${nd.days} يوم` : "—";
 
     const inspSt = status(inspDays);
-    const insSt = status(insDays);
+    const insSt  = status(insDays);
+    const inspPct = pct(inspDays);
+    const insPct  = pct(insDays);
 
-    const inspBar = pct(inspDays, 120);
-    const insBar = pct(insDays, 120);
-
-    function secBlock(title, dateIso, days, st, barWidth, field){
+    function secBlock(title, dateIso, days, st, pctVal, field){
       const dateStr = fmtDate(dateIso);
-      const d = (days === null) ? "—" : String(days);
-      let barColor = "var(--safe)";
-      if(days !== null){
-        barColor = (days<=30) ? "var(--danger)" : (days<=60 ? "var(--warn)" : "var(--safe)");
-      }
-      const datePart = editMode
-        ? ('<input class="inp mono" type="date" value="' + esc((dateIso||"").slice(0,10)) + '" data-id="' + esc(id) + '" data-field="' + field + '">')
-        : ('<span class="dateVal">' + esc(dateStr) + '</span>');
+      const dStr = days === null ? "—" : days;
+      const color = st.color;
 
-      return (
-        '<div class="sec">' +
-          '<div class="secTitle">' +
-            '<span class="secName">' + title + '</span>' +
-            '<span class="badge ' + st.cls + '"><span class="dot" style="background:' + st.dot + '"></span>' + st.label + '</span>' +
-          '</div>' +
-          '<div class="daysRow"><span class="daysBig">' + esc(d) + '</span><span class="daysLblInline">يوم متبقي</span></div>' +
-          '<div class="dateRow"><span class="small">تاريخ الانتهاء</span>' + datePart + '</div>' +
-          '<div class="bar"><span style="width:' + barWidth + '%; background:' + barColor + ';"></span></div>' +
-        '</div>'
-      );
+      const datePart = editMode
+        ? `<input type="date" class="inp mono" value="${esc((dateIso||"").slice(0,10))}" data-id="${r.id}" data-field="${field}">`
+        : `<span class="dateVal">${esc(dateStr)}</span>`;
+
+      return `
+        <div class="sec ${st.label === 'عاجل' ? 'urgent' : st.label === 'تنبيه' || st.label === 'متابعة' ? 'warn' : 'safe'}">
+          <div class="secTitle">
+            <span class="secName">${title}</span>
+            <span class="badge ${st.cls}"><span class="dot" style="background:${color}"></span>${st.label}</span>
+          </div>
+          <div class="progress-circle" style="--pct:${pctVal}%; --color:${color}">
+            <span>${dStr}</span>
+          </div>
+          <div class="daysLbl">يوم متبقي</div>
+          <div class="dateRow" style="margin-top:8px; font-size:12px; color:var(--muted);">
+            ${datePart}
+          </div>
+        </div>
+      `;
     }
 
     const plateBox = editMode
-      ? (
-        '<div class="plateBox">' +  '<span class="plateTR">TR</span>' +  '<input class="plateInp" value="' + esc(r.plate||"") + '" placeholder="34ABC123" data-id="' + esc(id) + '" data-field="plate">' +'</div>'
-      )
-      : (
-        '<div class="plateBox"><span class="plateTR">TR</span><span class="plateNum">' + esc(plate || "—") + '</span></div>'
-      );
+      ? `<div class="plateBox"><span class="plateTR">TR</span><input class="inp mono" value="${esc(r.plate||"")}" data-id="${r.id}" data-field="plate" placeholder="34ABC123"></div>`
+      : `<div class="plateBox"><span class="plateTR">TR</span><span class="plateNum">${esc(normalizePlate(r.plate) || "—")}</span></div>`;
 
-    const metaView = (function(){
-      const phone = r.driver_phone ? ('<a class="mono" href="tel:' + esc(r.driver_phone) + '">' + esc(r.driver_phone) + '</a>') : '—';
-      const meta = [];
-      if(r.vehicle) meta.push(esc(r.vehicle));
-      if(r.branch) meta.push('تبعية: ' + esc(r.branch));
-      meta.push('هاتف: ' + phone);
-      return meta.join(' • ');
-    })();
+    const metaView = [
+      r.vehicle ? esc(r.vehicle) : '',
+      r.branch   ? 'تبعية: ' + esc(r.branch) : '',
+      r.driver_phone ? '<a class="mono" href="tel:'+esc(r.driver_phone)+'">'+esc(r.driver_phone)+'</a>' : 'هاتف: —'
+    ].filter(Boolean).join(' • ');
 
-    const metaEdit = (
-  '<div class="editForm">' +
-    '<div class="field"><label>الاسم / النوع</label><input class="inp" value="' + esc(r.vehicle||"") + '" data-id="' + esc(id) + '" data-field="vehicle"></div>' +
-    '<div class="field"><label>التبعية</label><input class="inp" value="' + esc(r.branch||"") + '" data-id="' + esc(id) + '" data-field="branch"></div>' +
-    '<div class="field"><label>هاتف السائق</label><input class="inp mono" type="tel" value="' + esc(r.driver_phone||"") + '" data-id="' + esc(id) + '" data-field="driver_phone"></div>' +
-  '</div>'
-);
+    const metaEdit = `
+      <div class="editForm" style="display:grid; gap:10px; margin-top:8px;">
+        <input class="inp" value="${esc(r.vehicle||"")}" data-id="${r.id}" data-field="vehicle" placeholder="اسم / نوع السيارة">
+        <input class="inp" value="${esc(r.branch||"")}" data-id="${r.id}" data-field="branch" placeholder="الفرع">
+        <input class="inp mono" type="tel" value="${esc(r.driver_phone||"")}" data-id="${r.id}" data-field="driver_phone" placeholder="هاتف السائق">
+      </div>
+    `;
 
-    return (
-      '<div class="card">' +
-        '<div class="cardTop">' +
-          '<div>' +
-            plateBox +
-            '<div class="metaBox"><div class="meta">' + (editMode ? metaEdit : metaView) + '</div></div>' +
-          '</div>' +
-          '<div class="topRight">' +(editMode ? ('<button class="btn danger small" data-del="' + esc(id) + '">حذف</button>') : '') +'<div class="badge ' + ndSt.cls + '"><span class="dot" style="background:' + ndSt.dot + '"></span><span class="badgeText">' + esc(nextText) + '</span></div>' +'</div>' +
-        '</div>' +
-        '<div class="secWrap">' +
-          secBlock('المعاينة', r.inspection_expiry, inspDays, inspSt, inspBar, "inspection_expiry") +
-          secBlock('السيكورتا', r.insurance_expiry, insDays, insSt, insBar, "insurance_expiry") +
-        '</div>' +
-      '</div>'
-    );
+    return `
+      <div class="card">
+        <div class="cardTop">
+          <div>
+            ${plateBox}
+            <div class="metaBox">
+              <div class="meta">${editMode ? metaEdit : metaView}</div>
+            </div>
+          </div>
+          <div class="topRight">
+            ${editMode ? `<button class="btn danger small" data-del="${r.id}">حذف</button>` : ''}
+            <div class="badge ${ndSt.cls}"><span class="dot" style="background:${ndSt.color}"></span><span class="badgeText">${esc(nextText)}</span></div>
+          </div>
+        </div>
+        <div class="secWrap">
+          ${secBlock('المعاينة', r.inspection_expiry, inspDays, inspSt, inspPct, "inspection_expiry")}
+          ${secBlock('السيكورتا', r.insurance_expiry, insDays, insSt, insPct, "insurance_expiry")}
+        </div>
+      </div>
+    `;
   }
 
-
   function render(){
-    const grid = document.getElementById("grid");
-    const empty = document.getElementById("empty");
+    const grid   = document.getElementById("grid");
+    const empty  = document.getElementById("empty");
+    const stamp  = document.getElementById("stamp");
+    const summaryEl = document.getElementById("summary");
+
     if(!Array.isArray(DATA) || !DATA.length){
       empty.style.display="block";
-      grid.innerHTML="";
+      grid.innerHTML = "";
+      summaryEl.innerHTML = "";
       return;
     }
+
     empty.style.display="none";
-    // sort by next due (soonest)
-    const list = DATA.slice().sort((a,b)=>{
-      const aIn = remainingDays(a.inspection_expiry);
-      const aIs = remainingDays(a.insurance_expiry);
-      const bIn = remainingDays(b.inspection_expiry);
-      const bIs = remainingDays(b.insurance_expiry);
-      const aN = nextDue(aIn, aIs);
-      const bN = nextDue(bIn, bIs);
-      const ad = aN ? aN.days : 999999;
-      const bd = bN ? bN.days : 999999;
+
+    // sort by soonest expiry
+    const sorted = DATA.slice().sort((a,b)=>{
+      const aN = nextDue(remainingDays(a.inspection_expiry), remainingDays(a.insurance_expiry));
+      const bN = nextDue(remainingDays(b.inspection_expiry), remainingDays(b.insurance_expiry));
+      const ad = aN ? aN.days : 9999;
+      const bd = bN ? bN.days : 9999;
       if(ad !== bd) return ad - bd;
       return normalizePlate(a.plate).localeCompare(normalizePlate(b.plate));
     });
-    grid.innerHTML = list.map(makeCard).join("");
 
-    // bind edit inputs
+    grid.innerHTML = sorted.map(makeCard).join("");
+
+    // Summary
+    let urgent=0, warn=0, safe=0;
+    sorted.forEach(r=>{
+      const minDays = Math.min(
+        remainingDays(r.inspection_expiry) ?? 999,
+        remainingDays(r.insurance_expiry)  ?? 999
+      );
+      if(minDays <= 15) urgent++;
+      else if(minDays <= 60) warn++;
+      else safe++;
+    });
+
+    summaryEl.innerHTML = `
+      <div class="sumItem" style="color:var(--danger);"><span class="sumDot" style="background:var(--danger)"></span>عاجل: ${urgent}</div>
+      <div class="sumItem" style="color:var(--warn);"><span class="sumDot" style="background:var(--warn)"></span>تنبيه: ${warn}</div>
+      <div class="sumItem" style="color:var(--safe);"><span class="sumDot" style="background:var(--safe)"></span>آمن: ${safe}</div>
+      <div style="color:var(--muted);">إجمالي السيارات: ${DATA.length}</div>
+    `;
+
+    stamp.textContent = "آخر تحديث: " + new Date().toLocaleString('ar-EG');
+
+    // Edit bindings
     if(editMode){
-      grid.querySelectorAll("[data-id][data-field]").forEach(inp=>{
-        inp.addEventListener("input", (e)=>{
-          const id = e.target.getAttribute("data-id");
-          const field = e.target.getAttribute("data-field");
-          updateField(id, field, e.target.value);
+      document.querySelectorAll("[data-id][data-field]").forEach(el=>{
+        el.addEventListener("input", e=>{
+          const id = e.target.dataset.id;
+          const field = e.target.dataset.field;
+          const row = DATA.find(x=>x.id===id);
+          if(row) {
+            row[field] = e.target.value;
+            saveData(DATA);
+            // re-render to update calculations
+            render();
+          }
         });
       });
-    }
 
-    // bind delete buttons
-    if(editMode){
-      grid.querySelectorAll("[data-del]").forEach(btn=>{
+      document.querySelectorAll("[data-del]").forEach(btn=>{
         btn.addEventListener("click", ()=>{
-          const id = btn.getAttribute("data-del");
-          if(!confirm("حذف هذه السيارة؟")) return;
-          DATA = DATA.filter(x=>String(x.id)!==String(id));
+          if(!confirm("حذف هذه السيارة نهائياً؟")) return;
+          const id = btn.dataset.del;
+          DATA = DATA.filter(x=>x.id !== id);
           saveData(DATA);
           render();
         });
       });
     }
-
-    document.getElementById("stamp").textContent = "آخر تحديث: " + new Date().toLocaleString();
   }
 
-
-  const btnEdit = document.getElementById("btnEdit");
-  const btnAdd = document.getElementById("btnAdd");
+  const btnEdit  = document.getElementById("btnEdit");
+  const btnAdd   = document.getElementById("btnAdd");
   const btnReset = document.getElementById("btnReset");
 
   function setEditMode(on){
     editMode = on;
-    btnEdit.textContent = editMode ? "قفل التعديل" : "فتح التعديل";
-    btnReset.style.display = editMode ? "inline-block" : "none";
-    btnAdd.style.display = editMode ? "inline-block" : "none";
+    btnEdit.textContent = on ? "إغلاق التعديل" : "فتح التعديل";
+    btnAdd.style.display   = on ? "inline-block" : "none";
+    btnReset.style.display = on ? "inline-block" : "none";
     render();
   }
 
   btnEdit.addEventListener("click", ()=>{
     if(editMode){ setEditMode(false); return; }
-    const pw = prompt("أدخل كلمة مرور التعديل:");
-    if(pw === null) return;
+    const pw = prompt("كلمة مرور التعديل:");
     if(pw === EDIT_PASSWORD) setEditMode(true);
-    else alert("كلمة المرور غير صحيحة.");
+    else if(pw !== null) alert("كلمة المرور خاطئة");
   });
 
   btnAdd.addEventListener("click", ()=>{
-    // add new car card at top
-    const newRow = {id: uid(), plate:"", vehicle:"", driver_phone:"", branch:"", inspection_expiry:"", insurance_expiry:""};
-    DATA.unshift(newRow);
+    DATA.unshift({
+      id: uid(),
+      plate:"", vehicle:"", driver_phone:"", branch:"",
+      inspection_expiry:"", insurance_expiry:""
+    });
     saveData(DATA);
     render();
-    // scroll to top so it’s immediately visible
     window.scrollTo({top:0, behavior:"smooth"});
   });
 
   btnReset.addEventListener("click", ()=>{
-    if(!confirm("سيتم إعادة البيانات إلى نسخة الإكسل الأصلية. هل أنت متأكد؟")) return;
+    if(!confirm("إعادة البيانات إلى النسخة الأصلية؟")) return;
     localStorage.removeItem(STORE_KEY);
-    DATA = (EMBEDDED_DATA || []).map(r=>({
-      id: r.id || uid(),
-      plate: r.plate || "",
-      vehicle: r.vehicle || "",
-      driver_phone: r.driver_phone || "",
-      branch: r.branch || "",
-      inspection_expiry: (r.inspection_expiry || "").slice(0,10),
-      insurance_expiry: (r.insurance_expiry || "").slice(0,10),
-    }));
-    saveData(DATA);
+    DATA = loadData(); // reload embedded
     setEditMode(false);
   });
 
-
-  if(document.readyState === "loading") {
+  // Initial render
+  if(document.readyState === "loading"){
     document.addEventListener("DOMContentLoaded", render);
   } else {
     render();
   }
+
+  // ملاحظة: لإضافة تنبيهات إيميل مستقبلاً، يمكنك استخدام EmailJS أو Firebase Functions
+  // مثال بسيط (تحتاج مكتبة EmailJS):
+  // function sendEmailAlert(car) { ... }
 })();
 </script>
 </body>
