@@ -1,629 +1,1044 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#1f3b35" />
+  <meta name="description" content="متابعة تواريخ المعاينة والسيكورتا لكل سيارة" />
+
+  <!-- Icons in root -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
   <title>Al Ajamy Food – Cars Tracker</title>
+
   <style>
     :root{
-      /* Theme aligned to Al Ajamy Food logo palette */
-      --bg:#0b0f14;
-      --bg2:#0f1720;
-      --surface: rgba(255,255,255,.07);
-      --surface2: rgba(0,0,0,.22);
-      --text:#f7fbff;
-      --muted:#b8c6d9;
-      --line:rgba(255,255,255,.16);
-
-      /* Logo palette */
-      --brand-teal:#5c9e89;
-      --brand-dark:#29443b;
-      --brand-gold:#e2b747;
-      --brand-olive:#809f2f;
-
-      /* Status */
-      --danger:#ef4444;
-      --danger2:#dc2626;
-      --warn:#f97316;
-      --safe:#22c55e;
-      --ok:#10b981;
-
-      --shadow:0 16px 40px rgba(0,0,0,.45);
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-
-      /* Typography scale (desktop + mobile) */
-      --fs-h1: clamp(20px, 1.3vw + 15px, 24px);
-      --fs-btn: clamp(13px, 0.55vw + 12px, 15px);
-      --fs-badge: clamp(13px, 0.55vw + 12px, 15px);
-      --fs-secname: clamp(15px, 0.6vw + 14px, 17px);
-      --fs-days: clamp(19px, 0.85vw + 17px, 24px);
-      --fs-meta: clamp(13px, 0.5vw + 12px, 14px);
-      --fs-date: clamp(13px, 0.5vw + 12px, 14px);
-
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans Arabic","Noto Sans","Apple Color Emoji","Segoe UI Emoji";
+      /* Brand-ish palette (green/teal like logo) */
+      --bg: #151a1c;
+      --bg2:#111416;
+      --card:#1b2224;
+      --card2:#171d1f;
+      --line:#3b4448;        /* darker gray */
+      --line2:#4a555a;       /* slightly brighter for separation */
+      --txt:#eaf2f1;
+      --muted:#b6c3c1;
+      --teal:#4f9d8b;
+      --teal2:#2f6f61;
+      --gold:#f0b354;
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+      --radius: 20px;
+      --radius2: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans Arabic", "Noto Naskh Arabic", sans-serif;
     }
+
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
-      margin:0; font-family:var(--sans); color:var(--text);
+      margin:0;
+      font-family:var(--sans);
+      color:var(--txt);
       background:
-        radial-gradient(1100px 520px at 12% -10%, color-mix(in srgb, var(--brand-teal) 28%, transparent), transparent 56%),
-        radial-gradient(980px 520px at 92% 0%, color-mix(in srgb, var(--brand-gold) 22%, transparent), transparent 60%),
-        radial-gradient(900px 520px at 60% 115%, color-mix(in srgb, var(--brand-olive) 12%, transparent), transparent 62%),
-        linear-gradient(180deg, var(--bg), #04070f 70%);
+        radial-gradient(900px 500px at 10% 0%, rgba(79,157,139,.22), transparent 60%),
+        radial-gradient(900px 500px at 90% 0%, rgba(240,179,84,.16), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
     }
-    .wrap{max-width:1250px; margin:18px auto; padding:0 16px}
-    header{
-      display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap;
-      padding:14px 14px;
-      border:1px solid rgba(148,163,184,.55); outline:1px solid rgba(148,163,184,.22);
-      border-radius:20px;
-      background: linear-gradient(135deg,
-        rgba(255,255,255,.11),
-        color-mix(in srgb, var(--brand-teal) 14%, rgba(255,255,255,.06)),
-        color-mix(in srgb, var(--brand-gold) 12%, rgba(255,255,255,.04))
-      );
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(8px);
+
+    .wrap{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 14px 40px;
     }
-    .brand{display:flex; align-items:center; gap:12px}
-    .logo{
-      width:54px; height:54px; object-fit:contain;
-      border-radius:14px; background:rgba(255,255,255,.10);
-      border:1px solid rgba(30,41,59,.45); padding:6px;
-    }
-    h1{margin:0; font-size:var(--fs-h1)}
-    .sub{margin-top:4px; color:var(--muted); font-size:12px}
-    .stamp{font-family:var(--mono); color:var(--muted); font-size:12px}
-    .grid{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    /* Header */
+    .topbar{
+      display:flex;
+      align-items:center;
       gap:12px;
+      padding: 14px 14px;
+      background: linear-gradient(90deg, rgba(79,157,139,.20), rgba(240,179,84,.12));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 10px;
+      z-index: 50;
+      backdrop-filter: blur(10px);
     }
-    @media (max-width:980px){ .grid{grid-template-columns: repeat(2, minmax(0, 1fr));} }
-    @media (max-width:620px){ .grid{grid-template-columns: 1fr;
-      .badge{font-size:var(--fs-badge); padding:8px 10px}
-      .cardTop{gap:10px}
-    } h1{font-size:var(--fs-h1)} .logo{width:46px;height:46px} .daysBig{font-size:var(--fs-days)} }
-
-    @media (max-width:620px){
-      .plateBox{min-width: 0; width: 100%;}
-      .cardTop{flex-direction:column; align-items:stretch}
-      .topRight{justify-content:flex-start}
-      .badge{width:100%}
-      .cardTop > div:last-child{justify-content:flex-start}
-    }
-
-
-    .card{
-      border:1px solid var(--line);
-      border-radius:16px;
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-    .cardTop{padding:16px; display:flex; align-items:flex-start; justify-content:space-between; gap:14px; border-bottom:1px solid rgba(255,255,255,.12)}
-
-    .topRight{display:flex; align-items:center; gap:10px; justify-content:flex-start; flex-wrap:wrap; width:100%}
-
-    .plateBox{
-      display:inline-flex; align-items:center; gap:0;
-      height:44px;
-      border-radius:10px;
-      border:2px solid rgba(0,0,0,.65);
-      background:#f7fafc;
-      color:#0b1220;
-      direction:ltr;
-      overflow:hidden;
-      box-shadow: 0 6px 16px rgba(0,0,0,.28);
-      min-width:200px;
-    }
-    .plateTR{
-      width:50px; height:100%;
-      display:flex; align-items:center; justify-content:center;
-      background: linear-gradient(180deg, #0b4fb3, #0a3f8f);
-      color:#fff; font-weight:1000; font-size:12px;
-      letter-spacing:.8px;
-      border-right:2px solid rgba(0,0,0,.55);
-    }
-    .plateNum{
-      padding:0 14px;
-      font-family:var(--mono);
-      font-size:18px;
-      font-weight:1000;
-      letter-spacing:1px;
-      text-transform:uppercase;
-      color:#111827;
-      white-space:nowrap;
-    }
-    .meta{color:var(--muted); font-size:12px; margin-top:8px}
-    .badge{
-      display:inline-flex;
+    .brand{
+      display:flex;
       align-items:center;
       gap:10px;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(30,41,59,.50);
-      background:rgba(0,0,0,.18);
-      font-weight:900;
-      font-size:12px;
-      line-height:1.25;
-      max-width:100%;
-      white-space:normal;      /* allow wrapping on small screens */
-      flex-wrap:wrap;
+      min-width: 0;
+      flex:1;
     }
-    .badgeText{
-      display:block;
-      min-width:0;
+    .logo{
+      width: 44px; height: 44px;
+      border-radius: 14px;
       overflow:hidden;
-      text-overflow:ellipsis;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.15);
+      flex: 0 0 auto;
+      display:flex; align-items:center; justify-content:center;
     }
-    .dot{width:10px;height:10px;border-radius:999px; box-shadow:0 0 0 2px rgba(255,255,255,.08) inset;}
-    .ico{width:16px;height:16px; display:inline-block; position:relative; flex:0 0 16px}
-    .ico.alert{background:#facc15; clip-path: polygon(50% 6%, 6% 94%, 94% 94%);}
-    .ico.alert::after{content:"!"; position:absolute; left:0; right:0; top:44%; transform:translateY(-50%); text-align:center; font-weight:1000; font-size:12px; color:#111827;}
-    .ico.urgent{background:#ef4444; border-radius:999px;}
-    .ico.urgent::after{content:""; position:absolute; left:50%; top:50%; width:9px; height:2.4px; background:#fff; transform:translate(-50%,-50%); border-radius:3px;}
-    .ico.expired{background:#dc2626; border-radius:999px;}
-    .ico.expired::after{content:"×"; position:absolute; left:0; right:0; top:48%; transform:translateY(-50%); text-align:center; font-weight:1000; font-size:14px; color:#fff;}
-    .ico.follow{background:#f97316; border-radius:999px;}
-    .ico.safe{background:#22c55e; border-radius:999px;}
-    .ico.long{background:#10b981; border-radius:6px;}
-
-    .b-danger{border-color:rgba(239,68,68,.35)}
-    .b-warn{border-color:rgba(249,115,22,.35)}
-    .b-safe{border-color:rgba(34,197,94,.35)}
-
-    
-    .metaBox{
-      margin-top:10px;
-      padding:10px 12px;
-      border:1px solid rgba(30,41,59,.50);
-      border-radius:14px;
-      background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(255,255,255,.03));
+    .logo img{
+      width:100%; height:100%; object-fit:cover; display:block;
     }
-    .meta{color:var(--muted); font-size:var(--fs-meta); margin-top:0}
-
-    .secWrap{padding:14px; display:grid; grid-template-columns:1fr 1fr; gap:12px}
-    @media (max-width:620px){ .secWrap{grid-template-columns:1fr} }
-
-    .sec{
-      border:1px solid rgba(30,41,59,.45);
-      border-radius:14px;
-      background: linear-gradient(180deg, rgba(0,0,0,.22), rgba(255,255,255,.03));
-      padding:10px;
+    .brand h1{
+      margin:0;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing:.2px;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
     }
-    .secTitle{display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:13px; color:var(--muted)}
-    .secName{font-size:var(--fs-secname); font-weight:1000; color:var(--text)}
-    .daysBig{font-size:var(--fs-days); font-weight:1000; line-height:1; letter-spacing:.2px}
-    .daysLbl{font-size:12px; color:var(--muted); margin-top:4px}
-    .dateRow{margin-top:10px; display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:var(--fs-date)}
-    .dateVal{font-family:var(--mono)}
-    .bar{margin-top:10px; height:12px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid rgba(30,41,59,.45); overflow:hidden}
-    .bar > span{display:block; height:100%; width:0%; background:rgba(34,197,94,.70)}
+    .sub{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
 
-    .empty{margin-top:18px; text-align:center; color:var(--muted); border:1px dashed rgba(255,255,255,.18); border-radius:14px; padding:18px}
-    a{color:inherit}
-  
-    .hdrControls{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+    .actions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex:0 0 auto;
+    }
     .btn{
-      appearance:none; border:1px solid var(--line); background:rgba(255,255,255,.06); color:var(--text);
-      padding:9px 12px; border-radius:12px; font-weight:900; cursor:pointer; font-size:var(--fs-btn);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: var(--txt);
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 13px;
+      transition: .15s ease;
+      user-select:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
     }
-    .btn:hover{background:rgba(255,255,255,.10)}
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); }
     .btn.primary{
-      border-color: color-mix(in srgb, var(--brand-teal) 60%, rgba(255,255,255,.16));
-      background: linear-gradient(135deg,
-        color-mix(in srgb, var(--brand-teal) 30%, rgba(255,255,255,.06)),
-        color-mix(in srgb, var(--brand-gold) 18%, rgba(255,255,255,.05))
-      );
+      background: rgba(79,157,139,.18);
+      border-color: rgba(79,157,139,.38);
     }
-    .btn.danger{border-color:rgba(239,68,68,.45); background:rgba(239,68,68,.14)}
-
-    .btn.small{padding:7px 10px; border-radius:10px; font-size:12px}
-    .btn.ghost{background:rgba(255,255,255,.05)}
-
-    .editGrid{margin-top:10px; display:grid; grid-template-columns: 1fr 1fr; gap:10px}
-    @media (max-width:620px){ .editGrid{grid-template-columns:1fr} }
-    .field{border:1px solid rgba(30,41,59,.45); border-radius:12px; padding:10px; background:rgba(0,0,0,.12)}
-    .field label{display:block; font-size:11px; color:var(--muted); margin-bottom:6px}
-    .inp{
-      width:100%; padding:9px 10px; border-radius:10px; outline:none;
-      border:1px solid rgba(30,41,59,.45);
-      background:rgba(0,0,0,.22);
-      color:var(--text);
-      font-size:13px;
+    .btn.danger{
+      background: rgba(255,60,60,.12);
+      border-color: rgba(255,60,60,.30);
     }
-    .inp.mono{font-family:var(--mono)}
 
-  
-    /* Edit mode layout tuning (prevents overlap on desktop & mobile) */
-    body.edit-on .cardTop{flex-wrap:wrap; row-gap:12px}
-    body.edit-on .cardTop > div:first-child{flex:1 1 360px; min-width:280px}
-    body.edit-on .topRight{flex:0 0 auto; align-self:flex-start}
-    body.edit-on .plateBox{min-width:260px; max-width:100%}
-    body.edit-on .metaBox{width:100%}
-    body.edit-on .editForm .field{background:rgba(0,0,0,.10)}
+    .pill{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.15);
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
 
-</style>
+    /* Grid */
+    .grid{
+      margin-top: 16px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px){
+      .grid{ grid-template-columns: 1fr; }
+      .topbar{ position: static; }
+    }
 
-  <!-- Icons / PWA -->
-  <link rel="icon" href="./favicon.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="./favicon-192.png">
-  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <link rel="manifest" href="./site.webmanifest">
+    /* Card */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.08));
+      border: 2px solid var(--line2); /* clearer separation */
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card-inner{
+      padding: 14px 14px 12px;
+      background: radial-gradient(700px 260px at 30% -20%, rgba(79,157,139,.12), transparent 60%);
+    }
 
-  <!-- Theme -->
-  <meta name="theme-color" content="#29443b">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    .card-head{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
 
+    /* Plate (Turkey style) */
+    .plate{
+      display:flex;
+      align-items: stretch;
+      border: 2px solid rgba(0,0,0,.35);
+      border-radius: 12px;
+      overflow:hidden;
+      background: #f4f6f7;
+      color: #111;
+      min-width: 210px;
+      max-width: 100%;
+      box-shadow: 0 6px 16px rgba(0,0,0,.25);
+    }
+    .plate .band{
+      background: #0b3c92;
+      color: #fff;
+      padding: 8px 10px;
+      display:flex;
+      flex-direction: column;
+      align-items:center;
+      justify-content:center;
+      gap: 2px;
+      min-width: 52px;
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing:.8px;
+    }
+    .plate .band .tr{ font-size: 13px; line-height: 1; }
+    .plate .band .stars{ font-size: 11px; opacity:.95; line-height: 1; }
+    .plate .num{
+      padding: 10px 14px;
+      font-family: var(--mono);
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: 1px;
+      display:flex;
+      align-items:center;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+
+    /* Status badge */
+    .badge{
+      border-radius: 999px;
+      border: 1px solid rgba(240,179,84,.35);
+      background: rgba(0,0,0,.22);
+      padding: 8px 10px;
+      font-size: 13px;
+      font-weight: 900;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      color: var(--txt);
+      max-width: 100%;
+    }
+    .badge small{
+      font-weight: 800;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .badge .dot{
+      width:10px; height:10px; border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 0 3px rgba(79,157,139,.12);
+      flex: 0 0 auto;
+    }
+    .badge.urgent{ border-color: rgba(255,70,70,.42); }
+    .badge.urgent .dot{ background:#ff3b3b; box-shadow: 0 0 0 3px rgba(255,70,70,.14); }
+    .badge.alert{ border-color: rgba(255,210,70,.42); }
+    .badge.alert .dot{ background:#ffd84a; box-shadow: 0 0 0 3px rgba(255,210,70,.14); }
+    .badge.follow{ border-color: rgba(255,140,40,.42); }
+    .badge.follow .dot{ background:#ff8a24; box-shadow: 0 0 0 3px rgba(255,140,40,.14); }
+    .badge.safe{ border-color: rgba(70,220,130,.38); }
+    .badge.safe .dot{ background:#32d27b; box-shadow: 0 0 0 3px rgba(70,220,130,.14); }
+    .badge.long{ border-color: rgba(120,220,160,.28); }
+    .badge.long .dot{ background:#34c28a; box-shadow: 0 0 0 3px rgba(120,220,160,.12); }
+    .badge.expired{ border-color: rgba(255,70,70,.46); }
+    .badge.expired .dot{ background:#ff3b3b; box-shadow: 0 0 0 3px rgba(255,70,70,.14); }
+
+    /* Info block */
+    .info{
+      margin-top: 10px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.12);
+      border-radius: var(--radius2);
+      padding: 10px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .row b{
+      color: var(--txt);
+      font-weight: 900;
+      margin-inline-start: 8px;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Two blocks (Inspection / Sigorta) */
+    .blocks{
+      margin-top: 10px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 520px){
+      .blocks{ grid-template-columns: 1fr; }
+      .plate{ min-width: 0; width: 100%; }
+    }
+
+    .block{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.10);
+      border-radius: var(--radius2);
+      padding: 10px;
+      position: relative;
+      overflow:hidden;
+    }
+    .block h3{
+      margin: 0 0 6px;
+      font-size: 16px;      /* larger label */
+      font-weight: 1000;
+      letter-spacing:.2px;
+    }
+    .remain{
+      display:flex;
+      align-items: baseline;
+      gap: 8px;             /* ensures space between number and text */
+      justify-content:flex-end;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+    .remain .num{
+      font-size: 26px;      /* slightly smaller than before */
+      font-weight: 1000;
+      line-height: 1;
+      letter-spacing: .4px;
+    }
+    .remain .txt{
+      font-size: 16px;      /* bigger text */
+      font-weight: 900;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .dateLine{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .dateLine b{ color: var(--txt); font-weight: 1000; }
+
+    /* Progress bar */
+    .bar{
+      height: 12px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 999px;
+      overflow:hidden;
+      position: relative;
+    }
+    .bar > span{
+      display:block;
+      height:100%;
+      width: 20%;
+      background: linear-gradient(90deg, var(--teal2), var(--teal));
+      border-radius: 999px;
+      transition: width .25s ease;
+    }
+    .bar.urgent > span{ background: linear-gradient(90deg, #ff3b3b, #ff6b6b); }
+    .bar.alert  > span{ background: linear-gradient(90deg, #ffd84a, #ffec8a); }
+    .bar.follow > span{ background: linear-gradient(90deg, #ff8a24, #ffb15c); }
+    .bar.safe   > span{ background: linear-gradient(90deg, #25c46a, #40e08b); }
+    .bar.long   > span{ background: linear-gradient(90deg, #25c46a, #40e08b); }
+    .bar.expired> span{ background: linear-gradient(90deg, #ff3b3b, #ff6b6b); }
+
+    /* Footer controls in edit mode */
+    .card-actions{
+      display:flex;
+      gap:10px;
+      margin-top: 10px;
+      justify-content:flex-start;
+    }
+
+    /* Modal */
+    .modal{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 16px;
+      z-index: 1000;
+    }
+    .modal.show{ display:flex; }
+    .modal-box{
+      width: min(740px, 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.20));
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
+    .modal-head{
+      padding: 14px 14px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      background: rgba(0,0,0,.18);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .modal-head h2{
+      margin:0;
+      font-size: 16px;
+      font-weight: 1000;
+    }
+    .modal-body{
+      padding: 14px;
+    }
+    .form{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 640px){
+      .form{ grid-template-columns: 1fr; }
+    }
+    label{
+      display:flex;
+      flex-direction: column;
+      gap:6px;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--muted);
+    }
+    input, select{
+      height: 40px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: var(--txt);
+      outline:none;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    input::placeholder{ color: rgba(234,242,241,.45); }
+
+    .modal-foot{
+      padding: 12px 14px;
+      display:flex;
+      gap: 10px;
+      justify-content:flex-start;
+      border-top: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.16);
+    }
+
+    .hint{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(234,242,241,.55);
+      line-height: 1.6;
+    }
+
+    .toast{
+      position: fixed;
+      left: 14px;
+      bottom: 14px;
+      background: rgba(0,0,0,.55);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--txt);
+      padding: 10px 12px;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      font-weight: 900;
+      display:none;
+      z-index: 1500;
+    }
+    .toast.show{ display:block; }
+
+  </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <img class="logo" src="./Logo-Ajami Food.png" alt="Logo" onerror="this.style.display='none'">
-        <div>
-          <h1>Al Ajamy Food – Cars Tracker</h1>
-          
-        </div>
-      </div>
-      <div class="hdrControls"><button class="btn primary" id="btnEdit">فتح التعديل</button><button class="btn" id="btnAdd" style="display:none">إضافة سيارة</button><button class="btn danger" id="btnReset" style="display:none">إعادة ضبط</button><div class="stamp" id="stamp">آخر تحديث: —</div></div>
-    </header>
 
-    <div class="grid" id="grid"></div>
-    <div class="empty" id="empty" style="display:none">لا توجد بيانات سيارات لعرضها.</div>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo" title="Logo">
+        <img src="/logo.png" alt="Al Ajamy Food Logo" onerror="this.style.display='none'">
+      </div>
+      <div style="min-width:0">
+        <h1>Al Ajamy Food – Cars Tracker</h1>
+        <div class="sub" id="lastSync">آخر تحديث: —</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <span class="pill" id="countPill">— سيارة</span>
+      <button class="btn" id="btnRefresh" type="button">تحديث</button>
+      <button class="btn primary" id="btnEdit" type="button">فتح التعديل</button>
+    </div>
   </div>
 
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- Modal for password / edit -->
+<div class="modal" id="pwModal" aria-hidden="true">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2>فتح وضع التعديل</h2>
+      <button class="btn" type="button" onclick="closePw()">إغلاق</button>
+    </div>
+    <div class="modal-body">
+      <label>
+        كلمة المرور
+        <input id="pwInput" type="password" placeholder="أدخل كلمة المرور" autocomplete="current-password">
+      </label>
+      <div class="hint">
+        بعد إدخال كلمة المرور يتم تفعيل: إضافة / تعديل / حذف.<br>
+        التعديلات ستُحفظ على Google Sheet وتظهر للكل عند التحديث (تلقائيًا كل 20 ثانية).
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn primary" type="button" onclick="confirmPw()">تأكيد</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for add/edit car -->
+<div class="modal" id="editModal" aria-hidden="true">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2 id="editTitle">تعديل سيارة</h2>
+      <button class="btn" type="button" onclick="closeEdit()">إغلاق</button>
+    </div>
+    <div class="modal-body">
+      <div class="form">
+        <label>id
+          <input id="f_id" type="text" placeholder="رقم داخلي" disabled>
+        </label>
+        <label>plate (مثل: 34 TP 0348)
+          <input id="f_plate" type="text" placeholder="رقم السيارة">
+        </label>
+        <label>vehicle
+          <input id="f_vehicle" type="text" placeholder="نوع/اسم السيارة">
+        </label>
+        <label>driver
+          <input id="f_driver" type="text" placeholder="اسم السائق">
+        </label>
+        <label>driver_phone
+          <input id="f_driver_phone" type="text" placeholder="رقم الهاتف">
+        </label>
+        <label>branch
+          <input id="f_branch" type="text" placeholder="التبعية/الفرع">
+        </label>
+        <label>inspection_date (DD-MM-YYYY)
+          <input id="f_inspection" type="text" placeholder="مثال: 02-04-2026">
+        </label>
+        <label>sigorta_date (DD-MM-YYYY)
+          <input id="f_sigorta" type="text" placeholder="مثال: 13-11-2026">
+        </label>
+      </div>
+      <div class="hint">
+        صيغة التاريخ المعتمدة في الشيت: <b>DD-MM-YYYY</b> (مثل: 02-04-2026).<br>
+        يمكن ترك التاريخ فارغًا إذا غير موجود.
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn primary" type="button" onclick="saveEdit()">حفظ</button>
+      <button class="btn danger" id="btnDeleteInModal" type="button" onclick="deleteFromModal()" style="display:none">حذف</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-(function(){
-  const EMBEDDED_DATA = [{"plate": "27AUR170", "vehicle": "أبو أسامة", "driver_phone": "5537939067", "branch": "عنتاب", "inspection_expiry": "2026-04-02", "insurance_expiry": "2026-11-13"}, {"plate": "16 AVN 044", "vehicle": "سيارة المتسوبيشي", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2026-10-08", "insurance_expiry": "2026-07-17"}, {"plate": "27AZR559", "vehicle": "سيارة فراس", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2027-01-02", "insurance_expiry": "2026-09-20"}, {"plate": "27AJG093", "vehicle": "سيارة يامن", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2027-03-12", "insurance_expiry": "2026-03-07"}, {"plate": "06PSH64", "vehicle": "سيارة حسين", "driver_phone": "5397306678", "branch": "عنتاب", "inspection_expiry": "2026-03-11", "insurance_expiry": "2026-11-13"}, {"plate": "34TP0348", "vehicle": "سيارة ابو حسين", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2026-03-04", "insurance_expiry": "2026-07-08"}, {"plate": "16 DAY 98", "vehicle": "سيارة بورصة - جميل", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-09-07", "insurance_expiry": "2026-03-01"}, {"plate": "33 AFM 965", "vehicle": "كوستوم", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-09-25", "insurance_expiry": "2026-08-17"}, {"plate": "16 ANT 407", "vehicle": "سيارة الترانسوت - طلبات", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-04-08", "insurance_expiry": "2026-08-18"}, {"plate": "34KRD877", "vehicle": "عبد القادر", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-09-28", "insurance_expiry": "2026-06-24"}, {"plate": "06CKE628", "vehicle": "", "driver_phone": "", "branch": "عينتاب", "inspection_expiry": "2026-05-15", "insurance_expiry": "2026-02-17"}, {"plate": "54ABS248", "vehicle": "", "driver_phone": "", "branch": "عينتاب", "inspection_expiry": "2026-03-26", "insurance_expiry": "2026-01-30"}, {"plate": "27TC0021", "vehicle": "نذير عجمي", "driver_phone": "", "branch": "عينتاب", "inspection_expiry": "2027-09-18", "insurance_expiry": "2026-09-19"}];
-  const STORE_KEY = "alajamy_cars_tracker_cards_v1";
-  const EDIT_PASSWORD = "ChangeMe123!";
+/* =======================
+   SETTINGS
+======================= */
+const API_URL = "https://script.google.com/macros/s/AKfycbyQxBuejrMv-YuaY46xF08MWOmo14jwuVG8ytr3-zABxSw528NgyHvDKFICPXRvpeW8EQ/exec";
+const POLL_MS = 20000;
 
-  function uid(){
-    return Math.random().toString(36).slice(2,10) + "-" + Date.now().toString(36);
+/* =======================
+   STATE
+======================= */
+let DATA = [];
+let EDIT_MODE = false;
+let EDIT_PASS = "";
+let EDITING_ID = null;
+let modalOpen = false;
+let lastScrollY = 0;
+
+/* =======================
+   HELPERS
+======================= */
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(()=> t.classList.remove("show"), 2200);
+}
+
+function pad2(n){ return String(n).padStart(2,"0"); }
+
+function parseAnyDate(s){
+  if(!s) return null;
+  const str = String(s).trim();
+  if(!str) return null;
+
+  // YYYY-MM-DD or YYYY/MM/DD
+  if (/^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(str)){
+    const [y,m,d] = str.split(/[-/]/).map(Number);
+    return new Date(y, m-1, d);
   }
-
-  function loadData(){
-    try{
-      const raw = localStorage.getItem(STORE_KEY);
-      if(raw){
-        const parsed = JSON.parse(raw);
-        if(Array.isArray(parsed) && parsed.length) return parsed;
-      }
-    }catch(e){}
-    // fallback to embedded
-    return (EMBEDDED_DATA || []).map(r=>({
-      id: r.id || uid(),
-      plate: r.plate || "",
-      vehicle: r.vehicle || "",
-      driver_phone: r.driver_phone || "",
-      branch: r.branch || "",
-      inspection_expiry: (r.inspection_expiry || "").slice(0,10),
-      insurance_expiry: (r.insurance_expiry || "").slice(0,10),
-    }));
+  // DD/MM/YYYY
+  if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(str)){
+    const [d,m,y] = str.split("/").map(Number);
+    return new Date(y, m-1, d);
   }
-
-  function saveData(list){
-    try{ localStorage.setItem(STORE_KEY, JSON.stringify(list)); }catch(e){}
+  // DD-MM-YYYY (your sheet)
+  if (/^\d{1,2}-\d{1,2}-\d{4}$/.test(str)){
+    const [d,m,y] = str.split("-").map(Number);
+    return new Date(y, m-1, d);
   }
+  return null;
+}
 
-  let editMode = false;
-  let DATA = loadData();
+function formatDDMMYYYY(dateObj){
+  if(!dateObj) return "";
+  const d = pad2(dateObj.getDate());
+  const m = pad2(dateObj.getMonth()+1);
+  const y = dateObj.getFullYear();
+  return `${d}-${m}-${y}`;
+}
 
-  let pendingRender = null;
-  let lastFocus = null;
+function daysRemaining(dateStr){
+  const dt = parseAnyDate(dateStr);
+  if(!dt) return null;
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  dt.setHours(0,0,0,0);
+  const diff = Math.round((dt - today) / 86400000);
+  return diff;
+}
 
-  function captureScrollFocus(){
-    const y = window.scrollY || document.documentElement.scrollTop || 0;
-    const ae = document.activeElement;
-    lastFocus = null;
-    if(ae && ae.getAttribute){
-      const id = ae.getAttribute("data-id");
-      const field = ae.getAttribute("data-field");
-      if(id && field){
-        lastFocus = {
-          id, field, y,
-          start: (typeof ae.selectionStart === "number") ? ae.selectionStart : null,
-          end: (typeof ae.selectionEnd === "number") ? ae.selectionEnd : null
-        };
-        return;
-      }
+function statusForDays(d){
+  if(d === null) return { cls:"long", label:"—", icon:"", dot:true };
+  if(d < 0)   return { cls:"expired", label:"منتهية", icon:"⛔", dot:true };
+  if(d <= 15) return { cls:"urgent",  label:"عاجل",   icon:"🔴", dot:true };
+  if(d <= 30) return { cls:"alert",   label:"تنبيه",  icon:"⚠️", dot:true }; // triangle with !
+  if(d <= 60) return { cls:"follow",  label:"متابعة", icon:"🟠", dot:true };
+  if(d <=120) return { cls:"safe",    label:"المدة آمنة", icon:"🟢", dot:true };
+  return         { cls:"long",    label:"مدة طويلة", icon:"🟩", dot:true };
+}
+
+function barWidth(d){
+  if(d === null) return 0;
+  if(d < 0) return 100;
+  // scale: 0..120 => 100..10 (closer = more filled)
+  const capped = Math.min(Math.max(d, 0), 120);
+  const w = 100 - Math.round((capped/120)*85); // 100..15
+  return Math.max(10, Math.min(100, w));
+}
+
+/* =======================
+   GOOGLE SHEET SYNC
+======================= */
+function jsonpLoad(){
+  return new Promise((resolve, reject)=>{
+    const cbName = "cbCars_" + Date.now();
+    window[cbName] = (res)=>{
+      try { resolve(res); }
+      finally { delete window[cbName]; script.remove(); }
+    };
+    const script = document.createElement("script");
+    script.src = API_URL + "?callback=" + cbName + "&ts=" + Date.now();
+    script.onerror = ()=>{ delete window[cbName]; script.remove(); reject(new Error("JSONP load failed")); };
+    document.body.appendChild(script);
+  });
+}
+
+async function syncFromSheet(){
+  try{
+    const res = await jsonpLoad();
+    if(res && res.ok){
+      const incoming = (res.data || []).map(x => ({
+        id: String(x.id ?? "").trim(),
+        plate: String(x.plate ?? ""),
+        vehicle: String(x.vehicle ?? ""),
+        driver: String(x.driver ?? ""),
+        driver_phone: String(x.driver_phone ?? ""),
+        branch: String(x.branch ?? ""),
+        inspection_date: String(x.inspection_date ?? ""),
+        sigorta_date: String(x.sigorta_date ?? "")
+      })).filter(x => x.id);
+
+      // Don’t re-render if edit modal open (avoid jump while typing)
+      DATA = incoming;
+      document.getElementById("lastSync").textContent =
+        "آخر تحديث: " + new Date().toLocaleString("en-GB");
+      document.getElementById("countPill").textContent = DATA.length + " سيارة";
+
+      if(!modalOpen) render();
     }
-    lastFocus = { y };
+  }catch(e){
+    // silent to avoid spamming
   }
+}
 
-  function restoreScrollFocus(){
-    if(!lastFocus) return;
-    const y = lastFocus.y ?? 0;
-    window.scrollTo(0, y);
-    if(lastFocus.id && lastFocus.field){
-      const sel = document.querySelector('[data-id="'+ lastFocus.id +'" ][data-field="'+ lastFocus.field +'"]')
-                 || document.querySelector('[data-id="'+ lastFocus.id +'"][data-field="'+ lastFocus.field +'"]');
-      if(sel){
-        sel.focus({preventScroll:true});
-        if(lastFocus.start !== null && typeof sel.setSelectionRange === "function"){
-          try{ sel.setSelectionRange(lastFocus.start, lastFocus.end ?? lastFocus.start); }catch(e){}
-        }
-      }
-    }
-  }
+function postNoCors(payload){
+  return fetch(API_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {"Content-Type":"text/plain;charset=utf-8"},
+    body: JSON.stringify(payload)
+  });
+}
 
-  function scheduleRender(){
-    if(pendingRender) clearTimeout(pendingRender);
-    captureScrollFocus();
-    pendingRender = setTimeout(()=>{
-      pendingRender = null;
-      render();
-      restoreScrollFocus();
-    }, 120);
-  }
+/* =======================
+   RENDER
+======================= */
+function render(){
+  const grid = document.getElementById("grid");
+  lastScrollY = window.scrollY;
 
+  // sort by nearest due (min of both positive days, expired first)
+  const items = [...DATA].sort((a,b)=>{
+    const da1 = daysRemaining(a.inspection_date);
+    const da2 = daysRemaining(a.sigorta_date);
+    const db1 = daysRemaining(b.inspection_date);
+    const db2 = daysRemaining(b.sigorta_date);
 
-
-
-  function normalizePlate(s){
-    if(!s) return "";
-    return String(s).trim().toUpperCase().replace(/\s+/g," ");
-  }
-
-  function todayMidnight(){
-    const d = new Date(); d.setHours(0,0,0,0); return d;
-  }
-  function parseISODate(s){
-    if(!s) return null;
-    const d = new Date(String(s).slice(0,10) + "T00:00:00");
-    return isNaN(d.getTime()) ? null : d;
-  }
-  function fmtDate(s){
-    if(!s) return "—";
-    const d = parseISODate(s);
-    if(!d) return s;
-    const dd = String(d.getDate()).padStart(2,"0");
-    const mm = String(d.getMonth()+1).padStart(2,"0");
-    const yy = d.getFullYear();
-    return dd + "/" + mm + "/" + yy;
-  }
-  function remainingDays(iso){
-    const d = parseISODate(iso);
-    if(!d) return null;
-    const ms = d.getTime() - todayMidnight().getTime();
-    const days = Math.floor(ms/86400000);
-    return Math.max(days, 0);
-  }
-  function status(days){
-    if(days === null) return {label:"—", cls:"b-safe st-safe", icon:"safe", dot:"var(--ok)"};
-    if(days === 0) return {label:"منتهية", cls:"b-danger st-expired", icon:"expired", dot:"var(--danger2)"};
-    if(days <= 15) return {label:"عاجل", cls:"b-danger st-urgent", icon:"urgent", dot:"var(--danger)"};
-    if(days <= 30) return {label:"تنبيه", cls:"b-danger st-alert", icon:"alert", dot:"var(--danger2)"};
-    if(days <= 60) return {label:"متابعة", cls:"b-warn st-follow", icon:"follow", dot:"var(--warn)"};
-    if(days <= 120) return {label:"المدة آمنة", cls:"b-safe st-safe", icon:"safe", dot:"var(--safe)"};
-    return {label:"مدة طويلة", cls:"b-safe st-long", icon:"long", dot:"var(--safe)"};
-  }
-  function pct(days, maxDays){
-    if(days === null) return 0;
-    return Math.max(0, Math.min(1, days / maxDays)) * 100;
-  }
-  function nextDue(inspDays, insDays){
-    const c=[];
-    if(inspDays !== null) c.push({type:"المعاينة", days:inspDays});
-    if(insDays !== null) c.push({type:"السيكورتا", days:insDays});
-    if(!c.length) return null;
-    c.sort((a,b)=>a.days-b.days);
-    return c[0];
-  }
-  function esc(s){
-    return String(s||"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
-  }
-
-
-  function byId(id){
-    return DATA.find(x=>x.id===id);
-  }
-  function updateField(id, field, value){
-    const row = byId(id);
-    if(!row) return;
-    row[field] = value;
-    saveData(DATA);
-    render(); // re-render to update days/sorting
-  }
-
-
-  function makeCard(r){
-    const id = r.id || uid();
-    r.id = id;
-
-    const plate = normalizePlate(r.plate);
-    const inspDays = remainingDays(r.inspection_expiry);
-    const insDays = remainingDays(r.insurance_expiry);
-    const nd = nextDue(inspDays, insDays);
-    const ndSt = nd ? status(nd.days) : {label:"—", cls:"b-safe", dot:"var(--ok)"};
-    const nextText = nd ? (ndSt.label + " • " + nd.type + ": " + nd.days + " يوم") : "—";
-
-    const inspSt = status(inspDays);
-    const insSt = status(insDays);
-
-    const inspBar = pct(inspDays, 120);
-    const insBar = pct(insDays, 120);
-
-    function secBlock(title, dateIso, days, st, barWidth, field){
-      const dateStr = fmtDate(dateIso);
-      const d = (days === null) ? "—" : String(days);
-      let barColor = "var(--safe)";
-      if(days !== null){
-        barColor = (days<=30) ? "var(--danger)" : (days<=60 ? "var(--warn)" : "var(--safe)");
-      }
-      const datePart = editMode
-        ? ('<input class="inp mono" type="date" value="' + esc((dateIso||"").slice(0,10)) + '" data-id="' + esc(id) + '" data-field="' + field + '">')
-        : ('<span class="dateVal">' + esc(dateStr) + '</span>');
-
-      return (
-        '<div class="sec">' +
-          '<div class="secTitle">' +
-            '<span class="secName">' + title + '</span>' +
-            '<span class="badge ' + st.cls + '"><span class="dot" style="background:' + st.dot + '"></span>' + st.label + '</span>' +
-          '</div>' +
-          '<div class="daysRow"><span class="daysBig">' + esc(d) + '</span><span class="daysLblInline">يوم متبقي</span></div>' +
-          '<div class="dateRow"><span class="small">تاريخ الانتهاء</span>' + datePart + '</div>' +
-          '<div class="bar"><span style="width:' + barWidth + '%; background:' + barColor + ';"></span></div>' +
-        '</div>'
-      );
-    }
-
-    const plateBox = editMode
-      ? (
-        '<div class="plateBox">' +  '<span class="plateTR">TR</span>' +  '<input class="plateInp" value="' + esc(r.plate||"") + '" placeholder="34ABC123" data-id="' + esc(id) + '" data-field="plate">' +'</div>'
-      )
-      : (
-        '<div class="plateBox"><span class="plateTR">TR</span><span class="plateNum">' + esc(plate || "—") + '</span></div>'
-      );
-
-    const metaView = (function(){
-      const phone = r.driver_phone ? ('<a class="mono" href="tel:' + esc(r.driver_phone) + '">' + esc(r.driver_phone) + '</a>') : '—';
-      const meta = [];
-      if(r.vehicle) meta.push(esc(r.vehicle));
-      if(r.branch) meta.push('تبعية: ' + esc(r.branch));
-      meta.push('هاتف: ' + phone);
-      return meta.join(' • ');
-    })();
-
-    const metaEdit = (
-  '<div class="editForm">' +
-    '<div class="field"><label>الاسم / النوع</label><input class="inp" value="' + esc(r.vehicle||"") + '" data-id="' + esc(id) + '" data-field="vehicle"></div>' +
-    '<div class="field"><label>التبعية</label><input class="inp" value="' + esc(r.branch||"") + '" data-id="' + esc(id) + '" data-field="branch"></div>' +
-    '<div class="field"><label>هاتف السائق</label><input class="inp mono" type="tel" value="' + esc(r.driver_phone||"") + '" data-id="' + esc(id) + '" data-field="driver_phone"></div>' +
-  '</div>'
-);
-
-    return (
-      '<div class="card">' +
-        '<div class="cardTop">' +
-          '<div>' +
-            plateBox +
-            '<div class="metaBox"><div class="meta">' + (editMode ? metaEdit : metaView) + '</div></div>' +
-          '</div>' +
-          '<div class="topRight">' +(editMode ? ('<button class="btn danger small" data-del="' + esc(id) + '">حذف</button>') : '') +'<div class="badge ' + ndSt.cls + '">' + ('<span class="ico ' + ndSt.icon + '"></span>') + '<span class="badgeText">' + esc(nextText) + '</span></div>' +'</div>' +
-        '</div>' +
-        '<div class="secWrap">' +
-          secBlock('المعاينة', r.inspection_expiry, inspDays, inspSt, inspBar, "inspection_expiry") +
-          secBlock('السيكورتا', r.insurance_expiry, insDays, insSt, insBar, "insurance_expiry") +
-        '</div>' +
-      '</div>'
-    );
-  }
-
-
-  function render(){
-    const grid = document.getElementById("grid");
-    const empty = document.getElementById("empty");
-    if(!Array.isArray(DATA) || !DATA.length){
-      empty.style.display="block";
-      grid.innerHTML="";
-      return;
-    }
-    empty.style.display="none";
-    // sort by next due (soonest)
-    const list = DATA.slice().sort((a,b)=>{
-      const aIn = remainingDays(a.inspection_expiry);
-      const aIs = remainingDays(a.insurance_expiry);
-      const bIn = remainingDays(b.inspection_expiry);
-      const bIs = remainingDays(b.insurance_expiry);
-      const aN = nextDue(aIn, aIs);
-      const bN = nextDue(bIn, bIs);
-      const ad = aN ? aN.days : 999999;
-      const bd = bN ? bN.days : 999999;
-      if(ad !== bd) return ad - bd;
-      return normalizePlate(a.plate).localeCompare(normalizePlate(b.plate));
-    });
-    grid.innerHTML = list.map(makeCard).join("");
-
-    // bind edit inputs
-    if(editMode){
-      grid.querySelectorAll("[data-id][data-field]").forEach(inp=>{
-        inp.addEventListener("input", (e)=>{
-          const id = e.target.getAttribute("data-id");
-          const field = e.target.getAttribute("data-field");
-          updateField(id, field, e.target.value);
-        });
-      });
-    }
-
-    // bind delete buttons
-    if(editMode){
-      grid.querySelectorAll("[data-del]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const id = btn.getAttribute("data-del");
-          if(!confirm("حذف هذه السيارة؟")) return;
-          DATA = DATA.filter(x=>String(x.id)!==String(id));
-          saveData(DATA);
-          render();
-        });
-      });
-    }
-
-    document.getElementById("stamp").textContent = "آخر تحديث: " + new Date().toLocaleString();
-  }
-
-
-  const btnEdit = document.getElementById("btnEdit");
-  const btnAdd = document.getElementById("btnAdd");
-  const btnReset = document.getElementById("btnReset");
-
-  function setEditMode(on){
-    editMode = on;
-    document.body.classList.toggle('edit-on', editMode);
-    btnEdit.textContent = editMode ? "قفل التعديل" : "فتح التعديل";
-    btnReset.style.display = editMode ? "inline-block" : "none";
-    btnAdd.style.display = editMode ? "inline-block" : "none";
-    render();
-  }
-
-  btnEdit.addEventListener("click", ()=>{
-    if(editMode){ setEditMode(false); return; }
-    const pw = prompt("أدخل كلمة مرور التعديل:");
-    if(pw === null) return;
-    if(pw === EDIT_PASSWORD) setEditMode(true);
-    else alert("كلمة المرور غير صحيحة.");
+    const minA = minDue(da1, da2);
+    const minB = minDue(db1, db2);
+    return minA - minB;
   });
 
-  btnAdd.addEventListener("click", ()=>{
-    // add new car card at top
-    const newRow = {id: uid(), plate:"", vehicle:"", driver_phone:"", branch:"", inspection_expiry:"", insurance_expiry:""};
-    DATA.unshift(newRow);
-    saveData(DATA);
-    render();
-    // scroll to top so it’s immediately visible
-    // keep current scroll position while adding
+  grid.innerHTML = items.map(cardHtml).join("");
 
-  });
+  // restore scroll after render
+  requestAnimationFrame(()=> window.scrollTo({ top: lastScrollY }));
+}
 
-  btnReset.addEventListener("click", ()=>{
-    if(!confirm("سيتم إعادة البيانات إلى نسخة الإكسل الأصلية. هل أنت متأكد؟")) return;
-    localStorage.removeItem(STORE_KEY);
-    DATA = (EMBEDDED_DATA || []).map(r=>({
-      id: r.id || uid(),
-      plate: r.plate || "",
-      vehicle: r.vehicle || "",
-      driver_phone: r.driver_phone || "",
-      branch: r.branch || "",
-      inspection_expiry: (r.inspection_expiry || "").slice(0,10),
-      insurance_expiry: (r.insurance_expiry || "").slice(0,10),
-    }));
-    saveData(DATA);
-    setEditMode(false);
-  });
+function minDue(d1, d2){
+  const arr = [d1, d2].filter(v => v !== null);
+  if(arr.length === 0) return 999999;
+  // expired should come first
+  const hasExpired = arr.some(v => v < 0);
+  if(hasExpired) return -999999;
+  return Math.min(...arr);
+}
 
+function cardHtml(car){
+  const di = daysRemaining(car.inspection_date);
+  const ds = daysRemaining(car.sigorta_date);
 
-  if(document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", render);
-  } else {
+  const si = statusForDays(di);
+  const ss = statusForDays(ds);
+
+  // overall status: based on nearest
+  let overall = si;
+  if(ds !== null){
+    if(di === null) overall = ss;
+    else{
+      const min = minDue(di, ds);
+      overall = (min === di) ? si : ss;
+    }
+  }
+
+  const overallText = (overall.label === "—")
+    ? "—"
+    : `${overall.icon} ${overall.label} • ${Math.max((minDue(di,ds) < 0 ? 0 : minDue(di,ds)), 0)} يوم`;
+
+  const deleteBtn = EDIT_MODE
+    ? `<button class="btn danger" type="button" onclick="askDelete('${escapeHtml(car.id)}')">حذف</button>`
+    : "";
+
+  const editBtn = EDIT_MODE
+    ? `<button class="btn primary" type="button" onclick="openEdit('${escapeHtml(car.id)}')">تعديل</button>`
+    : "";
+
+  const plateTxt = escapeHtml(String(car.plate || "").trim() || "—");
+
+  return `
+  <div class="card" id="car-${escapeHtml(car.id)}">
+    <div class="card-inner">
+      <div class="card-head">
+        <div class="badge ${overall.cls}">
+          <span class="dot"></span>
+          <span>${escapeHtml(overallText)}</span>
+        </div>
+
+        <div class="plate" title="لوحة تركيا">
+          <div class="band">
+            <div class="stars">★ ★ ★</div>
+            <div class="tr">TR</div>
+          </div>
+          <div class="num">${plateTxt}</div>
+        </div>
+      </div>
+
+      <div class="info">
+        <div class="row"><span>الاسم / النوع</span><b>${escapeHtml(car.vehicle || "—")}</b></div>
+        <div class="row"><span>السائق</span><b>${escapeHtml(car.driver || "—")}</b></div>
+        <div class="row"><span>هاتف السائق</span><b>${escapeHtml(car.driver_phone || "—")}</b></div>
+        <div class="row"><span>التبعية</span><b>${escapeHtml(car.branch || "—")}</b></div>
+      </div>
+
+      <div class="blocks">
+        ${blockHtml("المعاينة", car.inspection_date, di, si)}
+        ${blockHtml("السيكورتا", car.sigorta_date, ds, ss)}
+      </div>
+
+      ${EDIT_MODE ? `<div class="card-actions">${editBtn}${deleteBtn}</div>` : ``}
+    </div>
+  </div>
+  `;
+}
+
+function blockHtml(title, dateStr, days, st){
+  const dShown = (days === null) ? "—" : (days < 0 ? 0 : days);
+  const dateShown = escapeHtml(String(dateStr || "—"));
+  const w = barWidth(days);
+  return `
+    <div class="block">
+      <h3>${escapeHtml(title)}</h3>
+      <div class="remain">
+        <span class="num">${escapeHtml(String(dShown))}</span>
+        <span class="txt">يوم متبقي</span>
+      </div>
+      <div class="dateLine"><span>تاريخ الانتهاء</span><b>${dateShown}</b></div>
+      <div class="bar ${st.cls}"><span style="width:${w}%"></span></div>
+    </div>
+  `;
+}
+
+function escapeHtml(s){
+  return String(s)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+/* =======================
+   EDIT MODE
+======================= */
+const pwModal = document.getElementById("pwModal");
+const editModal = document.getElementById("editModal");
+const btnEdit = document.getElementById("btnEdit");
+const btnRefresh = document.getElementById("btnRefresh");
+
+btnRefresh.addEventListener("click", ()=> { syncFromSheet(); toast("تم التحديث"); });
+
+btnEdit.addEventListener("click", ()=>{
+  if(!EDIT_MODE){
+    openPw();
+  }else{
+    // lock
+    EDIT_MODE = false;
+    EDIT_PASS = "";
+    btnEdit.textContent = "فتح التعديل";
+    toast("تم قفل التعديل");
     render();
   }
+});
+
+function openPw(){
+  pwModal.classList.add("show");
+  pwModal.setAttribute("aria-hidden","false");
+  document.getElementById("pwInput").value = "";
+  document.getElementById("pwInput").focus();
+}
+function closePw(){
+  pwModal.classList.remove("show");
+  pwModal.setAttribute("aria-hidden","true");
+}
+function confirmPw(){
+  const v = document.getElementById("pwInput").value.trim();
+  if(!v){ toast("أدخل كلمة المرور"); return; }
+  EDIT_PASS = v;
+  EDIT_MODE = true;
+  btnEdit.textContent = "قفل التعديل";
+  closePw();
+  toast("تم فتح التعديل");
+  render();
+}
+
+/* =======================
+   ADD / EDIT / DELETE
+======================= */
+function openEdit(id){
+  const car = DATA.find(x => x.id === String(id));
+  if(!car){ toast("لم يتم العثور على السيارة"); return; }
+  modalOpen = true;
+  EDITING_ID = String(id);
+
+  document.getElementById("editTitle").textContent = "تعديل سيارة";
+  document.getElementById("btnDeleteInModal").style.display = "inline-flex";
+
+  fillForm(car);
+  editModal.classList.add("show");
+  editModal.setAttribute("aria-hidden","false");
+}
+
+function openAdd(){
+  modalOpen = true;
+  EDITING_ID = null;
+
+  document.getElementById("editTitle").textContent = "إضافة سيارة";
+  document.getElementById("btnDeleteInModal").style.display = "none";
+
+  const nextId = String(getNextId());
+  fillForm({
+    id: nextId, plate:"", vehicle:"", driver:"", driver_phone:"", branch:"",
+    inspection_date:"", sigorta_date:""
+  });
+
+  editModal.classList.add("show");
+  editModal.setAttribute("aria-hidden","false");
+}
+
+function closeEdit(){
+  editModal.classList.remove("show");
+  editModal.setAttribute("aria-hidden","true");
+  modalOpen = false;
+  EDITING_ID = null;
+}
+
+function fillForm(car){
+  document.getElementById("f_id").value = car.id || "";
+  document.getElementById("f_plate").value = car.plate || "";
+  document.getElementById("f_vehicle").value = car.vehicle || "";
+  document.getElementById("f_driver").value = car.driver || "";
+  document.getElementById("f_driver_phone").value = car.driver_phone || "";
+  document.getElementById("f_branch").value = car.branch || "";
+  document.getElementById("f_inspection").value = car.inspection_date || "";
+  document.getElementById("f_sigorta").value = car.sigorta_date || "";
+}
+
+function normalizeDDMMYYYY(s){
+  const str = String(s||"").trim();
+  if(!str) return "";
+  // accept dd-mm-yyyy only
+  if(!/^\d{1,2}-\d{1,2}-\d{4}$/.test(str)) return null;
+  const [d,m,y] = str.split("-").map(Number);
+  if(d<1||d>31||m<1||m>12||y<1900||y>2100) return null;
+  return `${pad2(d)}-${pad2(m)}-${y}`;
+}
+
+function saveEdit(){
+  if(!EDIT_MODE || !EDIT_PASS){ toast("افتح التعديل أولاً"); return; }
+
+  const row = {
+    id: String(document.getElementById("f_id").value || "").trim(),
+    plate: String(document.getElementById("f_plate").value || "").trim(),
+    vehicle: String(document.getElementById("f_vehicle").value || "").trim(),
+    driver: String(document.getElementById("f_driver").value || "").trim(),
+    driver_phone: String(document.getElementById("f_driver_phone").value || "").trim(),
+    branch: String(document.getElementById("f_branch").value || "").trim(),
+    inspection_date: String(document.getElementById("f_inspection").value || "").trim(),
+    sigorta_date: String(document.getElementById("f_sigorta").value || "").trim()
+  };
+
+  if(!row.id){ toast("id مطلوب"); return; }
+
+  // normalize dates
+  if(row.inspection_date){
+    const v = normalizeDDMMYYYY(row.inspection_date);
+    if(!v){ toast("تاريخ المعاينة غير صحيح (DD-MM-YYYY)"); return; }
+    row.inspection_date = v;
+  }
+  if(row.sigorta_date){
+    const v = normalizeDDMMYYYY(row.sigorta_date);
+    if(!v){ toast("تاريخ السيكورتا غير صحيح (DD-MM-YYYY)"); return; }
+    row.sigorta_date = v;
+  }
+
+  postNoCors({ action:"upsert", pass: EDIT_PASS, row })
+    .then(()=>{
+      toast("تم الحفظ");
+      closeEdit();
+      setTimeout(syncFromSheet, 900);
+    })
+    .catch(()=> toast("تعذر الحفظ"));
+}
+
+function askDelete(id){
+  if(!EDIT_MODE || !EDIT_PASS){ toast("افتح التعديل أولاً"); return; }
+  if(confirm("تأكيد حذف السيارة؟")){
+    postNoCors({ action:"delete", pass: EDIT_PASS, id })
+      .then(()=>{ toast("تم الحذف"); setTimeout(syncFromSheet, 900); })
+      .catch(()=> toast("تعذر الحذف"));
+  }
+}
+
+function deleteFromModal(){
+  if(!EDITING_ID) return;
+  askDelete(EDITING_ID);
+  closeEdit();
+}
+
+function getNextId(){
+  const ids = DATA.map(x => parseInt(x.id,10)).filter(n => Number.isFinite(n));
+  const max = ids.length ? Math.max(...ids) : 0;
+  return max + 1;
+}
+
+/* Add button (appears only in edit mode) */
+(function injectAddBtn(){
+  const actions = document.querySelector(".actions");
+  const addBtn = document.createElement("button");
+  addBtn.className = "btn primary";
+  addBtn.type = "button";
+  addBtn.id = "btnAdd";
+  addBtn.textContent = "إضافة سيارة";
+  addBtn.style.display = "none";
+  addBtn.addEventListener("click", ()=> openAdd());
+  actions.insertBefore(addBtn, btnEdit);
+
+  // toggle visibility when edit mode changes
+  const obs = new MutationObserver(()=>{
+    addBtn.style.display = EDIT_MODE ? "inline-flex" : "none";
+  });
+  obs.observe(btnEdit, { childList:true, subtree:true });
 })();
+
+/* =======================
+   INIT
+======================= */
+syncFromSheet();
+setInterval(syncFromSheet, POLL_MS);
+
 </script>
 </body>
 </html>
