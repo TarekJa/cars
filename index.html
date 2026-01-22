@@ -42,10 +42,10 @@
     }
     .wrap{max-width:1250px; margin:18px auto; padding:0 14px}
     header{
-      display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+      display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
       padding:14px 14px;
-      border:1px solid rgba(255,255,255,.22); outline:1px solid rgba(0,0,0,.35);
-      border-radius:20px;
+      border:1px solid rgba(255,255,255,.16);
+      border-radius:18px;
       background: linear-gradient(135deg,
         rgba(255,255,255,.11),
         color-mix(in srgb, var(--brand-teal) 14%, rgba(255,255,255,.06)),
@@ -61,32 +61,53 @@
       border:1px solid rgba(255,255,255,.14); padding:6px;
     }
     h1{margin:0; font-size:20px}
-    .sub{margin-top:4px; color:var(--muted); font-size:12px}
     .stamp{font-family:var(--mono); color:var(--muted); font-size:12px}
+
+    .hdrControls{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+    .btn{
+      appearance:none; border:1px solid var(--line); background:rgba(255,255,255,.06); color:var(--text);
+      padding:9px 12px; border-radius:12px; font-weight:900; cursor:pointer; font-size:13px;
+    }
+    .btn:hover{background:rgba(255,255,255,.10)}
+    .btn.primary{
+      border-color: color-mix(in srgb, var(--brand-teal) 60%, rgba(255,255,255,.16));
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--brand-teal) 30%, rgba(255,255,255,.06)),
+        color-mix(in srgb, var(--brand-gold) 18%, rgba(255,255,255,.05))
+      );
+    }
+    .btn.danger{border-color:rgba(239,68,68,.45); background:rgba(239,68,68,.14)}
+    .btn.small{padding:7px 10px; border-radius:10px; font-size:12px}
+    .btn.ghost{background:rgba(255,255,255,.05)}
+
     .grid{
       margin-top:14px;
       display:grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap:12px;
+      gap:14px;
     }
     @media (max-width:980px){ .grid{grid-template-columns: repeat(2, minmax(0, 1fr));} }
-    @media (max-width:620px){ .grid{grid-template-columns: 1fr;} h1{font-size:18px} .logo{width:46px;height:46px} .daysBig{font-size:24px} }
-
-    @media (max-width:620px){
-      .plateBox{min-width: 0; width: 100%;}
-      .cardTop{flex-direction:column; align-items:stretch}
-      .cardTop > div:last-child{justify-content:flex-start}
+    @media (max-width:620px){ .grid{grid-template-columns: 1fr;} h1{font-size:18px} .logo{width:46px;height:46px} .daysBig{font-size:24px}
+      .badge{font-size:11px; padding:8px 10px}
+      .cardTop{gap:10px}
     }
-
 
     .card{
-      border:1px solid var(--line);
-      border-radius:16px;
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.22); outline:1px solid rgba(0,0,0,.35);
+      border-radius:20px;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      box-shadow: 0 16px 46px rgba(0,0,0,.48);
       overflow:hidden;
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.24);
+      box-shadow: 0 18px 44px rgba(0,0,0,.42);
     }
     .cardTop{padding:16px; display:flex; align-items:flex-start; justify-content:space-between; gap:14px; border-bottom:1px solid rgba(255,255,255,.12)}
+    .topRight{display:flex; align-items:center; gap:10px; justify-content:flex-start; flex-wrap:wrap; width:100%}
+
     .plateBox{
       display:inline-flex; align-items:center; gap:0;
       height:44px;
@@ -117,21 +138,33 @@
       color:#111827;
       white-space:nowrap;
     }
-    .meta{color:var(--muted); font-size:12px; margin-top:8px}
+
     .badge{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:6px 10px; border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
       border:1px solid rgba(255,255,255,.16);
       background:rgba(0,0,0,.18);
-      font-weight:900; font-size:12px;
-      white-space:nowrap;
+      font-weight:900;
+      font-size:12px;
+      line-height:1.25;
+      max-width:100%;
+      white-space:normal;      /* allow wrapping on small screens */
+      flex-wrap:wrap;
+    }
+    .badgeText{
+      display:block;
+      min-width:0;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
     .dot{width:10px;height:10px;border-radius:999px; box-shadow:0 0 0 2px rgba(255,255,255,.08) inset;}
     .b-danger{border-color:rgba(239,68,68,.35)}
     .b-warn{border-color:rgba(249,115,22,.35)}
     .b-safe{border-color:rgba(34,197,94,.35)}
 
-    
     .metaBox{
       margin-top:10px;
       padding:10px 12px;
@@ -142,7 +175,14 @@
     .meta{color:var(--muted); font-size:12px; margin-top:0}
 
     .secWrap{padding:14px; display:grid; grid-template-columns:1fr 1fr; gap:12px}
-    @media (max-width:620px){ .secWrap{grid-template-columns:1fr} }
+    @media (max-width:620px){
+      .secWrap{grid-template-columns:1fr}
+      .plateBox{min-width: 0; width: 100%;}
+      .cardTop{flex-direction:column; align-items:stretch}
+      .topRight{justify-content:flex-start}
+      .badge{width:100%}
+      .cardTop > div:last-child{justify-content:flex-start}
+    }
 
     .sec{
       border:1px solid rgba(255,255,255,.14);
@@ -156,33 +196,12 @@
     .daysLbl{font-size:12px; color:var(--muted); margin-top:4px}
     .dateRow{margin-top:10px; display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:12px}
     .dateVal{font-family:var(--mono)}
-    .bar{margin-top:10px; height:12px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); overflow:hidden}
+    .bar{margin-top:10px; height:12px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); overflow:hidden}
     .bar > span{display:block; height:100%; width:0%; background:rgba(34,197,94,.70)}
-
-    .empty{margin-top:18px; text-align:center; color:var(--muted); border:1px dashed rgba(255,255,255,.18); border-radius:14px; padding:18px}
-    a{color:inherit}
-  
-    .hdrControls{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
-    .btn{
-      appearance:none; border:1px solid var(--line); background:rgba(255,255,255,.06); color:var(--text);
-      padding:9px 12px; border-radius:12px; font-weight:900; cursor:pointer; font-size:13px;
-    }
-    .btn:hover{background:rgba(255,255,255,.10)}
-    .btn.primary{
-      border-color: color-mix(in srgb, var(--brand-teal) 60%, rgba(255,255,255,.16));
-      background: linear-gradient(135deg,
-        color-mix(in srgb, var(--brand-teal) 30%, rgba(255,255,255,.06)),
-        color-mix(in srgb, var(--brand-gold) 18%, rgba(255,255,255,.05))
-      );
-    }
-    .btn.danger{border-color:rgba(239,68,68,.45); background:rgba(239,68,68,.14)}
-
-    .btn.small{padding:7px 10px; border-radius:10px; font-size:12px}
-    .btn.ghost{background:rgba(255,255,255,.05)}
 
     .editGrid{margin-top:10px; display:grid; grid-template-columns: 1fr 1fr; gap:10px}
     @media (max-width:620px){ .editGrid{grid-template-columns:1fr} }
-    .field{border:1px solid rgba(255,255,255,.14); border-radius:12px; padding:10px; background:rgba(0,0,0,.12)}
+    .field{border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px; background:rgba(0,0,0,.12)}
     .field label{display:block; font-size:11px; color:var(--muted); margin-bottom:6px}
     .inp{
       width:100%; padding:9px 10px; border-radius:10px; outline:none;
@@ -193,6 +212,8 @@
     }
     .inp.mono{font-family:var(--mono)}
 
+    .empty{margin-top:18px; text-align:center; color:var(--muted); border:1px dashed rgba(255,255,255,.18); border-radius:14px; padding:18px}
+    a{color:inherit}
   </style>
 
   <!-- Icons / PWA -->
@@ -207,7 +228,6 @@
   <meta name="theme-color" content="#29443b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
 </head>
 <body>
   <div class="wrap">
@@ -216,10 +236,13 @@
         <img class="logo" src="./Logo-Ajami Food.png" alt="Logo" onerror="this.style.display='none'">
         <div>
           <h1>Al Ajamy Food – Cars Tracker</h1>
-          
         </div>
       </div>
-      <div class="hdrControls"><button class="btn primary" id="btnEdit">فتح التعديل</button><button class="btn" id="btnAdd" style="display:none">إضافة سيارة</button><button class="btn danger" id="btnReset" style="display:none">إعادة ضبط</button><div class="stamp" id="stamp">آخر تحديث: —</div></div>
+      <div class="hdrControls">
+        <button class="btn primary" id="btnEdit">فتح التعديل</button><button class="btn" id="btnAdd" style="display:none">إضافة سيارة</button>
+        <button class="btn danger" id="btnReset" style="display:none">إعادة ضبط</button>
+        <div class="stamp" id="stamp">آخر تحديث: —</div>
+      </div>
     </header>
 
     <div class="grid" id="grid"></div>
@@ -228,7 +251,7 @@
 
 <script>
 (function(){
-  const EMBEDDED_DATA = [{"plate": "27AUR170", "vehicle": "أبو أسامة", "driver_phone": "5537939067", "branch": "عنتاب", "inspection_expiry": "2026-04-02", "insurance_expiry": "2026-11-13"}, {"plate": "16 AVN 044", "vehicle": "سيارة المتسوبيشي", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2026-10-08", "insurance_expiry": "2026-07-17"}, {"plate": "27AZR559", "vehicle": "سيارة فراس", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2027-01-02", "insurance_expiry": "2026-09-20"}, {"plate": "27AJG093", "vehicle": "سيارة يامن", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2027-03-12", "insurance_expiry": "2026-03-07"}, {"plate": "06PSH64", "vehicle": "سيارة حسين", "driver_phone": "5397306678", "branch": "عنتاب", "inspection_expiry": "2026-03-11", "insurance_expiry": "2026-11-13"}, {"plate": "34TP0348", "vehicle": "سيارة ابو حسين", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2026-03-04", "insurance_expiry": "2026-07-08"}, {"plate": "16 DAY 98", "vehicle": "سيارة بورصة - جميل", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-09-07", "insurance_expiry": "2026-03-01"}, {"plate": "33 AFM 965", "vehicle": "كوستوم", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-09-25", "insurance_expiry": "2026-08-17"}, {"plate": "16 ANT 407", "vehicle": "سيارة الترانسوت - طلبات", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-04-08", "insurance_expiry": "2026-08-18"}, {"plate": "34KRD877", "vehicle": "عبد القادر", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-09-28", "insurance_expiry": "2026-06-24"}, {"plate": "06CKE628", "vehicle": "", "driver_phone": "", "branch": "عينتاب", "inspection_expiry": "2026-05-15", "insurance_expiry": "2026-02-17"}, {"plate": "54ABS248", "vehicle": "", "driver_phone": "", "branch": "عينتاب", "inspection_expiry": "2026-03-26", "insurance_expiry": "2026-01-30"}, {"plate": "27TC0021", "vehicle": "نذير عجمي", "driver_phone": "", "branch": "عينتاب", "inspection_expiry": "2027-09-18", "insurance_expiry": "2026-09-19"}];
+  const EMBEDDED_DATA = [{"plate":"34TP0348","vehicle":"سيارة أبو حسين","driver_phone":"","branch":"تبعية: عتاب","inspection_expiry":"2026-03-04","insurance_expiry":"2026-07-08"},{"plate":"27AJG093","vehicle":"سيارة يامن","driver_phone":"","branch":"تبعية: عتاب","inspection_expiry":"2026-03-01","insurance_expiry":"2026-03-04"},{"plate":"34ASG316","vehicle":"سيارة","driver_phone":"","branch":"","inspection_expiry":"2026-03-04","insurance_expiry":"2026-03-01"},{"plate":"34FBN500","vehicle":"سيارة","driver_phone":"","branch":"","inspection_expiry":"2026-03-04","insurance_expiry":"2026-03-01"},{"plate":"27ALG418","vehicle":"سيارة","driver_phone":"","branch":"","inspection_expiry":"2026-03-04","insurance_expiry":"2026-07-08"},{"plate":"27AJJ532","vehicle":"سيارة","driver_phone":"","branch":"","inspection_expiry":"2026-03-04","insurance_expiry":"2026-07-08"},{"plate":"27AFT906","vehicle":"سيارة","driver_phone":"","branch":"","inspection_expiry":"2026-03-04","insurance_expiry":"2026-03-01"},{"plate":"27AFT905","vehicle":"سيارة","driver_phone":"","branch":"","inspection_expiry":"2026-03-04","insurance_expiry":"2026-03-01"}];
   const STORE_KEY = "alajamy_cars_tracker_cards_v1";
   const EDIT_PASSWORD = "ChangeMe123!";
 
@@ -244,7 +267,6 @@
         if(Array.isArray(parsed) && parsed.length) return parsed;
       }
     }catch(e){}
-    // fallback to embedded
     return (EMBEDDED_DATA || []).map(r=>({
       id: r.id || uid(),
       plate: r.plate || "",
@@ -262,8 +284,6 @@
 
   let editMode = false;
   let DATA = loadData();
-
-
 
   function normalizePlate(s){
     if(!s) return "";
@@ -319,7 +339,6 @@
     return String(s||"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
   }
 
-
   function byId(id){
     return DATA.find(x=>x.id===id);
   }
@@ -328,9 +347,8 @@
     if(!row) return;
     row[field] = value;
     saveData(DATA);
-    render(); // re-render to update days/sorting
+    render();
   }
-
 
   function makeCard(r){
     const id = r.id || uid();
@@ -364,7 +382,7 @@
         '<div class="sec">' +
           '<div class="secTitle">' +
             '<span class="secName">' + title + '</span>' +
-            '<span class="badge ' + st.cls + '"><span class="dot" style="background:' + st.dot + '"></span>' + st.label + '</span>' +
+            '<span class="badge ' + st.cls + '"><span class="dot" style="background:' + st.dot + '"></span><span class="badgeText">' + st.label + '</span></span>' +
           '</div>' +
           '<div class="daysBig">' + esc(d) + '</div>' +
           '<div class="daysLbl">يوم متبقي</div>' +
@@ -409,7 +427,10 @@
             plateBox +
             '<div class="metaBox"><div class="meta">' + (editMode ? metaEdit : metaView) + '</div></div>' +
           '</div>' +
-          '<div style="display:flex; align-items:center; gap:10px; justify-content:flex-end; direction:ltr">' +(editMode ? ('<button class="btn danger small" data-del="' + esc(id) + '">حذف</button>') : '') +'<div class="badge ' + ndSt.cls + '"><span class="dot" style="background:' + ndSt.dot + '"></span>' + esc(nextText) + '</div>' +'</div>' +
+          '<div class="topRight">' +
+            (editMode ? ('<button class="btn danger small" data-del="' + esc(id) + '">حذف</button>') : '') +
+            '<div class="badge ' + ndSt.cls + '"><span class="dot" style="background:' + ndSt.dot + '"></span><span class="badgeText">' + esc(nextText) + '</span></div>' +
+          '</div>' +
         '</div>' +
         '<div class="secWrap">' +
           secBlock('المعاينة', r.inspection_expiry, inspDays, inspSt, inspBar, "inspection_expiry") +
@@ -418,7 +439,6 @@
       '</div>'
     );
   }
-
 
   function render(){
     const grid = document.getElementById("grid");
@@ -429,7 +449,7 @@
       return;
     }
     empty.style.display="none";
-    // sort by next due (soonest)
+
     const list = DATA.slice().sort((a,b)=>{
       const aIn = remainingDays(a.inspection_expiry);
       const aIs = remainingDays(a.insurance_expiry);
@@ -442,6 +462,7 @@
       if(ad !== bd) return ad - bd;
       return normalizePlate(a.plate).localeCompare(normalizePlate(b.plate));
     });
+
     grid.innerHTML = list.map(makeCard).join("");
 
     // bind edit inputs
@@ -471,7 +492,6 @@
     document.getElementById("stamp").textContent = "آخر تحديث: " + new Date().toLocaleString();
   }
 
-
   const btnEdit = document.getElementById("btnEdit");
   const btnAdd = document.getElementById("btnAdd");
   const btnReset = document.getElementById("btnReset");
@@ -493,12 +513,10 @@
   });
 
   btnAdd.addEventListener("click", ()=>{
-    // add new car card at top
     const newRow = {id: uid(), plate:"", vehicle:"", driver_phone:"", branch:"", inspection_expiry:"", insurance_expiry:""};
     DATA.unshift(newRow);
     saveData(DATA);
     render();
-    // scroll to top so it’s immediately visible
     window.scrollTo({top:0, behavior:"smooth"});
   });
 
@@ -517,7 +535,6 @@
     saveData(DATA);
     setEditMode(false);
   });
-
 
   if(document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", render);
