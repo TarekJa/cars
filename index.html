@@ -2,1043 +2,1017 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#1f3b35" />
-  <meta name="description" content="متابعة تواريخ المعاينة والسيكورتا لكل سيارة" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f1d1a" />
+  <meta name="description" content="Al Ajamy Food – Cars Tracker" />
 
-  <!-- Icons in root -->
-  <link rel="icon" href="/favicon.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="manifest" href="/site.webmanifest">
+  <!-- Favicons / PWA (ضع الملفات كلها في نفس الجذر) -->
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
 
   <title>Al Ajamy Food – Cars Tracker</title>
 
   <style>
     :root{
-      /* Brand-ish palette (green/teal like logo) */
-      --bg: #151a1c;
-      --bg2:#111416;
-      --card:#1b2224;
-      --card2:#171d1f;
-      --line:#3b4448;        /* darker gray */
-      --line2:#4a555a;       /* slightly brighter for separation */
-      --txt:#eaf2f1;
-      --muted:#b6c3c1;
-      --teal:#4f9d8b;
-      --teal2:#2f6f61;
-      --gold:#f0b354;
-      --shadow: 0 10px 30px rgba(0,0,0,.45);
-      --radius: 20px;
-      --radius2: 14px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans Arabic", "Noto Naskh Arabic", sans-serif;
+      /* Brand-ish palette قريب من اللوغو (أخضر/تيال + لمسة برتقالي) */
+      --bg: #101415;
+      --bg2:#0b0f10;
+      --panel:#12191a;
+      --panel2:#0f1415;
+      --card:#121a1c;
+      --card2:#0e1415;
+
+      --text:#eaf2f2;
+      --muted:#a9b6b6;
+
+      --accent:#4ea58f;      /* teal */
+      --accent2:#2a7b69;     /* darker teal */
+      --orange:#f48a22;      /* logo orange touch */
+      --red:#ff3b4e;
+      --yellow:#ffcc00;
+      --green:#2dd36f;
+
+      --border: rgba(255,255,255,.18);
+      --borderStrong: rgba(255,255,255,.26);
+
+      --shadow: 0 18px 45px rgba(0,0,0,.45);
+      --radius: 22px;
+      --radius2: 16px;
+
+      --fs-1: clamp(14px, 1.6vw, 16px);
+      --fs-2: clamp(16px, 2.2vw, 18px);
+      --fs-3: clamp(20px, 2.8vw, 24px);
+      --fs-big: clamp(30px, 4.2vw, 44px);
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
     body{
       margin:0;
-      font-family:var(--sans);
-      color:var(--txt);
+      color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Kufi Arabic", "Noto Sans Arabic", sans-serif;
       background:
-        radial-gradient(900px 500px at 10% 0%, rgba(79,157,139,.22), transparent 60%),
-        radial-gradient(900px 500px at 90% 0%, rgba(240,179,84,.16), transparent 60%),
-        linear-gradient(180deg, var(--bg), var(--bg2));
+        radial-gradient(1200px 700px at 80% 0%, rgba(78,165,143,.20), transparent 60%),
+        radial-gradient(900px 500px at 10% 10%, rgba(244,138,34,.16), transparent 55%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      overflow-x:hidden;
     }
 
     .wrap{
-      max-width: 1200px;
+      max-width: 1250px;
       margin: 0 auto;
-      padding: 18px 14px 40px;
+      padding: 18px 14px 36px;
+    }
+
+    /* خلفية رمادي غامق لتوضيح الفواصل */
+    .sectionBg{
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      padding: 14px;
     }
 
     /* Header */
     .topbar{
       display:flex;
-      align-items:center;
       gap:12px;
-      padding: 14px 14px;
-      background: linear-gradient(90deg, rgba(79,157,139,.20), rgba(240,179,84,.12));
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 24px;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
       position: sticky;
       top: 10px;
-      z-index: 50;
+      z-index: 20;
       backdrop-filter: blur(10px);
     }
+
     .brand{
       display:flex;
       align-items:center;
-      gap:10px;
-      min-width: 0;
-      flex:1;
+      gap:12px;
+      min-width: 240px;
     }
-    .logo{
-      width: 44px; height: 44px;
-      border-radius: 14px;
+    .brandLogo{
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
       overflow:hidden;
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.15);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.2);
       flex: 0 0 auto;
-      display:flex; align-items:center; justify-content:center;
+      display:grid;
+      place-items:center;
     }
-    .logo img{
-      width:100%; height:100%; object-fit:cover; display:block;
+    .brandLogo img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
-    .brand h1{
-      margin:0;
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing:.2px;
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
+    .brandTitle{
+      display:flex;
+      flex-direction:column;
+      line-height:1.15;
     }
-    .sub{
-      font-size: 12px;
+    .brandTitle b{
+      font-size: var(--fs-3);
+      letter-spacing: .2px;
+    }
+    .brandTitle span{
       color: var(--muted);
+      font-size: var(--fs-1);
       margin-top: 2px;
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
     }
 
     .actions{
       display:flex;
       gap:10px;
       align-items:center;
-      flex:0 0 auto;
-    }
-    .btn{
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.18);
-      color: var(--txt);
-      padding: 10px 12px;
-      border-radius: 14px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 13px;
-      transition: .15s ease;
-      user-select:none;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-    .btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); }
-    .btn.primary{
-      background: rgba(79,157,139,.18);
-      border-color: rgba(79,157,139,.38);
-    }
-    .btn.danger{
-      background: rgba(255,60,60,.12);
-      border-color: rgba(255,60,60,.30);
+      flex-wrap:wrap;
     }
 
-    .pill{
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.15);
-      font-size: 12px;
+    .btn{
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.25);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 16px;
+      cursor:pointer;
+      font-weight:700;
+      font-size: var(--fs-1);
+      transition: transform .08s ease, border-color .12s ease, background .12s ease;
+      user-select:none;
+    }
+    .btn:hover{
+      border-color: rgba(255,255,255,.28);
+      background: rgba(255,255,255,.06);
+      transform: translateY(-1px);
+    }
+    .btn.primary{
+      border-color: rgba(78,165,143,.35);
+      background: rgba(78,165,143,.18);
+    }
+    .btn.warn{
+      border-color: rgba(244,138,34,.35);
+      background: rgba(244,138,34,.12);
+    }
+    .btn.danger{
+      border-color: rgba(255,59,78,.35);
+      background: rgba(255,59,78,.10);
+    }
+
+    .statusLine{
+      font-size: var(--fs-1);
       color: var(--muted);
-      white-space: nowrap;
+      white-space:nowrap;
     }
 
     /* Grid */
     .grid{
-      margin-top: 16px;
+      margin-top: 14px;
       display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 14px;
     }
-    @media (max-width: 980px){
-      .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (max-width: 1100px){
+      .grid{ grid-template-columns: repeat(2, 1fr); }
+      .brand{ min-width: 200px; }
     }
-    @media (max-width: 640px){
+    @media (max-width: 720px){
       .grid{ grid-template-columns: 1fr; }
       .topbar{ position: static; }
+      .brandLogo{ width: 50px; height: 50px; border-radius: 14px; }
     }
 
-    /* Card */
+    /* Vehicle card */
     .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.08));
-      border: 2px solid var(--line2); /* clearer separation */
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.06));
+      border: 2px solid rgba(255,255,255,.22);   /* أوضح + أفتح شوي */
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow:hidden;
-    }
-    .card-inner{
-      padding: 14px 14px 12px;
-      background: radial-gradient(700px 260px at 30% -20%, rgba(79,157,139,.12), transparent 60%);
+      position: relative;
     }
 
-    .card-head{
+    /* إطار داخلي إضافي يوضح استقلال كل سيارة */
+    .card::before{
+      content:"";
+      position:absolute;
+      inset: 10px;
+      border-radius: calc(var(--radius) - 10px);
+      border: 1px solid rgba(255,255,255,.08);
+      pointer-events:none;
+    }
+
+    .cardHead{
+      padding: 14px 14px 10px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+    }
+
+    .headLeft{
       display:flex;
       gap: 10px;
       align-items:flex-start;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    /* Plate (Turkey style) */
-    .plate{
-      display:flex;
-      align-items: stretch;
-      border: 2px solid rgba(0,0,0,.35);
-      border-radius: 12px;
-      overflow:hidden;
-      background: #f4f6f7;
-      color: #111;
-      min-width: 210px;
-      max-width: 100%;
-      box-shadow: 0 6px 16px rgba(0,0,0,.25);
-    }
-    .plate .band{
-      background: #0b3c92;
-      color: #fff;
-      padding: 8px 10px;
-      display:flex;
-      flex-direction: column;
-      align-items:center;
-      justify-content:center;
-      gap: 2px;
-      min-width: 52px;
-      font-weight: 900;
-      font-size: 12px;
-      letter-spacing:.8px;
-    }
-    .plate .band .tr{ font-size: 13px; line-height: 1; }
-    .plate .band .stars{ font-size: 11px; opacity:.95; line-height: 1; }
-    .plate .num{
-      padding: 10px 14px;
-      font-family: var(--mono);
-      font-weight: 900;
-      font-size: 18px;
-      letter-spacing: 1px;
-      display:flex;
-      align-items:center;
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
+      flex:1;
       min-width: 0;
     }
 
-    /* Status badge */
-    .badge{
-      border-radius: 999px;
-      border: 1px solid rgba(240,179,84,.35);
+    .metaBox{
       background: rgba(0,0,0,.22);
-      padding: 8px 10px;
-      font-size: 13px;
-      font-weight: 900;
-      display:inline-flex;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      padding: 10px 12px;
+      flex: 1;
+      min-width: 0;
+    }
+    .metaBox .line1{
+      display:flex;
       align-items:center;
-      gap: 8px;
-      color: var(--txt);
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+    .vehicleName{
+      font-weight:900;
+      font-size: var(--fs-2);
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
       max-width: 100%;
     }
-    .badge small{
-      font-weight: 800;
+    .branchTag{
+      font-weight:800;
+      font-size: var(--fs-1);
+      color: rgba(234,242,242,.92);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(78,165,143,.25);
+      background: rgba(78,165,143,.10);
+      white-space:nowrap;
+    }
+    .metaBox .line2{
+      margin-top: 8px;
       color: var(--muted);
-      font-size: 12px;
+      font-size: var(--fs-1);
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
     }
 
-    .badge .dot{
-      width:10px; height:10px; border-radius: 50%;
-      background: var(--teal);
-      box-shadow: 0 0 0 3px rgba(79,157,139,.12);
+    /* ===== Turkish plate (clean, no stars) ===== */
+    .plate{
+      display:flex;
+      align-items: stretch;
+      border-radius: 14px;
+      overflow:hidden;
+      border: 2px solid rgba(0,0,0,.25);
+      background: #f7f7f7;
+      box-shadow: 0 10px 22px rgba(0,0,0,.25);
+      min-width: 230px;
+      max-width: 360px;
       flex: 0 0 auto;
     }
-    .badge.urgent{ border-color: rgba(255,70,70,.42); }
-    .badge.urgent .dot{ background:#ff3b3b; box-shadow: 0 0 0 3px rgba(255,70,70,.14); }
-    .badge.alert{ border-color: rgba(255,210,70,.42); }
-    .badge.alert .dot{ background:#ffd84a; box-shadow: 0 0 0 3px rgba(255,210,70,.14); }
-    .badge.follow{ border-color: rgba(255,140,40,.42); }
-    .badge.follow .dot{ background:#ff8a24; box-shadow: 0 0 0 3px rgba(255,140,40,.14); }
-    .badge.safe{ border-color: rgba(70,220,130,.38); }
-    .badge.safe .dot{ background:#32d27b; box-shadow: 0 0 0 3px rgba(70,220,130,.14); }
-    .badge.long{ border-color: rgba(120,220,160,.28); }
-    .badge.long .dot{ background:#34c28a; box-shadow: 0 0 0 3px rgba(120,220,160,.12); }
-    .badge.expired{ border-color: rgba(255,70,70,.46); }
-    .badge.expired .dot{ background:#ff3b3b; box-shadow: 0 0 0 3px rgba(255,70,70,.14); }
-
-    /* Info block */
-    .info{
-      margin-top: 10px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.12);
-      border-radius: var(--radius2);
-      padding: 10px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-    .row{
+    .plate .tr{
+      background:#0b3d91;
+      color:#fff;
+      font-weight:900;
+      padding: 10px 14px;
       display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content: space-between;
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 13px;
-    }
-    .row b{
-      color: var(--txt);
-      font-weight: 900;
-      margin-inline-start: 8px;
-      overflow:hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    /* Two blocks (Inspection / Sigorta) */
-    .blocks{
-      margin-top: 10px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    @media (max-width: 520px){
-      .blocks{ grid-template-columns: 1fr; }
-      .plate{ min-width: 0; width: 100%; }
-    }
-
-    .block{
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.10);
-      border-radius: var(--radius2);
-      padding: 10px;
-      position: relative;
-      overflow:hidden;
-    }
-    .block h3{
-      margin: 0 0 6px;
-      font-size: 16px;      /* larger label */
-      font-weight: 1000;
-      letter-spacing:.2px;
-    }
-    .remain{
-      display:flex;
-      align-items: baseline;
-      gap: 8px;             /* ensures space between number and text */
-      justify-content:flex-end;
-      margin-bottom: 6px;
-      flex-wrap: wrap;
-    }
-    .remain .num{
-      font-size: 26px;      /* slightly smaller than before */
-      font-weight: 1000;
-      line-height: 1;
-      letter-spacing: .4px;
-    }
-    .remain .txt{
-      font-size: 16px;      /* bigger text */
-      font-weight: 900;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-    .dateLine{
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-    .dateLine b{ color: var(--txt); font-weight: 1000; }
-
-    /* Progress bar */
-    .bar{
-      height: 12px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 999px;
-      overflow:hidden;
-      position: relative;
-    }
-    .bar > span{
-      display:block;
-      height:100%;
-      width: 20%;
-      background: linear-gradient(90deg, var(--teal2), var(--teal));
-      border-radius: 999px;
-      transition: width .25s ease;
-    }
-    .bar.urgent > span{ background: linear-gradient(90deg, #ff3b3b, #ff6b6b); }
-    .bar.alert  > span{ background: linear-gradient(90deg, #ffd84a, #ffec8a); }
-    .bar.follow > span{ background: linear-gradient(90deg, #ff8a24, #ffb15c); }
-    .bar.safe   > span{ background: linear-gradient(90deg, #25c46a, #40e08b); }
-    .bar.long   > span{ background: linear-gradient(90deg, #25c46a, #40e08b); }
-    .bar.expired> span{ background: linear-gradient(90deg, #ff3b3b, #ff6b6b); }
-
-    /* Footer controls in edit mode */
-    .card-actions{
-      display:flex;
-      gap:10px;
-      margin-top: 10px;
-      justify-content:flex-start;
-    }
-
-    /* Modal */
-    .modal{
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.55);
-      display:none;
       align-items:center;
       justify-content:center;
-      padding: 16px;
-      z-index: 1000;
+      min-width: 64px;
+      letter-spacing: .8px;
     }
-    .modal.show{ display:flex; }
-    .modal-box{
-      width: min(740px, 100%);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.20));
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.55);
-      overflow:hidden;
-    }
-    .modal-head{
-      padding: 14px 14px;
+    .plate .num{
+      flex:1;
+      background:#fff;
+      color:#111;
+      font-weight:900;
+      padding: 10px 14px;
       display:flex;
       align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-      background: rgba(0,0,0,.18);
-      border-bottom: 1px solid rgba(255,255,255,.10);
+      justify-content:center;
+      letter-spacing: 2px;
+      font-size: 18px;
     }
-    .modal-head h2{
-      margin:0;
-      font-size: 16px;
-      font-weight: 1000;
+    /* Force-hide any old star layers safely */
+    .plate .stars,.plate .star,.plate .euStars,.plate::before,.plate::after{
+      content:none !important; display:none !important;
     }
-    .modal-body{
-      padding: 14px;
+
+    /* Badges */
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.14);
+      font-weight:900;
+      font-size: var(--fs-1);
+      white-space:nowrap;
+      max-width: 100%;
     }
-    .form{
+    .badge svg{ width:18px; height:18px; flex:0 0 auto; }
+
+    .badge.urgent{ border-color: rgba(255,59,78,.35); }
+    .badge.alert { border-color: rgba(255,204,0,.35); }
+    .badge.follow{ border-color: rgba(244,138,34,.35); }
+    .badge.safe  { border-color: rgba(45,211,111,.35); }
+    .badge.long  { border-color: rgba(78,165,143,.35); }
+    .badge.expired{ border-color: rgba(255,59,78,.45); background: rgba(255,59,78,.08); }
+
+    .cardBody{
+      padding: 0 14px 14px;
       display:grid;
       grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 720px){
+      .cardBody{ grid-template-columns: 1fr; }
+      .plate{ min-width: 210px; }
+    }
+
+    .box{
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius2);
+      padding: 12px;
+      min-height: 132px;
+      display:flex;
+      flex-direction:column;
       gap: 10px;
     }
-    @media (max-width: 640px){
-      .form{ grid-template-columns: 1fr; }
-    }
-    label{
+    .boxTop{
       display:flex;
-      flex-direction: column;
-      gap:6px;
-      font-size: 13px;
-      font-weight: 900;
-      color: var(--muted);
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
     }
-    input, select{
-      height: 40px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.18);
-      color: var(--txt);
+    .boxTitle{
+      font-weight: 1000;
+      font-size: var(--fs-2); /* كِبّرنا العنوان */
+      letter-spacing: .2px;
+    }
+
+    .daysLine{
+      display:flex;
+      align-items:baseline;
+      justify-content:flex-start;
+      gap: 8px; /* مسافة واضحة بين الرقم و "يوم متبقي" */
+    }
+    .daysNum{
+      font-weight: 1000;
+      font-size: clamp(26px, 4vw, 38px); /* أصغر شوي من السابق */
+      line-height: 1;
+    }
+    .daysWord{
+      font-weight: 900;
+      font-size: var(--fs-2);
+      color: rgba(234,242,242,.92);
+      white-space:nowrap;
+    }
+
+    .dateLine{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      color: var(--muted);
+      font-size: var(--fs-1);
+    }
+    .dateVal{
+      color: var(--text);
+      font-weight: 900;
+      font-size: var(--fs-2);
+      letter-spacing: .3px;
+    }
+
+    .bar{
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+    }
+    .bar > i{
+      display:block;
+      height: 100%;
+      width: 50%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(78,165,143,.95), rgba(45,211,111,.95));
+      box-shadow: 0 0 20px rgba(45,211,111,.18);
+    }
+
+    /* Edit UI */
+    .editTools{
+      display:none;
+      margin-top: 8px;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    body.editing .editTools{ display:flex; }
+
+    .editForm{
+      display:none;
+      margin-top: 10px;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+    body.editing .editForm{ display:flex; }
+
+    .field{
+      flex: 1 1 160px;
+      min-width: 150px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 14px;
+      padding: 10px 10px;
+      color: var(--text);
       outline:none;
       font-weight: 800;
-      font-size: 14px;
+      font-size: var(--fs-1);
     }
-    input::placeholder{ color: rgba(234,242,241,.45); }
+    .field::placeholder{ color: rgba(234,242,242,.55); font-weight:700; }
 
-    .modal-foot{
-      padding: 12px 14px;
-      display:flex;
-      gap: 10px;
-      justify-content:flex-start;
-      border-top: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.16);
+    .tinyBtn{
+      padding: 8px 10px;
+      border-radius: 14px;
+      font-size: var(--fs-1);
     }
 
-    .hint{
-      margin-top: 10px;
-      font-size: 12px;
-      color: rgba(234,242,241,.55);
-      line-height: 1.6;
+    .cardDel{
+      display:none;
+      position:absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 2;
     }
+    body.editing .cardDel{ display:block; }
 
+    /* Fix edit mode transparency (no faded text/plate) */
+    body.editing .card,
+    body.editing .plate,
+    body.editing input,
+    body.editing select,
+    body.editing textarea{
+      opacity: 1 !important;
+      filter: none !important;
+    }
+    body.editing .plate{ background:#f7f7f7 !important; }
+    body.editing .plate .num{ background:#fff !important; color:#111 !important; }
+
+    /* Toast */
     .toast{
       position: fixed;
-      left: 14px;
       bottom: 14px;
-      background: rgba(0,0,0,.55);
-      border: 1px solid rgba(255,255,255,.12);
-      color: var(--txt);
-      padding: 10px 12px;
-      border-radius: 14px;
+      left: 14px;
+      right: 14px;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(0,0,0,.65);
+      border: 1px solid rgba(255,255,255,.16);
+      backdrop-filter: blur(10px);
       box-shadow: var(--shadow);
-      font-weight: 900;
+      color: var(--text);
+      font-weight: 800;
       display:none;
-      z-index: 1500;
+      z-index: 50;
     }
     .toast.show{ display:block; }
 
   </style>
 </head>
+
 <body>
-
-<div class="wrap">
-  <div class="topbar">
-    <div class="brand">
-      <div class="logo" title="Logo">
-        <img src="/logo.png" alt="Al Ajamy Food Logo" onerror="this.style.display='none'">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brandLogo">
+          <!-- ضع logo.png في نفس مجلد الصفحة/الجذر (كما عملت سابقاً) -->
+          <img src="/logo.png" alt="Al Ajamy Logo" onerror="this.style.display='none'">
+        </div>
+        <div class="brandTitle">
+          <b>Al Ajamy Food – Cars Tracker</b>
+          <span id="lastInfo">جاهز</span>
+        </div>
       </div>
-      <div style="min-width:0">
-        <h1>Al Ajamy Food – Cars Tracker</h1>
-        <div class="sub" id="lastSync">آخر تحديث: —</div>
+
+      <div class="actions">
+        <div class="statusLine" id="clockLine">—</div>
+        <button class="btn primary" id="btnEdit">فتح التعديل</button>
+        <button class="btn warn" id="btnReload">تحديث</button>
+
+        <div class="editTools" id="editTools">
+          <button class="btn primary" id="btnAdd">إضافة سيارة</button>
+          <button class="btn primary" id="btnSave">حفظ التعديلات</button>
+          <button class="btn danger" id="btnExit">إغلاق التعديل</button>
+        </div>
       </div>
     </div>
 
-    <div class="actions">
-      <span class="pill" id="countPill">— سيارة</span>
-      <button class="btn" id="btnRefresh" type="button">تحديث</button>
-      <button class="btn primary" id="btnEdit" type="button">فتح التعديل</button>
+    <div class="sectionBg">
+      <div class="grid" id="grid"></div>
     </div>
   </div>
 
-  <div class="grid" id="grid"></div>
-</div>
-
-<!-- Modal for password / edit -->
-<div class="modal" id="pwModal" aria-hidden="true">
-  <div class="modal-box">
-    <div class="modal-head">
-      <h2>فتح وضع التعديل</h2>
-      <button class="btn" type="button" onclick="closePw()">إغلاق</button>
-    </div>
-    <div class="modal-body">
-      <label>
-        كلمة المرور
-        <input id="pwInput" type="password" placeholder="أدخل كلمة المرور" autocomplete="current-password">
-      </label>
-      <div class="hint">
-        بعد إدخال كلمة المرور يتم تفعيل: إضافة / تعديل / حذف.<br>
-        التعديلات ستُحفظ على Google Sheet وتظهر للكل عند التحديث (تلقائيًا كل 20 ثانية).
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn primary" type="button" onclick="confirmPw()">تأكيد</button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal for add/edit car -->
-<div class="modal" id="editModal" aria-hidden="true">
-  <div class="modal-box">
-    <div class="modal-head">
-      <h2 id="editTitle">تعديل سيارة</h2>
-      <button class="btn" type="button" onclick="closeEdit()">إغلاق</button>
-    </div>
-    <div class="modal-body">
-      <div class="form">
-        <label>id
-          <input id="f_id" type="text" placeholder="رقم داخلي" disabled>
-        </label>
-        <label>plate (مثل: 34 TP 0348)
-          <input id="f_plate" type="text" placeholder="رقم السيارة">
-        </label>
-        <label>vehicle
-          <input id="f_vehicle" type="text" placeholder="نوع/اسم السيارة">
-        </label>
-        <label>driver
-          <input id="f_driver" type="text" placeholder="اسم السائق">
-        </label>
-        <label>driver_phone
-          <input id="f_driver_phone" type="text" placeholder="رقم الهاتف">
-        </label>
-        <label>branch
-          <input id="f_branch" type="text" placeholder="التبعية/الفرع">
-        </label>
-        <label>inspection_date (DD-MM-YYYY)
-          <input id="f_inspection" type="text" placeholder="مثال: 02-04-2026">
-        </label>
-        <label>sigorta_date (DD-MM-YYYY)
-          <input id="f_sigorta" type="text" placeholder="مثال: 13-11-2026">
-        </label>
-      </div>
-      <div class="hint">
-        صيغة التاريخ المعتمدة في الشيت: <b>DD-MM-YYYY</b> (مثل: 02-04-2026).<br>
-        يمكن ترك التاريخ فارغًا إذا غير موجود.
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn primary" type="button" onclick="saveEdit()">حفظ</button>
-      <button class="btn danger" id="btnDeleteInModal" type="button" onclick="deleteFromModal()" style="display:none">حذف</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
+  <div class="toast" id="toast"></div>
 
 <script>
-/* =======================
-   SETTINGS
-======================= */
+/* ======================
+   إعدادات مهمة
+====================== */
+
+// ضع رابط الـ Apps Script Web App (الـ /exec) هنا:
 const API_URL = "https://script.google.com/macros/s/AKfycbyQxBuejrMv-YuaY46xF08MWOmo14jwuVG8ytr3-zABxSw528NgyHvDKFICPXRvpeW8EQ/exec";
-const POLL_MS = 20000;
 
-/* =======================
-   STATE
-======================= */
-let DATA = [];
-let EDIT_MODE = false;
-let EDIT_PASS = "";
-let EDITING_ID = null;
-let modalOpen = false;
-let lastScrollY = 0;
+// كلمة المرور (يجب أن تطابق EDIT_PASSWORD داخل Apps Script)
+const EDIT_PASSWORD = "CHANGE_ME";
 
-/* =======================
-   HELPERS
-======================= */
-function toast(msg){
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  setTimeout(()=> t.classList.remove("show"), 2200);
-}
+/* ======================
+   أدوات تاريخ (dd-mm-yyyy)
+====================== */
+function pad2(n){ return String(n).padStart(2,'0'); }
 
-function pad2(n){ return String(n).padStart(2,"0"); }
-
-function parseAnyDate(s){
+/** parses dd-mm-yyyy OR dd/mm/yyyy safely */
+function parseDMY(s){
   if(!s) return null;
-  const str = String(s).trim();
-  if(!str) return null;
-
-  // YYYY-MM-DD or YYYY/MM/DD
-  if (/^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(str)){
-    const [y,m,d] = str.split(/[-/]/).map(Number);
-    return new Date(y, m-1, d);
-  }
-  // DD/MM/YYYY
-  if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(str)){
-    const [d,m,y] = str.split("/").map(Number);
-    return new Date(y, m-1, d);
-  }
-  // DD-MM-YYYY (your sheet)
-  if (/^\d{1,2}-\d{1,2}-\d{4}$/.test(str)){
-    const [d,m,y] = str.split("-").map(Number);
-    return new Date(y, m-1, d);
-  }
-  return null;
+  const parts = String(s).trim().split(/[-\/]/);
+  if(parts.length !== 3) return null;
+  const d = Number(parts[0]), m = Number(parts[1]), y = Number(parts[2]);
+  if(!y || !m || !d) return null;
+  return new Date(y, m-1, d);
 }
-
-function formatDDMMYYYY(dateObj){
-  if(!dateObj) return "";
-  const d = pad2(dateObj.getDate());
-  const m = pad2(dateObj.getMonth()+1);
-  const y = dateObj.getFullYear();
-  return `${d}-${m}-${y}`;
+function formatDMY(dateObj){
+  if(!dateObj || isNaN(dateObj.getTime())) return "";
+  return `${pad2(dateObj.getDate())}-${pad2(dateObj.getMonth()+1)}-${dateObj.getFullYear()}`;
 }
-
-function daysRemaining(dateStr){
-  const dt = parseAnyDate(dateStr);
-  if(!dt) return null;
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  dt.setHours(0,0,0,0);
-  const diff = Math.round((dt - today) / 86400000);
-  return diff;
+/* For <input type="date"> value: yyyy-mm-dd */
+function toISODate(dateObj){
+  if(!dateObj || isNaN(dateObj.getTime())) return "";
+  return `${dateObj.getFullYear()}-${pad2(dateObj.getMonth()+1)}-${pad2(dateObj.getDate())}`;
 }
-
-function statusForDays(d){
-  if(d === null) return { cls:"long", label:"—", icon:"", dot:true };
-  if(d < 0)   return { cls:"expired", label:"منتهية", icon:"⛔", dot:true };
-  if(d <= 15) return { cls:"urgent",  label:"عاجل",   icon:"🔴", dot:true };
-  if(d <= 30) return { cls:"alert",   label:"تنبيه",  icon:"⚠️", dot:true }; // triangle with !
-  if(d <= 60) return { cls:"follow",  label:"متابعة", icon:"🟠", dot:true };
-  if(d <=120) return { cls:"safe",    label:"المدة آمنة", icon:"🟢", dot:true };
-  return         { cls:"long",    label:"مدة طويلة", icon:"🟩", dot:true };
-}
-
-function barWidth(d){
-  if(d === null) return 0;
-  if(d < 0) return 100;
-  // scale: 0..120 => 100..10 (closer = more filled)
-  const capped = Math.min(Math.max(d, 0), 120);
-  const w = 100 - Math.round((capped/120)*85); // 100..15
-  return Math.max(10, Math.min(100, w));
-}
-
-/* =======================
-   GOOGLE SHEET SYNC
-======================= */
-function jsonpLoad(){
-  return new Promise((resolve, reject)=>{
-    const cbName = "cbCars_" + Date.now();
-    window[cbName] = (res)=>{
-      try { resolve(res); }
-      finally { delete window[cbName]; script.remove(); }
-    };
-    const script = document.createElement("script");
-    script.src = API_URL + "?callback=" + cbName + "&ts=" + Date.now();
-    script.onerror = ()=>{ delete window[cbName]; script.remove(); reject(new Error("JSONP load failed")); };
-    document.body.appendChild(script);
-  });
-}
-
-async function syncFromSheet(){
-  try{
-    const res = await jsonpLoad();
-    if(res && res.ok){
-      const incoming = (res.data || []).map(x => ({
-        id: String(x.id ?? "").trim(),
-        plate: String(x.plate ?? ""),
-        vehicle: String(x.vehicle ?? ""),
-        driver: String(x.driver ?? ""),
-        driver_phone: String(x.driver_phone ?? ""),
-        branch: String(x.branch ?? ""),
-        inspection_date: String(x.inspection_date ?? ""),
-        sigorta_date: String(x.sigorta_date ?? "")
-      })).filter(x => x.id);
-
-      // Don’t re-render if edit modal open (avoid jump while typing)
-      DATA = incoming;
-      document.getElementById("lastSync").textContent =
-        "آخر تحديث: " + new Date().toLocaleString("en-GB");
-      document.getElementById("countPill").textContent = DATA.length + " سيارة";
-
-      if(!modalOpen) render();
-    }
-  }catch(e){
-    // silent to avoid spamming
-  }
-}
-
-function postNoCors(payload){
-  return fetch(API_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: {"Content-Type":"text/plain;charset=utf-8"},
-    body: JSON.stringify(payload)
-  });
-}
-
-/* =======================
-   RENDER
-======================= */
-function render(){
-  const grid = document.getElementById("grid");
-  lastScrollY = window.scrollY;
-
-  // sort by nearest due (min of both positive days, expired first)
-  const items = [...DATA].sort((a,b)=>{
-    const da1 = daysRemaining(a.inspection_date);
-    const da2 = daysRemaining(a.sigorta_date);
-    const db1 = daysRemaining(b.inspection_date);
-    const db2 = daysRemaining(b.sigorta_date);
-
-    const minA = minDue(da1, da2);
-    const minB = minDue(db1, db2);
-    return minA - minB;
-  });
-
-  grid.innerHTML = items.map(cardHtml).join("");
-
-  // restore scroll after render
-  requestAnimationFrame(()=> window.scrollTo({ top: lastScrollY }));
-}
-
-function minDue(d1, d2){
-  const arr = [d1, d2].filter(v => v !== null);
-  if(arr.length === 0) return 999999;
-  // expired should come first
-  const hasExpired = arr.some(v => v < 0);
-  if(hasExpired) return -999999;
-  return Math.min(...arr);
-}
-
-function cardHtml(car){
-  const di = daysRemaining(car.inspection_date);
-  const ds = daysRemaining(car.sigorta_date);
-
-  const si = statusForDays(di);
-  const ss = statusForDays(ds);
-
-  // overall status: based on nearest
-  let overall = si;
-  if(ds !== null){
-    if(di === null) overall = ss;
-    else{
-      const min = minDue(di, ds);
-      overall = (min === di) ? si : ss;
-    }
-  }
-
-  const overallText = (overall.label === "—")
-    ? "—"
-    : `${overall.icon} ${overall.label} • ${Math.max((minDue(di,ds) < 0 ? 0 : minDue(di,ds)), 0)} يوم`;
-
-  const deleteBtn = EDIT_MODE
-    ? `<button class="btn danger" type="button" onclick="askDelete('${escapeHtml(car.id)}')">حذف</button>`
-    : "";
-
-  const editBtn = EDIT_MODE
-    ? `<button class="btn primary" type="button" onclick="openEdit('${escapeHtml(car.id)}')">تعديل</button>`
-    : "";
-
-  const plateTxt = escapeHtml(String(car.plate || "").trim() || "—");
-
-  return `
-  <div class="card" id="car-${escapeHtml(car.id)}">
-    <div class="card-inner">
-      <div class="card-head">
-        <div class="badge ${overall.cls}">
-          <span class="dot"></span>
-          <span>${escapeHtml(overallText)}</span>
-        </div>
-
-        <div class="plate" title="لوحة تركيا">
-          <div class="band">
-            <div class="stars">★ ★ ★</div>
-            <div class="tr">TR</div>
-          </div>
-          <div class="num">${plateTxt}</div>
-        </div>
-      </div>
-
-      <div class="info">
-        <div class="row"><span>الاسم / النوع</span><b>${escapeHtml(car.vehicle || "—")}</b></div>
-        <div class="row"><span>السائق</span><b>${escapeHtml(car.driver || "—")}</b></div>
-        <div class="row"><span>هاتف السائق</span><b>${escapeHtml(car.driver_phone || "—")}</b></div>
-        <div class="row"><span>التبعية</span><b>${escapeHtml(car.branch || "—")}</b></div>
-      </div>
-
-      <div class="blocks">
-        ${blockHtml("المعاينة", car.inspection_date, di, si)}
-        ${blockHtml("السيكورتا", car.sigorta_date, ds, ss)}
-      </div>
-
-      ${EDIT_MODE ? `<div class="card-actions">${editBtn}${deleteBtn}</div>` : ``}
-    </div>
-  </div>
-  `;
-}
-
-function blockHtml(title, dateStr, days, st){
-  const dShown = (days === null) ? "—" : (days < 0 ? 0 : days);
-  const dateShown = escapeHtml(String(dateStr || "—"));
-  const w = barWidth(days);
-  return `
-    <div class="block">
-      <h3>${escapeHtml(title)}</h3>
-      <div class="remain">
-        <span class="num">${escapeHtml(String(dShown))}</span>
-        <span class="txt">يوم متبقي</span>
-      </div>
-      <div class="dateLine"><span>تاريخ الانتهاء</span><b>${dateShown}</b></div>
-      <div class="bar ${st.cls}"><span style="width:${w}%"></span></div>
-    </div>
-  `;
-}
-
-function escapeHtml(s){
-  return String(s)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-
-/* =======================
-   EDIT MODE
-======================= */
-const pwModal = document.getElementById("pwModal");
-const editModal = document.getElementById("editModal");
-const btnEdit = document.getElementById("btnEdit");
-const btnRefresh = document.getElementById("btnRefresh");
-
-btnRefresh.addEventListener("click", ()=> { syncFromSheet(); toast("تم التحديث"); });
-
-btnEdit.addEventListener("click", ()=>{
-  if(!EDIT_MODE){
-    openPw();
-  }else{
-    // lock
-    EDIT_MODE = false;
-    EDIT_PASS = "";
-    btnEdit.textContent = "فتح التعديل";
-    toast("تم قفل التعديل");
-    render();
-  }
-});
-
-function openPw(){
-  pwModal.classList.add("show");
-  pwModal.setAttribute("aria-hidden","false");
-  document.getElementById("pwInput").value = "";
-  document.getElementById("pwInput").focus();
-}
-function closePw(){
-  pwModal.classList.remove("show");
-  pwModal.setAttribute("aria-hidden","true");
-}
-function confirmPw(){
-  const v = document.getElementById("pwInput").value.trim();
-  if(!v){ toast("أدخل كلمة المرور"); return; }
-  EDIT_PASS = v;
-  EDIT_MODE = true;
-  btnEdit.textContent = "قفل التعديل";
-  closePw();
-  toast("تم فتح التعديل");
-  render();
-}
-
-/* =======================
-   ADD / EDIT / DELETE
-======================= */
-function openEdit(id){
-  const car = DATA.find(x => x.id === String(id));
-  if(!car){ toast("لم يتم العثور على السيارة"); return; }
-  modalOpen = true;
-  EDITING_ID = String(id);
-
-  document.getElementById("editTitle").textContent = "تعديل سيارة";
-  document.getElementById("btnDeleteInModal").style.display = "inline-flex";
-
-  fillForm(car);
-  editModal.classList.add("show");
-  editModal.setAttribute("aria-hidden","false");
-}
-
-function openAdd(){
-  modalOpen = true;
-  EDITING_ID = null;
-
-  document.getElementById("editTitle").textContent = "إضافة سيارة";
-  document.getElementById("btnDeleteInModal").style.display = "none";
-
-  const nextId = String(getNextId());
-  fillForm({
-    id: nextId, plate:"", vehicle:"", driver:"", driver_phone:"", branch:"",
-    inspection_date:"", sigorta_date:""
-  });
-
-  editModal.classList.add("show");
-  editModal.setAttribute("aria-hidden","false");
-}
-
-function closeEdit(){
-  editModal.classList.remove("show");
-  editModal.setAttribute("aria-hidden","true");
-  modalOpen = false;
-  EDITING_ID = null;
-}
-
-function fillForm(car){
-  document.getElementById("f_id").value = car.id || "";
-  document.getElementById("f_plate").value = car.plate || "";
-  document.getElementById("f_vehicle").value = car.vehicle || "";
-  document.getElementById("f_driver").value = car.driver || "";
-  document.getElementById("f_driver_phone").value = car.driver_phone || "";
-  document.getElementById("f_branch").value = car.branch || "";
-  document.getElementById("f_inspection").value = car.inspection_date || "";
-  document.getElementById("f_sigorta").value = car.sigorta_date || "";
-}
-
-function normalizeDDMMYYYY(s){
-  const str = String(s||"").trim();
-  if(!str) return "";
-  // accept dd-mm-yyyy only
-  if(!/^\d{1,2}-\d{1,2}-\d{4}$/.test(str)) return null;
-  const [d,m,y] = str.split("-").map(Number);
-  if(d<1||d>31||m<1||m>12||y<1900||y>2100) return null;
+function fromISOToDMY(iso){
+  if(!iso) return "";
+  const parts = String(iso).split("-");
+  if(parts.length !== 3) return "";
+  const y=Number(parts[0]), m=Number(parts[1]), d=Number(parts[2]);
+  if(!y||!m||!d) return "";
   return `${pad2(d)}-${pad2(m)}-${y}`;
 }
 
-function saveEdit(){
-  if(!EDIT_MODE || !EDIT_PASS){ toast("افتح التعديل أولاً"); return; }
+function daysDiff(dateObj){
+  if(!dateObj || isNaN(dateObj.getTime())) return null;
+  const now = new Date();
+  const a = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  const b = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate()).getTime();
+  return Math.round((b - a) / 86400000);
+}
 
+/* ======================
+   Status + Icons
+====================== */
+function statusForDays(d){
+  if(d === null) return { key:"long", label:"مدة طويلة", type:"long" };
+  if(d < 0)      return { key:"expired", label:"منتهية", type:"expired" };
+  if(d <= 15)    return { key:"urgent", label:"عاجل", type:"urgent" };
+  if(d <= 30)    return { key:"alert", label:"تنبيه", type:"alert" };
+  if(d <= 60)    return { key:"follow", label:"متابعة", type:"follow" };
+  if(d <= 120)   return { key:"safe", label:"المدة آمنة", type:"safe" };
+  return          { key:"long", label:"مدة طويلة", type:"long" };
+}
+
+/* Alert: yellow triangle with exclamation */
+function svgAlert(){
+  return `
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path fill="#ffcc00" d="M12 3 1 21h22L12 3z"></path>
+    <path fill="#111" d="M11 9h2v6h-2z"></path>
+    <circle cx="12" cy="18" r="1.2" fill="#111"></circle>
+  </svg>`;
+}
+
+/* Urgent: red dot (different from alert) */
+function svgUrgent(){
+  return `
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="10" fill="#ff3b4e"></circle>
+    <path fill="#fff" d="M11 7h2v8h-2z"></path>
+    <circle cx="12" cy="17.6" r="1.2" fill="#fff"></circle>
+  </svg>`;
+}
+
+/* Expired: red octagon */
+function svgExpired(){
+  return `
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path fill="#ff3b4e" d="M7.2 2h9.6L22 7.2v9.6L16.8 22H7.2L2 16.8V7.2L7.2 2z"></path>
+    <path fill="#fff" d="M11 7h2v8h-2z"></path>
+    <circle cx="12" cy="17.6" r="1.2" fill="#fff"></circle>
+  </svg>`;
+}
+
+/* Follow-up: orange dot */
+function svgFollow(){
+  return `
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="10" fill="#f48a22"></circle>
+  </svg>`;
+}
+
+/* Safe/Long: green dot */
+function svgGreen(){
+  return `
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="10" fill="#2dd36f"></circle>
+  </svg>`;
+}
+
+function badgeIcon(type){
+  if(type === "alert") return svgAlert();
+  if(type === "urgent") return svgUrgent();
+  if(type === "expired") return svgExpired();
+  if(type === "follow") return svgFollow();
+  if(type === "safe" || type === "long") return svgGreen();
+  return svgGreen();
+}
+
+/* ======================
+   JSONP (GET) to read all
+====================== */
+function jsonp(url, callbackParam="callback"){
+  return new Promise((resolve, reject) => {
+    const cbName = "__cb_" + Math.random().toString(36).slice(2);
+    const script = document.createElement("script");
+    const sep = url.includes("?") ? "&" : "?";
+    script.src = `${url}${sep}${callbackParam}=${cbName}`;
+    script.async = true;
+
+    const timer = setTimeout(() => {
+      cleanup();
+      reject(new Error("Timeout"));
+    }, 12000);
+
+    window[cbName] = (payload) => {
+      cleanup();
+      resolve(payload);
+    };
+
+    function cleanup(){
+      clearTimeout(timer);
+      if(script && script.parentNode) script.parentNode.removeChild(script);
+      try{ delete window[cbName]; }catch(e){ window[cbName]=undefined; }
+    }
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("JSONP load failed"));
+    };
+
+    document.head.appendChild(script);
+  });
+}
+
+/* ======================
+   State
+====================== */
+let cars = [];
+let editing = false;
+let pending = new Map(); // id -> row object (edited)
+let editPass = null;
+
+const grid = document.getElementById("grid");
+const toast = document.getElementById("toast");
+const lastInfo = document.getElementById("lastInfo");
+const clockLine = document.getElementById("clockLine");
+
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"), 2600);
+}
+
+/* Clock */
+function tick(){
+  const d = new Date();
+  const hh = d.getHours()%12 || 12;
+  const ampm = d.getHours() >= 12 ? "PM" : "AM";
+  clockLine.textContent = `${ampm} ${pad2(hh)}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}  •  ${pad2(d.getDate())}/${pad2(d.getMonth()+1)}/${d.getFullYear()}`;
+}
+setInterval(tick, 1000); tick();
+
+/* ======================
+   Render
+====================== */
+function normalizePlate(s){
+  return String(s || "").trim().replace(/\s+/g, " ");
+}
+
+function boxHTML(title, dateStr, days, type){
+  const st = statusForDays(days);
+  const icon = badgeIcon(st.type);
+
+  // bar width (0..100) based on days, clamp
+  let w = 100;
+  if(days === null) w = 100;
+  else if(days < 0) w = 6;
+  else w = Math.max(6, Math.min(100, Math.round((days/180)*100)));
+
+  // bar color variant
+  let barGrad = "linear-gradient(90deg, rgba(78,165,143,.95), rgba(45,211,111,.95))";
+  if(st.type === "urgent" || st.type === "expired") barGrad = "linear-gradient(90deg, rgba(255,59,78,.95), rgba(255,59,78,.75))";
+  if(st.type === "alert") barGrad = "linear-gradient(90deg, rgba(255,204,0,.95), rgba(244,138,34,.95))";
+  if(st.type === "follow") barGrad = "linear-gradient(90deg, rgba(244,138,34,.95), rgba(244,138,34,.70))";
+
+  const safeDays = (days === null) ? "—" : String(days);
+
+  return `
+    <div class="box">
+      <div class="boxTop">
+        <div class="boxTitle">${title}</div>
+        <div class="badge ${st.type}">
+          ${icon}
+          <span>${st.label}</span>
+        </div>
+      </div>
+
+      <div class="daysLine">
+        <div class="daysNum">${safeDays}</div>
+        <div class="daysWord">يوم متبقي</div>
+      </div>
+
+      <div class="dateLine">
+        <span>تاريخ الانتهاء</span>
+        <span class="dateVal">${dateStr || "—"}</span>
+      </div>
+
+      <div class="bar"><i style="width:${w}%; background:${barGrad}"></i></div>
+    </div>
+  `;
+}
+
+function render(){
+  // sort: closest due (min of two dates)
+  const sorted = [...cars].sort((a,b)=>{
+    const aMin = Math.min(
+      daysDiff(parseDMY(a.inspection_date)) ?? 999999,
+      daysDiff(parseDMY(a.sigorta_date)) ?? 999999
+    );
+    const bMin = Math.min(
+      daysDiff(parseDMY(b.inspection_date)) ?? 999999,
+      daysDiff(parseDMY(b.sigorta_date)) ?? 999999
+    );
+    return aMin - bMin;
+  });
+
+  grid.innerHTML = "";
+
+  for(const row of sorted){
+    const id = String(row.id ?? "");
+    const plateText = normalizePlate(row.plate);
+    const vehicle = row.vehicle || "";
+    const driver = row.driver || "";
+    const phone = row.driver_phone || "";
+    const branch = row.branch || "";
+
+    const inspObj = parseDMY(row.inspection_date);
+    const sigObj  = parseDMY(row.sigorta_date);
+
+    const inspText = formatDMY(inspObj);
+    const sigText  = formatDMY(sigObj);
+
+    const inspDays = daysDiff(inspObj);
+    const sigDays  = daysDiff(sigObj);
+
+    // badge: show nearest status summary (inspection vs sigorta)
+    const nearest = (inspDays === null && sigDays === null) ? {who:"", d:null} :
+                    (sigDays === null) ? {who:"المعاينة", d:inspDays} :
+                    (inspDays === null) ? {who:"السيكورتا", d:sigDays} :
+                    (sigDays <= inspDays) ? {who:"السيكورتا", d:sigDays} : {who:"المعاينة", d:inspDays};
+
+    const st = statusForDays(nearest.d);
+    const badge = `
+      <div class="badge ${st.type}">
+        ${badgeIcon(st.type)}
+        <span>${st.label} • ${nearest.who} •</span>
+        <span>${nearest.d === null ? "—" : nearest.d} يوم</span>
+      </div>
+    `;
+
+    const card = document.createElement("div");
+    card.className = "card";
+    card.dataset.id = id;
+
+    card.innerHTML = `
+      <button class="btn danger tinyBtn cardDel" data-act="delete">حذف</button>
+
+      <div class="cardHead">
+        <div class="headLeft">
+          <div class="metaBox">
+            <div class="line1">
+              <div class="vehicleName" title="${escapeHtml(vehicle)}">${escapeHtml(vehicle) || "—"}</div>
+              <div class="branchTag">${escapeHtml(branch) || "—"}</div>
+            </div>
+            <div class="line2">
+              <span>السائق: <b>${escapeHtml(driver) || "—"}</b></span>
+              <span>هاتف: <b dir="ltr">${escapeHtml(phone) || "—"}</b></span>
+            </div>
+
+            <div class="editForm">
+              <input class="field" data-k="vehicle" placeholder="اسم / النوع" value="${escapeAttr(vehicle)}">
+              <input class="field" data-k="branch" placeholder="التبعية" value="${escapeAttr(branch)}">
+              <input class="field" data-k="driver" placeholder="السائق" value="${escapeAttr(driver)}">
+              <input class="field" data-k="driver_phone" placeholder="هاتف السائق" value="${escapeAttr(phone)}">
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:10px; align-items:flex-start;">
+          ${badge}
+          <div class="plate" title="لوحة تركية">
+            <div class="tr">TR</div>
+            <div class="num" dir="ltr">${escapeHtml(plateText) || "—"}</div>
+          </div>
+
+          <div class="editForm" style="width:100%;">
+            <input class="field" data-k="plate" placeholder="رقم السيارة (البلاكة)" value="${escapeAttr(plateText)}">
+          </div>
+        </div>
+      </div>
+
+      <div class="cardBody">
+        ${boxHTML("المعاينة", inspText, inspDays, "inspection")}
+        ${boxHTML("السيكورتا", sigText, sigDays, "sigorta")}
+
+        <div class="editForm" style="grid-column:1/-1;">
+          <input class="field" data-k="inspection_date_iso" type="date" value="${toISODate(inspObj)}" style="min-width:220px;">
+          <input class="field" data-k="sigorta_date_iso" type="date" value="${toISODate(sigObj)}" style="min-width:220px;">
+        </div>
+      </div>
+    `;
+
+    // attach handlers for edit inputs (NO re-render on each key -> avoid page jump)
+    const inputs = card.querySelectorAll(".editForm .field");
+    inputs.forEach(inp=>{
+      inp.addEventListener("input", ()=>{
+        const k = inp.dataset.k;
+        const cur = pending.get(id) || {...row}; // base row
+        if(k === "inspection_date_iso") cur.inspection_date = fromISOToDMY(inp.value);
+        else if(k === "sigorta_date_iso") cur.sigorta_date = fromISOToDMY(inp.value);
+        else cur[k] = inp.value;
+        pending.set(id, cur);
+      });
+    });
+
+    // delete
+    card.querySelector('[data-act="delete"]').addEventListener("click", async ()=>{
+      if(!editing) return;
+      if(!confirm("تأكيد حذف السيارة؟")) return;
+      await apiDelete(id);
+      await load();
+    });
+
+    grid.appendChild(card);
+  }
+}
+
+function escapeHtml(s){
+  return String(s ?? "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function escapeAttr(s){ return escapeHtml(s).replace(/"/g, "&quot;"); }
+
+/* ======================
+   API calls
+====================== */
+async function load(){
+  try{
+    lastInfo.textContent = "جارِ التحميل…";
+    const payload = await jsonp(API_URL, "callback");
+    if(!payload || payload.ok !== true) throw new Error(payload?.error || "Load failed");
+    cars = Array.isArray(payload.data) ? payload.data : [];
+    lastInfo.textContent = `آخر تحديث: ${new Date().toLocaleString()}`;
+    render();
+  }catch(err){
+    console.error(err);
+    lastInfo.textContent = "خطأ بالتحميل";
+    showToast("تعذر تحميل البيانات. تأكد من رابط Apps Script.");
+  }
+}
+
+/* POST (no-cors) write: works مع Apps Script الشائع */
+async function apiUpsert(row){
+  const body = { pass: editPass, action:"upsert", row };
+  await fetch(API_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(body)
+  });
+}
+async function apiDelete(id){
+  const body = { pass: editPass, action:"delete", id };
+  await fetch(API_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(body)
+  });
+}
+
+/* ======================
+   Edit mode
+====================== */
+function enterEdit(){
+  // طلب كلمة مرور (لا نضعها شفاف/ضعيفة)
+  const p = prompt("أدخل كلمة المرور للتعديل:");
+  if(!p) return;
+  editPass = p;
+
+  editing = true;
+  pending.clear();
+  document.body.classList.add("editing");
+  document.getElementById("editTools").style.display = "flex";
+  showToast("وضع التعديل مفعل");
+}
+function exitEdit(){
+  editing = false;
+  pending.clear();
+  document.body.classList.remove("editing");
+  document.getElementById("editTools").style.display = "";
+  editPass = null;
+  showToast("تم إغلاق التعديل");
+}
+
+async function saveAll(){
+  if(!editing) return;
+  const items = Array.from(pending.values());
+  if(items.length === 0){
+    showToast("لا يوجد تغييرات للحفظ");
+    return;
+  }
+
+  // حفظ بدون إعادة رسم أثناء الكتابة -> لا يوجد قفز
+  showToast("جارِ الحفظ…");
+  for(const row of items){
+    // enforce plate normalization + keep id
+    row.plate = normalizePlate(row.plate);
+    await apiUpsert(row);
+  }
+  pending.clear();
+  showToast("تم إرسال التعديلات");
+  // reload after save
+  await load();
+}
+
+function addCar(){
+  if(!editing) return;
+
+  const newId = String(Date.now()); // id مؤقت، السكربت قد يعيد ترقيمه حسب منطقك
   const row = {
-    id: String(document.getElementById("f_id").value || "").trim(),
-    plate: String(document.getElementById("f_plate").value || "").trim(),
-    vehicle: String(document.getElementById("f_vehicle").value || "").trim(),
-    driver: String(document.getElementById("f_driver").value || "").trim(),
-    driver_phone: String(document.getElementById("f_driver_phone").value || "").trim(),
-    branch: String(document.getElementById("f_branch").value || "").trim(),
-    inspection_date: String(document.getElementById("f_inspection").value || "").trim(),
-    sigorta_date: String(document.getElementById("f_sigorta").value || "").trim()
+    id: newId,
+    plate: "",
+    vehicle: "",
+    driver: "",
+    driver_phone: "",
+    branch: "",
+    inspection_date: "",
+    sigorta_date: ""
   };
 
-  if(!row.id){ toast("id مطلوب"); return; }
+  // add to state at top
+  cars = [row, ...cars];
+  pending.set(newId, row);
+  render();
 
-  // normalize dates
-  if(row.inspection_date){
-    const v = normalizeDDMMYYYY(row.inspection_date);
-    if(!v){ toast("تاريخ المعاينة غير صحيح (DD-MM-YYYY)"); return; }
-    row.inspection_date = v;
-  }
-  if(row.sigorta_date){
-    const v = normalizeDDMMYYYY(row.sigorta_date);
-    if(!v){ toast("تاريخ السيكورتا غير صحيح (DD-MM-YYYY)"); return; }
-    row.sigorta_date = v;
-  }
-
-  postNoCors({ action:"upsert", pass: EDIT_PASS, row })
-    .then(()=>{
-      toast("تم الحفظ");
-      closeEdit();
-      setTimeout(syncFromSheet, 900);
-    })
-    .catch(()=> toast("تعذر الحفظ"));
+  // scroll to top of grid smoothly
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  showToast("تمت إضافة بطاقة سيارة (املأ الحقول ثم احفظ)");
 }
 
-function askDelete(id){
-  if(!EDIT_MODE || !EDIT_PASS){ toast("افتح التعديل أولاً"); return; }
-  if(confirm("تأكيد حذف السيارة؟")){
-    postNoCors({ action:"delete", pass: EDIT_PASS, id })
-      .then(()=>{ toast("تم الحذف"); setTimeout(syncFromSheet, 900); })
-      .catch(()=> toast("تعذر الحذف"));
-  }
-}
+/* ======================
+   Buttons
+====================== */
+document.getElementById("btnEdit").addEventListener("click", enterEdit);
+document.getElementById("btnExit").addEventListener("click", exitEdit);
+document.getElementById("btnReload").addEventListener("click", load);
+document.getElementById("btnSave").addEventListener("click", saveAll);
+document.getElementById("btnAdd").addEventListener("click", addCar);
 
-function deleteFromModal(){
-  if(!EDITING_ID) return;
-  askDelete(EDITING_ID);
-  closeEdit();
-}
-
-function getNextId(){
-  const ids = DATA.map(x => parseInt(x.id,10)).filter(n => Number.isFinite(n));
-  const max = ids.length ? Math.max(...ids) : 0;
-  return max + 1;
-}
-
-/* Add button (appears only in edit mode) */
-(function injectAddBtn(){
-  const actions = document.querySelector(".actions");
-  const addBtn = document.createElement("button");
-  addBtn.className = "btn primary";
-  addBtn.type = "button";
-  addBtn.id = "btnAdd";
-  addBtn.textContent = "إضافة سيارة";
-  addBtn.style.display = "none";
-  addBtn.addEventListener("click", ()=> openAdd());
-  actions.insertBefore(addBtn, btnEdit);
-
-  // toggle visibility when edit mode changes
-  const obs = new MutationObserver(()=>{
-    addBtn.style.display = EDIT_MODE ? "inline-flex" : "none";
-  });
-  obs.observe(btnEdit, { childList:true, subtree:true });
-})();
-
-/* =======================
-   INIT
-======================= */
-syncFromSheet();
-setInterval(syncFromSheet, POLL_MS);
-
+/* Initial load */
+load();
 </script>
 </body>
 </html>
