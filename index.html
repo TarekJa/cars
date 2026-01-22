@@ -236,7 +236,16 @@
     }
     .inp.mono{font-family:var(--mono)}
 
-  </style>
+  
+    /* Edit mode layout tuning (prevents overlap on desktop & mobile) */
+    body.edit-on .cardTop{flex-wrap:wrap; row-gap:12px}
+    body.edit-on .cardTop > div:first-child{flex:1 1 360px; min-width:280px}
+    body.edit-on .topRight{flex:0 0 auto; align-self:flex-start}
+    body.edit-on .plateBox{min-width:260px; max-width:100%}
+    body.edit-on .metaBox{width:100%}
+    body.edit-on .editForm .field{background:rgba(0,0,0,.10)}
+
+</style>
 
   <!-- Icons / PWA -->
   <link rel="icon" href="./favicon.ico">
@@ -305,6 +314,55 @@
 
   let editMode = false;
   let DATA = loadData();
+
+  let pendingRender = null;
+  let lastFocus = null;
+
+  function captureScrollFocus(){
+    const y = window.scrollY || document.documentElement.scrollTop || 0;
+    const ae = document.activeElement;
+    lastFocus = null;
+    if(ae && ae.getAttribute){
+      const id = ae.getAttribute("data-id");
+      const field = ae.getAttribute("data-field");
+      if(id && field){
+        lastFocus = {
+          id, field, y,
+          start: (typeof ae.selectionStart === "number") ? ae.selectionStart : null,
+          end: (typeof ae.selectionEnd === "number") ? ae.selectionEnd : null
+        };
+        return;
+      }
+    }
+    lastFocus = { y };
+  }
+
+  function restoreScrollFocus(){
+    if(!lastFocus) return;
+    const y = lastFocus.y ?? 0;
+    window.scrollTo(0, y);
+    if(lastFocus.id && lastFocus.field){
+      const sel = document.querySelector('[data-id="'+ lastFocus.id +'" ][data-field="'+ lastFocus.field +'"]')
+                 || document.querySelector('[data-id="'+ lastFocus.id +'"][data-field="'+ lastFocus.field +'"]');
+      if(sel){
+        sel.focus({preventScroll:true});
+        if(lastFocus.start !== null && typeof sel.setSelectionRange === "function"){
+          try{ sel.setSelectionRange(lastFocus.start, lastFocus.end ?? lastFocus.start); }catch(e){}
+        }
+      }
+    }
+  }
+
+  function scheduleRender(){
+    if(pendingRender) clearTimeout(pendingRender);
+    captureScrollFocus();
+    pendingRender = setTimeout(()=>{
+      pendingRender = null;
+      render();
+      restoreScrollFocus();
+    }, 120);
+  }
+
 
 
 
@@ -517,6 +575,7 @@
 
   function setEditMode(on){
     editMode = on;
+    document.body.classList.toggle('edit-on', editMode);
     btnEdit.textContent = editMode ? "قفل التعديل" : "فتح التعديل";
     btnReset.style.display = editMode ? "inline-block" : "none";
     btnAdd.style.display = editMode ? "inline-block" : "none";
@@ -538,7 +597,8 @@
     saveData(DATA);
     render();
     // scroll to top so it’s immediately visible
-    window.scrollTo({top:0, behavior:"smooth"});
+    // keep current scroll position while adding
+
   });
 
   btnReset.addEventListener("click", ()=>{
