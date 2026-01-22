@@ -5,307 +5,563 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Al Ajamy Food – Cars Tracker</title>
   <style>
-    :root {
-      --bg: #08110f;
-      --text: #f0f7ff;
-      --muted: #c0d0e0;
-      --line: rgba(255,255,255,0.14);
-      --brand-teal: #5c9e89;
-      --brand-gold: #e2b747;
-      --danger: #f87171;
-      --warn: #fb923c;
-      --safe: #4ade80;
-      --ok: #22c55e;
-      --shadow: 0 10px 30px rgba(0,0,0,0.5);
-      --mono: 'Courier New', Courier, monospace;
-      --sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans Arabic', sans-serif;
-      
-      --fs-h1: clamp(22px, 1.8vw + 14px, 28px);
-      --fs-title: clamp(17px, 1vw + 13px, 20px);
-      --fs-days: clamp(28px, 2vw + 18px, 36px);
-      --fs-meta: clamp(14px, 0.7vw + 12px, 16px);
-      --fs-badge: clamp(13px, 0.6vw + 11px, 15px);
+    :root{
+      /* Theme aligned to Al Ajamy Food logo palette */
+      --bg:#08110f;
+      --surface: rgba(255,255,255,.07);
+      --surface2: rgba(0,0,0,.22);
+      --text:#f7fbff;
+      --muted:#b8c6d9;
+      --line:rgba(255,255,255,.16);
+
+      /* Logo palette */
+      --brand-teal:#5c9e89;
+      --brand-dark:#29443b;
+      --brand-gold:#e2b747;
+      --brand-olive:#809f2f;
+
+      /* Status */
+      --danger:#ef4444;
+      --danger2:#dc2626;
+      --warn:#f97316;
+      --safe:#22c55e;
+      --ok:#10b981;
+
+      --shadow:0 16px 40px rgba(0,0,0,.45);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+
+      /* Typography scale (desktop + mobile) */
+      --fs-h1: clamp(20px, 1.3vw + 15px, 24px);
+      --fs-btn: clamp(13px, 0.55vw + 12px, 15px);
+      --fs-badge: clamp(13px, 0.55vw + 12px, 15px);
+      --fs-secname: clamp(15px, 0.6vw + 14px, 17px);
+      --fs-days: clamp(19px, 0.85vw + 17px, 24px);
+      --fs-meta: clamp(13px, 0.5vw + 12px, 14px);
+      --fs-date: clamp(13px, 0.5vw + 12px, 14px);
+
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans Arabic","Noto Sans","Apple Color Emoji","Segoe UI Emoji";
     }
-    * { box-sizing: border-box; margin:0; padding:0; }
-    body {
-      font-family: var(--sans);
-      color: var(--text);
-      background: var(--bg);
-      min-height: 100vh;
-      background: 
-        radial-gradient(ellipse at 10% 10%, rgba(92,158,137,0.18), transparent 60%),
-        radial-gradient(ellipse at 90% 20%, rgba(226,183,71,0.14), transparent 60%),
-        linear-gradient(180deg, #08110f 0%, #02050a 100%);
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:var(--sans); color:var(--text);
+      background:
+        radial-gradient(1100px 520px at 12% -10%, color-mix(in srgb, var(--brand-teal) 28%, transparent), transparent 56%),
+        radial-gradient(980px 520px at 92% 0%, color-mix(in srgb, var(--brand-gold) 22%, transparent), transparent 60%),
+        radial-gradient(900px 520px at 60% 115%, color-mix(in srgb, var(--brand-olive) 12%, transparent), transparent 62%),
+        linear-gradient(180deg, var(--bg), #04070f 70%);
     }
-    .wrap { max-width: 1280px; margin: 20px auto; padding: 0 16px; }
-    
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 20px;
-      padding: 16px 20px;
-      border-radius: 16px;
-      background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(92,158,137,0.06));
-      border: 1px solid rgba(148,163,184,0.3);
+    .wrap{max-width:1250px; margin:18px auto; padding:0 14px}
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap;
+      padding:14px 14px;
+      border:1px solid rgba(148,163,184,.55); outline:1px solid rgba(148,163,184,.22);
+      border-radius:20px;
+      background: linear-gradient(135deg,
+        rgba(255,255,255,.11),
+        color-mix(in srgb, var(--brand-teal) 14%, rgba(255,255,255,.06)),
+        color-mix(in srgb, var(--brand-gold) 12%, rgba(255,255,255,.04))
+      );
       box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(8px);
     }
-    .brand { display: flex; align-items: center; gap: 16px; }
-    .logo { width: 60px; height: 60px; object-fit: contain; border-radius: 12px; background: rgba(255,255,255,0.08); padding: 6px; border: 1px solid rgba(255,255,255,0.1); }
-    h1 { font-size: var(--fs-h1); font-weight: 800; margin: 0; letter-spacing: -0.5px; }
+    .brand{display:flex; align-items:center; gap:12px}
+    .logo{
+      width:54px; height:54px; object-fit:contain;
+      border-radius:14px; background:rgba(255,255,255,.10);
+      border:1px solid rgba(30,41,59,.45); padding:6px;
+    }
+    h1{margin:0; font-size:var(--fs-h1)}
+    .sub{margin-top:4px; color:var(--muted); font-size:12px}
+    .stamp{font-family:var(--mono); color:var(--muted); font-size:12px}
+    .grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:12px;
+    }
+    @media (max-width:980px){ .grid{grid-template-columns: repeat(2, minmax(0, 1fr));} }
+    @media (max-width:620px){ .grid{grid-template-columns: 1fr;
+      .badge{font-size:var(--fs-badge); padding:8px 10px}
+      .cardTop{gap:10px}
+    } h1{font-size:var(--fs-h1)} .logo{width:46px;height:46px} .daysBig{font-size:var(--fs-days)} }
+
+    @media (max-width:620px){
+      .plateBox{min-width: 0; width: 100%;}
+      .cardTop{flex-direction:column; align-items:stretch}
+      .topRight{justify-content:flex-start}
+      .badge{width:100%}
+      .cardTop > div:last-child{justify-content:flex-start}
+    }
+
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .cardTop{padding:16px; display:flex; align-items:flex-start; justify-content:space-between; gap:14px; border-bottom:1px solid rgba(255,255,255,.12)}
+
+    .topRight{display:flex; align-items:center; gap:10px; justify-content:flex-start; flex-wrap:wrap; width:100%}
+
+    .plateBox{
+      display:inline-flex; align-items:center; gap:0;
+      height:44px;
+      border-radius:10px;
+      border:2px solid rgba(0,0,0,.65);
+      background:#f7fafc;
+      color:#0b1220;
+      direction:ltr;
+      overflow:hidden;
+      box-shadow: 0 6px 16px rgba(0,0,0,.28);
+      min-width:200px;
+    }
+    .plateTR{
+      width:50px; height:100%;
+      display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(180deg, #0b4fb3, #0a3f8f);
+      color:#fff; font-weight:1000; font-size:12px;
+      letter-spacing:.8px;
+      border-right:2px solid rgba(0,0,0,.55);
+    }
+    .plateNum{
+      padding:0 14px;
+      font-family:var(--mono);
+      font-size:18px;
+      font-weight:1000;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      color:#111827;
+      white-space:nowrap;
+    }
+    .meta{color:var(--muted); font-size:12px; margin-top:8px}
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(30,41,59,.50);
+      background:rgba(0,0,0,.18);
+      font-weight:900;
+      font-size:12px;
+      line-height:1.25;
+      max-width:100%;
+      white-space:normal;      /* allow wrapping on small screens */
+      flex-wrap:wrap;
+    }
+    .badgeText{
+      display:block;
+      min-width:0;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .dot{width:10px;height:10px;border-radius:999px; box-shadow:0 0 0 2px rgba(255,255,255,.08) inset;}
+    .ico{width:16px;height:16px; display:inline-block; position:relative; flex:0 0 16px}
+    .ico.alert{background:#facc15; clip-path: polygon(50% 6%, 6% 94%, 94% 94%);}
+    .ico.alert::after{content:"!"; position:absolute; left:0; right:0; top:44%; transform:translateY(-50%); text-align:center; font-weight:1000; font-size:12px; color:#111827;}
+    .ico.urgent{background:#ef4444; border-radius:999px;}
+    .ico.urgent::after{content:""; position:absolute; left:50%; top:50%; width:9px; height:2.4px; background:#fff; transform:translate(-50%,-50%); border-radius:3px;}
+    .ico.expired{background:#dc2626; border-radius:999px;}
+    .ico.expired::after{content:"×"; position:absolute; left:0; right:0; top:48%; transform:translateY(-50%); text-align:center; font-weight:1000; font-size:14px; color:#fff;}
+    .ico.follow{background:#f97316; border-radius:999px;}
+    .ico.safe{background:#22c55e; border-radius:999px;}
+    .ico.long{background:#10b981; border-radius:6px;}
+
+    .b-danger{border-color:rgba(239,68,68,.35)}
+    .b-warn{border-color:rgba(249,115,22,.35)}
+    .b-safe{border-color:rgba(34,197,94,.35)}
+
     
-    .hdrControls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .stamp { font-family: var(--mono); font-size: 13px; color: var(--muted); opacity: 0.8; }
-    
-    .btn {
-      padding: 10px 16px;
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 14px;
+    .metaBox{
+      margin-top:10px;
+      padding:10px 12px;
+      border:1px solid rgba(30,41,59,.50);
+      border-radius:14px;
+      background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(255,255,255,.03));
     }
-    .btn:hover { background: rgba(255,255,255,0.12); transform: translateY(-1px); }
-    .btn.primary { background: linear-gradient(135deg, var(--brand-teal), #4a8a74); border-color: transparent; color: white; }
-    .btn.danger { background: rgba(248,113,113,0.2); border-color: rgba(248,113,113,0.4); }
-    
-    .grid {
-      margin-top: 24px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-      gap: 20px;
+    .meta{color:var(--muted); font-size:var(--fs-meta); margin-top:0}
+
+    .secWrap{padding:14px; display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    @media (max-width:620px){ .secWrap{grid-template-columns:1fr} }
+
+    .sec{
+      border:1px solid rgba(30,41,59,.45);
+      border-radius:14px;
+      background: linear-gradient(180deg, rgba(0,0,0,.22), rgba(255,255,255,.03));
+      padding:10px;
     }
-    
-    .card {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      overflow: hidden;
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(0,0,0,0.15));
-      box-shadow: var(--shadow);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    .secTitle{display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:13px; color:var(--muted)}
+    .secName{font-size:var(--fs-secname); font-weight:1000; color:var(--text)}
+    .daysBig{font-size:var(--fs-days); font-weight:1000; line-height:1; letter-spacing:.2px}
+    .daysLbl{font-size:12px; color:var(--muted); margin-top:4px}
+    .dateRow{margin-top:10px; display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:var(--fs-date)}
+    .dateVal{font-family:var(--mono)}
+    .bar{margin-top:10px; height:12px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid rgba(30,41,59,.45); overflow:hidden}
+    .bar > span{display:block; height:100%; width:0%; background:rgba(34,197,94,.70)}
+
+    .empty{margin-top:18px; text-align:center; color:var(--muted); border:1px dashed rgba(255,255,255,.18); border-radius:14px; padding:18px}
+    a{color:inherit}
+  
+    .hdrControls{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+    .btn{
+      appearance:none; border:1px solid var(--line); background:rgba(255,255,255,.06); color:var(--text);
+      padding:9px 12px; border-radius:12px; font-weight:900; cursor:pointer; font-size:var(--fs-btn);
     }
-    .card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
-    
-    .cardTop {
-      padding: 18px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(0,0,0,0.12);
+    .btn:hover{background:rgba(255,255,255,.10)}
+    .btn.primary{
+      border-color: color-mix(in srgb, var(--brand-teal) 60%, rgba(255,255,255,.16));
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--brand-teal) 30%, rgba(255,255,255,.06)),
+        color-mix(in srgb, var(--brand-gold) 18%, rgba(255,255,255,.05))
+      );
     }
-    
-    .plateBox {
-      display: flex;
-      align-items: center;
-      background: white;
-      border: 2px solid #000;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-      direction: ltr;
-      font-family: 'DejaVu Sans', Arial, sans-serif;
-      min-width: 220px;
-      height: 48px;
+    .btn.danger{border-color:rgba(239,68,68,.45); background:rgba(239,68,68,.14)}
+
+    .btn.small{padding:7px 10px; border-radius:10px; font-size:12px}
+    .btn.ghost{background:rgba(255,255,255,.05)}
+
+    .editGrid{margin-top:10px; display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    @media (max-width:620px){ .editGrid{grid-template-columns:1fr} }
+    .field{border:1px solid rgba(30,41,59,.45); border-radius:12px; padding:10px; background:rgba(0,0,0,.12)}
+    .field label{display:block; font-size:11px; color:var(--muted); margin-bottom:6px}
+    .inp{
+      width:100%; padding:9px 10px; border-radius:10px; outline:none;
+      border:1px solid rgba(30,41,59,.45);
+      background:rgba(0,0,0,.22);
+      color:var(--text);
+      font-size:13px;
     }
-    .plateTR {
-      width: 56px;
-      height: 100%;
-      background: #003087;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-right: 2px solid #000;
-    }
-    .plateNum {
-      padding: 0 16px;
-      font-size: 20px;
-      font-weight: bold;
-      letter-spacing: 1.5px;
-      color: #000;
-      text-transform: uppercase;
-    }
-    
-    .metaBox {
-      margin-top: 12px;
-      padding: 10px 14px;
-      background: rgba(0,0,0,0.2);
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      font-size: var(--fs-meta);
-      color: var(--muted);
-      line-height: 1.5;
-    }
-    
-    .secWrap {
-      padding: 16px 20px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    @media (max-width: 780px) { .secWrap { grid-template-columns: 1fr; } }
-    
-    .sec {
-      padding: 14px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--line);
-      text-align: center;
-    }
-    .secTitle {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      font-size: var(--fs-title);
-      font-weight: 700;
-      color: var(--text);
-    }
-    .daysBig {
-      font-size: var(--fs-days);
-      font-weight: 900;
-      line-height: 1;
-      letter-spacing: 0.5px;
-      margin: 8px 0 4px;
-    }
-    .daysLbl { font-size: 13px; color: var(--muted); font-weight: 500; }
-    
-    .bar {
-      height: 10px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 999px;
-      overflow: hidden;
-      margin-top: 10px;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .bar-inner {
-      height: 100%;
-      transition: width 0.6s ease;
-      border-radius: 999px;
-    }
-    
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: var(--fs-badge);
-      border: 1px solid rgba(255,255,255,0.12);
-    }
-    .dot { width: 10px; height: 10px; border-radius: 50%; }
-    
-    .status-safe  { background: rgba(74,222,128,0.15); color: var(--safe);  }
-    .status-warn  { background: rgba(251,146,60,0.15); color: var(--warn);  }
-    .status-danger{ background: rgba(248,113,113,0.18); color: var(--danger); }
-    .status-expired{ background: rgba(220,38,38,0.22); color: #dc2626; }
-    
-    .empty {
-      margin: 60px auto;
-      text-align: center;
-      color: var(--muted);
-      font-size: 18px;
-      padding: 40px;
-      border: 2px dashed var(--line);
-      border-radius: 16px;
-      max-width: 600px;
-    }
-    
-    .inp {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: rgba(0,0,0,0.25);
-      color: var(--text);
-      font-size: 15px;
-    }
-    .inp.mono { font-family: var(--mono); }
+    .inp.mono{font-family:var(--mono)}
+
   </style>
+
+  <!-- Icons / PWA -->
+  <link rel="icon" href="./favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./favicon-192.png">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+  <link rel="manifest" href="./site.webmanifest">
+
+  <!-- Theme -->
+  <meta name="theme-color" content="#29443b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
 </head>
 <body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img class="logo" src="./Logo-Ajami Food.png" alt="Logo" onerror="this.style.display='none'">
+        <div>
+          <h1>Al Ajamy Food – Cars Tracker</h1>
+          
+        </div>
+      </div>
+      <div class="hdrControls"><button class="btn primary" id="btnEdit">فتح التعديل</button><button class="btn" id="btnAdd" style="display:none">إضافة سيارة</button><button class="btn danger" id="btnReset" style="display:none">إعادة ضبط</button><div class="stamp" id="stamp">آخر تحديث: —</div></div>
+    </header>
 
-<div class="wrap">
-  <header>
-    <div class="brand">
-      <img class="logo" src="./Logo-Ajami Food.png" alt="Logo" onerror="this.style.display='none'">
-      <h1>Al Ajamy Food – Cars Tracker</h1>
-    </div>
-    <div class="hdrControls">
-      <button class="btn primary" id="btnEdit">فتح التعديل</button>
-      <button class="btn" id="btnAdd" style="display:none">إضافة سيارة</button>
-      <button class="btn danger" id="btnReset" style="display:none">إعادة ضبط</button>
-      <div class="stamp" id="stamp">آخر تحديث: —</div>
-    </div>
-  </header>
-
-  <div class="grid" id="grid"></div>
-  <div class="empty" id="empty" style="display:none">لا توجد بيانات سيارات لعرضها.</div>
-</div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" style="display:none">لا توجد بيانات سيارات لعرضها.</div>
+  </div>
 
 <script>
-// نفس الجافا سكريبت السابق مع تعديلات بسيطة للـ status colors و الـ bar
-// فقط غيرت ألوان الـ bar حسب الحالة + أيقونات أبسط في الـ badge
-
 (function(){
-  // ... (البيانات والدوال الأساسية نفسها بدون تغيير كبير)
+  const EMBEDDED_DATA = [{"plate": "27AUR170", "vehicle": "أبو أسامة", "driver_phone": "5537939067", "branch": "عنتاب", "inspection_expiry": "2026-04-02", "insurance_expiry": "2026-11-13"}, {"plate": "16 AVN 044", "vehicle": "سيارة المتسوبيشي", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2026-10-08", "insurance_expiry": "2026-07-17"}, {"plate": "27AZR559", "vehicle": "سيارة فراس", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2027-01-02", "insurance_expiry": "2026-09-20"}, {"plate": "27AJG093", "vehicle": "سيارة يامن", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2027-03-12", "insurance_expiry": "2026-03-07"}, {"plate": "06PSH64", "vehicle": "سيارة حسين", "driver_phone": "5397306678", "branch": "عنتاب", "inspection_expiry": "2026-03-11", "insurance_expiry": "2026-11-13"}, {"plate": "34TP0348", "vehicle": "سيارة ابو حسين", "driver_phone": "", "branch": "عنتاب", "inspection_expiry": "2026-03-04", "insurance_expiry": "2026-07-08"}, {"plate": "16 DAY 98", "vehicle": "سيارة بورصة - جميل", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-09-07", "insurance_expiry": "2026-03-01"}, {"plate": "33 AFM 965", "vehicle": "كوستوم", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-09-25", "insurance_expiry": "2026-08-17"}, {"plate": "16 ANT 407", "vehicle": "سيارة الترانسوت - طلبات", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-04-08", "insurance_expiry": "2026-08-18"}, {"plate": "34KRD877", "vehicle": "عبد القادر", "driver_phone": "", "branch": "إسطنبول", "inspection_expiry": "2026-09-28", "insurance_expiry": "2026-06-24"}, {"plate": "06CKE628", "vehicle": "", "driver_phone": "", "branch": "عينتاب", "inspection_expiry": "2026-05-15", "insurance_expiry": "2026-02-17"}, {"plate": "54ABS248", "vehicle": "", "driver_phone": "", "branch": "عينتاب", "inspection_expiry": "2026-03-26", "insurance_expiry": "2026-01-30"}, {"plate": "27TC0021", "vehicle": "نذير عجمي", "driver_phone": "", "branch": "عينتاب", "inspection_expiry": "2027-09-18", "insurance_expiry": "2026-09-19"}];
+  const STORE_KEY = "alajamy_cars_tracker_cards_v1";
+  const EDIT_PASSWORD = "ChangeMe123!";
 
-  function status(days){
-    if(days === null) return {label:"—", cls:"status-safe", color:"var(--safe)", barColor:"var(--safe)"};
-    if(days === 0)    return {label:"منتهية", cls:"status-expired", color:"#dc2626", barColor:"#dc2626"};
-    if(days <= 15)    return {label:"عاجل", cls:"status-danger", color:"var(--danger)", barColor:"var(--danger)"};
-    if(days <= 30)    return {label:"تنبيه", cls:"status-danger", color:"#f87171", barColor:"#f87171"};
-    if(days <= 60)    return {label:"متابعة", cls:"status-warn", color:"var(--warn)", barColor:"var(--warn)"};
-    return {label:"آمن", cls:"status-safe", color:"var(--safe)", barColor:"var(--safe)"};
+  function uid(){
+    return Math.random().toString(36).slice(2,10) + "-" + Date.now().toString(36);
   }
+
+  function loadData(){
+    try{
+      const raw = localStorage.getItem(STORE_KEY);
+      if(raw){
+        const parsed = JSON.parse(raw);
+        if(Array.isArray(parsed) && parsed.length) return parsed;
+      }
+    }catch(e){}
+    // fallback to embedded
+    return (EMBEDDED_DATA || []).map(r=>({
+      id: r.id || uid(),
+      plate: r.plate || "",
+      vehicle: r.vehicle || "",
+      driver_phone: r.driver_phone || "",
+      branch: r.branch || "",
+      inspection_expiry: (r.inspection_expiry || "").slice(0,10),
+      insurance_expiry: (r.insurance_expiry || "").slice(0,10),
+    }));
+  }
+
+  function saveData(list){
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify(list)); }catch(e){}
+  }
+
+  let editMode = false;
+  let DATA = loadData();
+
+
+
+  function normalizePlate(s){
+    if(!s) return "";
+    return String(s).trim().toUpperCase().replace(/\s+/g," ");
+  }
+
+  function todayMidnight(){
+    const d = new Date(); d.setHours(0,0,0,0); return d;
+  }
+  function parseISODate(s){
+    if(!s) return null;
+    const d = new Date(String(s).slice(0,10) + "T00:00:00");
+    return isNaN(d.getTime()) ? null : d;
+  }
+  function fmtDate(s){
+    if(!s) return "—";
+    const d = parseISODate(s);
+    if(!d) return s;
+    const dd = String(d.getDate()).padStart(2,"0");
+    const mm = String(d.getMonth()+1).padStart(2,"0");
+    const yy = d.getFullYear();
+    return dd + "/" + mm + "/" + yy;
+  }
+  function remainingDays(iso){
+    const d = parseISODate(iso);
+    if(!d) return null;
+    const ms = d.getTime() - todayMidnight().getTime();
+    const days = Math.floor(ms/86400000);
+    return Math.max(days, 0);
+  }
+  function status(days){
+    if(days === null) return {label:"—", cls:"b-safe st-safe", icon:"safe", dot:"var(--ok)"};
+    if(days === 0) return {label:"منتهية", cls:"b-danger st-expired", icon:"expired", dot:"var(--danger2)"};
+    if(days <= 15) return {label:"عاجل", cls:"b-danger st-urgent", icon:"urgent", dot:"var(--danger)"};
+    if(days <= 30) return {label:"تنبيه", cls:"b-danger st-alert", icon:"alert", dot:"var(--danger2)"};
+    if(days <= 60) return {label:"متابعة", cls:"b-warn st-follow", icon:"follow", dot:"var(--warn)"};
+    if(days <= 120) return {label:"المدة آمنة", cls:"b-safe st-safe", icon:"safe", dot:"var(--safe)"};
+    return {label:"مدة طويلة", cls:"b-safe st-long", icon:"long", dot:"var(--safe)"};
+  }
+  function pct(days, maxDays){
+    if(days === null) return 0;
+    return Math.max(0, Math.min(1, days / maxDays)) * 100;
+  }
+  function nextDue(inspDays, insDays){
+    const c=[];
+    if(inspDays !== null) c.push({type:"المعاينة", days:inspDays});
+    if(insDays !== null) c.push({type:"السيكورتا", days:insDays});
+    if(!c.length) return null;
+    c.sort((a,b)=>a.days-b.days);
+    return c[0];
+  }
+  function esc(s){
+    return String(s||"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+  }
+
+
+  function byId(id){
+    return DATA.find(x=>x.id===id);
+  }
+  function updateField(id, field, value){
+    const row = byId(id);
+    if(!row) return;
+    row[field] = value;
+    saveData(DATA);
+    render(); // re-render to update days/sorting
+  }
+
 
   function makeCard(r){
-    // ... (نفس الكود السابق مع تعديلات في secBlock)
+    const id = r.id || uid();
+    r.id = id;
 
-    function secBlock(title, dateIso, days, st, pct, field){
+    const plate = normalizePlate(r.plate);
+    const inspDays = remainingDays(r.inspection_expiry);
+    const insDays = remainingDays(r.insurance_expiry);
+    const nd = nextDue(inspDays, insDays);
+    const ndSt = nd ? status(nd.days) : {label:"—", cls:"b-safe", dot:"var(--ok)"};
+    const nextText = nd ? (ndSt.label + " • " + nd.type + ": " + nd.days + " يوم") : "—";
+
+    const inspSt = status(inspDays);
+    const insSt = status(insDays);
+
+    const inspBar = pct(inspDays, 120);
+    const insBar = pct(insDays, 120);
+
+    function secBlock(title, dateIso, days, st, barWidth, field){
       const dateStr = fmtDate(dateIso);
-      const d = days === null ? "—" : days;
-      const datePart = editMode 
-        ? `<input type="date" class="inp mono" value="${(dateIso||"").slice(0,10)}" data-id="${r.id}" data-field="${field}">`
-        : `<span style="font-family:var(--mono); font-size:15px;">${dateStr}</span>`;
+      const d = (days === null) ? "—" : String(days);
+      let barColor = "var(--safe)";
+      if(days !== null){
+        barColor = (days<=30) ? "var(--danger)" : (days<=60 ? "var(--warn)" : "var(--safe)");
+      }
+      const datePart = editMode
+        ? ('<input class="inp mono" type="date" value="' + esc((dateIso||"").slice(0,10)) + '" data-id="' + esc(id) + '" data-field="' + field + '">')
+        : ('<span class="dateVal">' + esc(dateStr) + '</span>');
 
-      return `
-        <div class="sec">
-          <div class="secTitle">
-            <span>${title}</span>
-            <span class="badge ${st.cls}"><span class="dot" style="background:${st.color}"></span>${st.label}</span>
-          </div>
-          <div class="daysBig" style="color:${st.color}">${d}</div>
-          <div class="daysLbl">يوم متبقي</div>
-          <div class="bar"><div class="bar-inner" style="width:${pct}%; background:${st.barColor};"></div></div>
-          <div style="margin-top:8px; font-size:13px; color:var(--muted);">
-            ${datePart}
-          </div>
-        </div>
-      `;
+      return (
+        '<div class="sec">' +
+          '<div class="secTitle">' +
+            '<span class="secName">' + title + '</span>' +
+            '<span class="badge ' + st.cls + '"><span class="dot" style="background:' + st.dot + '"></span>' + st.label + '</span>' +
+          '</div>' +
+          '<div class="daysRow"><span class="daysBig">' + esc(d) + '</span><span class="daysLblInline">يوم متبقي</span></div>' +
+          '<div class="dateRow"><span class="small">تاريخ الانتهاء</span>' + datePart + '</div>' +
+          '<div class="bar"><span style="width:' + barWidth + '%; background:' + barColor + ';"></span></div>' +
+        '</div>'
+      );
     }
 
-    // باقي الـ makeCard نفسها... (plateBox, meta, etc.)
-
-    // فقط غيرت الـ plateBox لتكون أقرب للرسمي
     const plateBox = editMode
-      ? `<div class="plateBox"><span class="plateTR">TR</span><input class="inp" style="flex:1; text-align:center; font-size:18px; border:none; background:transparent; color:#000;" value="${esc(r.plate||'')}" data-id="${r.id}" data-field="plate"></div>`
-      : `<div class="plateBox"><span class="plateTR">TR</span><span class="plateNum">${esc(normalizePlate(r.plate)||'—')}</span></div>`;
+      ? (
+        '<div class="plateBox">' +  '<span class="plateTR">TR</span>' +  '<input class="plateInp" value="' + esc(r.plate||"") + '" placeholder="34ABC123" data-id="' + esc(id) + '" data-field="plate">' +'</div>'
+      )
+      : (
+        '<div class="plateBox"><span class="plateTR">TR</span><span class="plateNum">' + esc(plate || "—") + '</span></div>'
+      );
 
-    // ... باقي الكود
+    const metaView = (function(){
+      const phone = r.driver_phone ? ('<a class="mono" href="tel:' + esc(r.driver_phone) + '">' + esc(r.driver_phone) + '</a>') : '—';
+      const meta = [];
+      if(r.vehicle) meta.push(esc(r.vehicle));
+      if(r.branch) meta.push('تبعية: ' + esc(r.branch));
+      meta.push('هاتف: ' + phone);
+      return meta.join(' • ');
+    })();
+
+    const metaEdit = (
+  '<div class="editForm">' +
+    '<div class="field"><label>الاسم / النوع</label><input class="inp" value="' + esc(r.vehicle||"") + '" data-id="' + esc(id) + '" data-field="vehicle"></div>' +
+    '<div class="field"><label>التبعية</label><input class="inp" value="' + esc(r.branch||"") + '" data-id="' + esc(id) + '" data-field="branch"></div>' +
+    '<div class="field"><label>هاتف السائق</label><input class="inp mono" type="tel" value="' + esc(r.driver_phone||"") + '" data-id="' + esc(id) + '" data-field="driver_phone"></div>' +
+  '</div>'
+);
+
+    return (
+      '<div class="card">' +
+        '<div class="cardTop">' +
+          '<div>' +
+            plateBox +
+            '<div class="metaBox"><div class="meta">' + (editMode ? metaEdit : metaView) + '</div></div>' +
+          '</div>' +
+          '<div class="topRight">' +(editMode ? ('<button class="btn danger small" data-del="' + esc(id) + '">حذف</button>') : '') +'<div class="badge ' + ndSt.cls + '">' + ('<span class="ico ' + ndSt.icon + '"></span>') + '<span class="badgeText">' + esc(nextText) + '</span></div>' +'</div>' +
+        '</div>' +
+        '<div class="secWrap">' +
+          secBlock('المعاينة', r.inspection_expiry, inspDays, inspSt, inspBar, "inspection_expiry") +
+          secBlock('السيكورتا', r.insurance_expiry, insDays, insSt, insBar, "insurance_expiry") +
+        '</div>' +
+      '</div>'
+    );
   }
 
-  // باقي الـ script (render, events, etc.) نفسها بدون تغيير كبير
+
+  function render(){
+    const grid = document.getElementById("grid");
+    const empty = document.getElementById("empty");
+    if(!Array.isArray(DATA) || !DATA.length){
+      empty.style.display="block";
+      grid.innerHTML="";
+      return;
+    }
+    empty.style.display="none";
+    // sort by next due (soonest)
+    const list = DATA.slice().sort((a,b)=>{
+      const aIn = remainingDays(a.inspection_expiry);
+      const aIs = remainingDays(a.insurance_expiry);
+      const bIn = remainingDays(b.inspection_expiry);
+      const bIs = remainingDays(b.insurance_expiry);
+      const aN = nextDue(aIn, aIs);
+      const bN = nextDue(bIn, bIs);
+      const ad = aN ? aN.days : 999999;
+      const bd = bN ? bN.days : 999999;
+      if(ad !== bd) return ad - bd;
+      return normalizePlate(a.plate).localeCompare(normalizePlate(b.plate));
+    });
+    grid.innerHTML = list.map(makeCard).join("");
+
+    // bind edit inputs
+    if(editMode){
+      grid.querySelectorAll("[data-id][data-field]").forEach(inp=>{
+        inp.addEventListener("input", (e)=>{
+          const id = e.target.getAttribute("data-id");
+          const field = e.target.getAttribute("data-field");
+          updateField(id, field, e.target.value);
+        });
+      });
+    }
+
+    // bind delete buttons
+    if(editMode){
+      grid.querySelectorAll("[data-del]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const id = btn.getAttribute("data-del");
+          if(!confirm("حذف هذه السيارة؟")) return;
+          DATA = DATA.filter(x=>String(x.id)!==String(id));
+          saveData(DATA);
+          render();
+        });
+      });
+    }
+
+    document.getElementById("stamp").textContent = "آخر تحديث: " + new Date().toLocaleString();
+  }
+
+
+  const btnEdit = document.getElementById("btnEdit");
+  const btnAdd = document.getElementById("btnAdd");
+  const btnReset = document.getElementById("btnReset");
+
+  function setEditMode(on){
+    editMode = on;
+    btnEdit.textContent = editMode ? "قفل التعديل" : "فتح التعديل";
+    btnReset.style.display = editMode ? "inline-block" : "none";
+    btnAdd.style.display = editMode ? "inline-block" : "none";
+    render();
+  }
+
+  btnEdit.addEventListener("click", ()=>{
+    if(editMode){ setEditMode(false); return; }
+    const pw = prompt("أدخل كلمة مرور التعديل:");
+    if(pw === null) return;
+    if(pw === EDIT_PASSWORD) setEditMode(true);
+    else alert("كلمة المرور غير صحيحة.");
+  });
+
+  btnAdd.addEventListener("click", ()=>{
+    // add new car card at top
+    const newRow = {id: uid(), plate:"", vehicle:"", driver_phone:"", branch:"", inspection_expiry:"", insurance_expiry:""};
+    DATA.unshift(newRow);
+    saveData(DATA);
+    render();
+    // scroll to top so it’s immediately visible
+    window.scrollTo({top:0, behavior:"smooth"});
+  });
+
+  btnReset.addEventListener("click", ()=>{
+    if(!confirm("سيتم إعادة البيانات إلى نسخة الإكسل الأصلية. هل أنت متأكد؟")) return;
+    localStorage.removeItem(STORE_KEY);
+    DATA = (EMBEDDED_DATA || []).map(r=>({
+      id: r.id || uid(),
+      plate: r.plate || "",
+      vehicle: r.vehicle || "",
+      driver_phone: r.driver_phone || "",
+      branch: r.branch || "",
+      inspection_expiry: (r.inspection_expiry || "").slice(0,10),
+      insurance_expiry: (r.insurance_expiry || "").slice(0,10),
+    }));
+    saveData(DATA);
+    setEditMode(false);
+  });
+
+
+  if(document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", render);
+  } else {
+    render();
+  }
 })();
 </script>
 </body>
