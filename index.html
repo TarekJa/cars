@@ -1,17 +1,17 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#101415" />
-  <meta name="description" content="Al Ajamy Food – Cars Tracker" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101415">
+  <meta name="description" content="Al Ajamy Food – Cars Tracker">
   <!-- Icons -->
-  <link rel="icon" href="favicon.ico" />
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-  <link rel="manifest" href="site.webmanifest" />
+  <link rel="icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
   <title>Al Ajamy Food – Cars Tracker</title>
   <style>
     :root{
@@ -136,19 +136,19 @@
         </div>
         <div class="title">
           <h1>Al Ajamy Food – Cars Tracker</h1>
-          <div class="subtitle" id="subLine">آخر تحديث: —</div>
+          <div class="subtitle" id="subLine">جاري التحميل...</div>
         </div>
       </div>
       <div class="pill" id="countPill">— سيارة</div>
     </div>
     <div class="sectionBg">
-      <div class="grid" id="grid"></div>
+      <div class="grid" id="grid">
+        <div class="empty">جاري تحميل البيانات...</div>
+      </div>
     </div>
   </div>
-
 <script>
   const API_URL = "https://script.google.com/macros/s/AKfycbwMasuAbpolUEApV-5xg1MdnH6L_9j3jxFrM3pRWJa2_rlo_AiyP7tpMLlIBo-ifwDu/exec";
-
   const AUTO_REFRESH_MS = 60000;
   const grid = document.getElementById("grid");
   const subLine = document.getElementById("subLine");
@@ -166,18 +166,44 @@
     if(val == null) return null;
     const s = String(val).trim();
     if(!s) return null;
-    if(/^\d{4}-\d{2}-\d{2}T/.test(s)){ const d = new Date(s); return isNaN(d.getTime()) ? null : d; }
-    if(/^\d{4}[-\/]\d{2}[-\/]\d{2}$/.test(s)){ const [y,m,d] = s.split(/[-\/]/).map(Number); const dt = new Date(y,m-1,d); return isNaN(dt.getTime()) ? null : dt; }
-    if(/^\d{2}[-\/]\d{2}[-\/]\d{4}$/.test(s)){ const [d,m,y] = s.split(/[-\/]/).map(Number); const dt = new Date(y,m-1,d); return isNaN(dt.getTime()) ? null : dt; }
-    const fallback = new Date(s); return isNaN(fallback.getTime()) ? null : fallback;
+
+    // ISO مع وقت
+    if(/^\d{4}-\d{2}-\d{2}T/.test(s)){
+      const d = new Date(s);
+      return isNaN(d.getTime()) ? null : d;
+    }
+
+    // YYYY-MM-DD أو YYYY/MM/DD
+    let m = s.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
+    if(m){
+      const year = +m[1], month = +m[2], day = +m[3];
+      const dt = new Date(year, month - 1, day);
+      if(dt.getFullYear() === year && dt.getMonth() === month - 1 && dt.getDate() === day) return dt;
+      return null;
+    }
+
+    // DD-MM-YYYY أو DD/MM/YYYY
+    m = s.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/);
+    if(m){
+      const day = +m[1], month = +m[2], year = +m[3];
+      const dt = new Date(year, month - 1, day);
+      if(dt.getFullYear() === year && dt.getMonth() === month - 1 && dt.getDate() === day) return dt;
+      return null;
+    }
+
+    const fallback = new Date(s);
+    return isNaN(fallback.getTime()) ? null : fallback;
   }
 
   function daysRemaining(dateVal){
     const dt = parseAnyDate(dateVal);
     if(!dt) return null;
-    const today = new Date(); today.setHours(0,0,0,0);
-    const x = new Date(dt); x.setHours(0,0,0,0);
-    return Math.round((x - today) / 86400000);
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const x = new Date(dt);
+    x.setHours(0,0,0,0);
+    // Math.floor أدق من Math.round مع فروق التوقيت
+    return Math.floor((x.getTime() - today.getTime()) / 86400000);
   }
 
   function statusForDays(d){
@@ -214,10 +240,17 @@
     const st = statusForDays(days);
     const icon = badgeIcon(st.type);
     const w = barWidth(days);
-    const shownDays = (days === null) ? null : (days < 0 ? 0 : days);
-    const daysPart = shownDays === null
-      ? `<div class="daysMissing">غير محدد</div>`
-      : `<div class="days"><div class="daysNum">${shownDays}</div><div class="daysTxt">يوم متبقي</div></div>`;
+
+    let daysPart;
+    if(days === null){
+      daysPart = `<div class="daysMissing">غير محدد</div>`;
+    } else if(days < 0){
+      // يظهر الرقم السالب مع نص "يوم متأخر"
+      daysPart = `<div class="days"><div class="daysNum">${days}</div><div class="daysTxt">يوم متأخر</div></div>`;
+    } else {
+      daysPart = `<div class="days"><div class="daysNum">${days}</div><div class="daysTxt">يوم متبقي</div></div>`;
+    }
+
     const barClass = st.type === "missing" ? "missing" : st.type;
     return `<div class="block"><div class="blockTop"><div class="blockTitle">${title}</div><div class="badge ${st.type}">${icon}<span>${st.label}</span></div></div>${daysPart}<div class="bar ${barClass}"><span style="width:${w}%"></span></div></div>`;
   }
@@ -229,7 +262,6 @@
     const branch = row.branch || "—";
     const inspDays = daysRemaining(row.inspection_date);
     const sigDays = daysRemaining(row.sigorta_date);
-
     const safePhone = String(row.driver_phone ?? "").trim();
     const phoneDisplay = safePhone || "—";
     const phoneLink = (safePhone && safePhone !== "—")
@@ -285,9 +317,10 @@
   }
 
   function minDue(d1, d2){
-    const arr = [d1,d2].filter(v=>v!==null);
+    const arr = [d1, d2].filter(v => v !== null);
     if(!arr.length) return 999999;
-    if(arr.some(v=>v<0)) return -999999;
+    // إذا في منتهية → رتب حسب أكثرها تأخيراً (الأصغر = الأكثر سالبية)
+    if(arr.some(v => v < 0)) return Math.min(...arr.filter(v => v < 0));
     return Math.min(...arr);
   }
 
@@ -309,7 +342,7 @@
       });
       grid.innerHTML = sorted.map(cardHTML).join("");
     }catch(err){
-      grid.innerHTML = `<div class="empty">تعذر تحميل البيانات.<br>تأكد من رابط Apps Script.<br>خطأ: ${err.message || err}</div>`;
+      grid.innerHTML = `<div class="empty">تعذر تحميل البيانات.<br>تأكد من رابط Apps Script.<br>خطأ: ${escapeHtml(err.message || String(err))}</div>`;
       countPill.textContent = "— سيارة";
       subLine.textContent = "آخر تحديث: —";
     }
